@@ -1,1 +1,1 @@
-{"name":"ml-motion-lab","version":"1.0.0","private":true,"description":"Beginner-friendly mathematics for AI and ML with worked examples and compact diagrams","scripts":{"test":"node tests/content.cjs","test:browser":"node tests/browser.cjs"}}
+{"name":"ml-motion-lab","version":"1.1.0","private":true,"description":"Beginner-friendly mathematics for AI and ML with worked examples and compact diagrams","scripts":{"test":"node tests/content.cjs","test:browser":"node tests/browser.cjs"}}

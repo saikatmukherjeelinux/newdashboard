@@ -11,8 +11,8 @@ card='''      <a class="lab ml" href="ml-motion-lab/index.html">
         <div class="card-top"><span class="lab-icon" aria-hidden="true">∑</span><span class="category">MATHEMATICS FOR AI &amp; ML</span></div>
         <div class="illustration ml-art" aria-hidden="true"><span class="math-line">Ideas → equations → understanding</span><strong>ŷ = wx + b</strong><span class="math-caption">Small steps. Deeper understanding.</span></div>
         <h2>ML Lab</h2>
-        <p>Understand the mathematics behind AI. Follow explained formulas, step-by-step calculations, compact diagrams and interactive experiments.</p>
-        <div class="tags"><span>40 lessons</span><span>80 worked examples</span><span>AI &amp; ML mathematics</span></div>
+        <p>Understand the mathematics behind AI. Start with everyday examples and small steps. Open formulas and deeper explanations when you feel ready.</p>
+        <div class="tags"><span>40 lessons</span><span>160 examples</span><span>AI &amp; ML mathematics</span></div>
         <div class="open">Open ML lab</div>
       </a>
 '''
@@ -34,7 +34,7 @@ if '## ML Lab' not in s:
     s+='''
 ## ML Lab
 
-[Open ML Lab](ml-motion-lab/index.html): 40 mathematics lessons in 10 modules, 80 worked examples, 40 explained practice answers, compact original diagrams and interactive experiments. Covers foundations, linear algebra, calculus, probability, statistics, information theory, optimization and their connections to modern AI. See [the ML Lab guide](ml-motion-lab/README.md) for scope, sources and validation.
+[Open ML Lab](ml-motion-lab/index.html): 40 mathematics lessons in 10 modules, 160 examples, 40 explained practice answers, compact original diagrams and interactive experiments. Covers foundations, linear algebra, calculus, probability, statistics, information theory, optimization and their connections to modern AI. See [the ML Lab guide](ml-motion-lab/README.md) for scope, sources and validation.
 '''
 f.write_text(s,encoding='utf-8')
 for lab in ['python-motion-lab','dsa-motion-lab','unix-motion-lab']:

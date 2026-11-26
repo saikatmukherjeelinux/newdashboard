@@ -1,6 +1,6 @@
 # ML Lab — Mathematics for AI and machine learning
 
-A standalone, buildless learning lab with 40 lessons, 80 worked examples, 40 practice questions with explained answers, 39 compact original SVG diagrams and three interactive experiments. Every lesson introduces the idea, defines its symbols, explains the steps, shows calculations and results, discusses a deeper connection and finishes with a mistake to avoid and a summary.
+A standalone, buildless learning lab with 40 lessons, 160 examples (80 simple everyday examples and 80 optional mathematical examples), 40 practice questions with explained answers, 39 compact original SVG diagrams and three interactive experiments. Every lesson introduces the idea, defines its symbols, explains the steps, shows calculations and results, discusses a deeper connection and finishes with a mistake to avoid and a summary.
 
 ## Syllabus
 
@@ -34,3 +34,7 @@ Teaching prose and numerical exercises are original and use fictional data. They
 - `python scripts/build-diagrams.py` regenerates SVG illustrations and their captions. Generated outputs are committed so Python is not needed to use the lab.
 
 Browser screenshots are written to ignored `test-results/`. No JavaScript dependencies are needed to run the learning site.
+
+## Beginner reading mode
+
+Each lesson now starts with an everyday explanation, three short word definitions, two examples with three small steps each, the meaning of each result, and one takeaway. The 80 original mathematical examples, formulas and compact diagrams remain in a closed optional section. All 40 lesson titles use plain language. The search includes both beginner wording and technical terminology. Existing bookmarks and progress keep their lesson identifiers.
