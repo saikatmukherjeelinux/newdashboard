@@ -10,13 +10,11 @@ No build, backend, external font, CDN or package installation is needed to use t
 - **280 worked examples** with commands, expected or explicitly illustrative output, and an explanation of why that output appears.
 - **40 new in-depth scenarios across 20 lessons**, bringing those lessons to five examples each. Every addition includes a concrete task, three reasoning steps, an example-specific option/symbol glossary, a common mistake, and a practice question with a revealable answer. Choose **40 new in-depth examples** in the catalog collection filter or use the lesson’s jump link to reach examples 4 and 5.
 - **80 authored quiz questions**, one per lesson, with four shuffled choices, first-answer locking, explanations, topic and session-length selection, saved sessions, results and retry of missed/unanswered questions.
-- **80 flashcards**, with bookmarked and unfinished decks.
 - Plain-language introductions and “when would I use it?” guidance for **all 80 lessons**, plus **240 authored walkthrough steps** explaining each lesson’s first worked example. Every example retains its output explanation; relevant practice-file contents can be expanded beside the example.
 - A **20-term beginner glossary** covering files, folders, paths, flags, arguments, streams, pipes, processes, permissions and other foundational vocabulary.
 - A simple command catalog with search, topic and collection filters, five optional guided learning paths, and a Continue learning button. Previous/next follows the selected path or filters; Next unfinished skips completed work.
 - A quieter lesson screen with optional deeper detail, a closed-by-default command index, larger-text and code-wrap preferences, quick lesson-section buttons, and a compact mobile section selector. The mobile command drawer supports Escape, a close button, a backdrop and keyboard focus containment.
 - Search across lesson content, category/status filters, bookmarks, completion, deep links, copy buttons, collapsible index, dark/light themes and browser-local progress.
-- An editable five-stage pipeline simulation with step/back/reset/play, speed and timeline controls. This demonstrates `grep -F`, `sort`, `uniq` and `wc -l`; it does not execute arbitrary shell commands.
 
 Topics cover shell anatomy/help; navigation and files; reading text; grep/regex/find; sort/uniq/cut/tr/sed/awk/xargs/diff; quoting, expansions, redirections, pipes and statuses; environment variables; permissions/identity; processes and signals; system/disk/network inspection; archives; curl/SSH; loops, conditions, functions, debugging, traps and temporary files.
 
@@ -97,3 +95,26 @@ On the Windows authoring environment, content checks and browser interactions we
 ## References
 
 Core concepts follow the [GNU Coreutils manual](https://www.gnu.org/software/coreutils/manual/coreutils.html), [Bash manual](https://www.gnu.org/software/bash/manual/bash.html), [Grep manual](https://www.gnu.org/software/grep/manual/grep.html), [Findutils manual](https://www.gnu.org/software/findutils/manual/html_mono/find.html), [Sed manual](https://www.gnu.org/software/sed/manual/sed.html), [Awk manual](https://www.gnu.org/software/gawk/manual/gawk.html), [Tar manual](https://www.gnu.org/software/tar/manual/tar.html), [curl manual](https://curl.se/docs/manpage.html), and [OpenBSD SSH manual](https://man.openbsd.org/ssh). Use your installed tool's local manual for exact version behavior.
+
+## Unix Architecture
+
+Open **Unix Architecture** in the section navigation or `index.html#architecture`.
+There are 14 chapters and 11 original SVG diagrams: overview, terminal/shell,
+kernel, system calls, the path of a command, processes, memory, filesystem,
+permissions, streams, devices/networking, boot, sessions/services, and review.
+Every chapter includes plain-language explanations, a takeaway, a glossary and
+a public reference. Commands identify flags and distinguish illustrative results
+from fixed sample output. Linux-specific details are labeled rather than presented
+as universal Unix behavior.
+
+The overview offers a layer explorer; the command chapter has an eight-step
+walkthrough. Diagrams have text alternatives, captions and full-size links.
+Navigation works by chapter links, a mobile selector and previous/next controls.
+The standalone Pipeline Lab and Flashcards sections have been removed; the
+lesson on pipes and the architectural explanation of streams remain.
+
+Sources are `assets/architecture-data.js`, `assets/architecture.js` and
+`assets/architecture.css`. Regenerate diagrams with
+`python unix-motion-lab/scripts/build-architecture-diagrams.py` from the repository
+root. Run `node unix-motion-lab/tests/architecture.cjs` for content validation and
+`node unix-motion-lab/tests/architecture-browser.cjs` for browser checks.

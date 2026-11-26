@@ -13,7 +13,7 @@
   const state = {done: cleanIds(saved.done), bookmarks: cleanIds(saved.bookmarks), theme: saved.theme === 'light' ? 'light' : 'dark', largeText: saved.largeText === true, wrapCode: saved.wrapCode === true,
     indexHidden: typeof saved.indexHidden === 'boolean' ? saved.indexHidden : true,
     attempts: Array.isArray(saved.attempts) ? saved.attempts.filter(a => a && Number.isInteger(a.score) && Number.isInteger(a.total) && typeof a.date === 'string').slice(-10) : []};
-  let current = lessons.find(l => l.id === saved.last) || lessons[0], view = 'browse', quiz = null, cardIndex = 0, cardFilter = 'all', revealed = false;
+  let current = lessons.find(l => l.id === saved.last) || lessons[0], view = 'browse', quiz = null;
   const paths = [
     {name:'Start from zero', text:'Your first steps in the terminal.', ids:['shell','help','pwd','cd','ls','cat','mkdir','cp','quoting','pipes']},
     {name:'Find & process text', text:'Search logs and turn records into answers.', ids:['grep','regex','find','sort','uniq','cut','sed','awk','join','comm']},
@@ -23,12 +23,13 @@
   ];
   let activePath = 'all';
   const searchIndex = new Map(lessons.map(l=>[l.id, JSON.stringify([l,window.UNIX_BEGINNERS[l.id]]).toLowerCase()]));
-  const modes = ['browse','learn','pipeline','quiz','cards','industry'];
+  const modes = ['browse','learn','quiz','industry','architecture'];
   const browseTab = document.createElement('button'); browseTab.dataset.view='browse'; browseTab.textContent='Command catalog'; browseTab.setAttribute('aria-pressed','false'); document.querySelector('.modes').prepend(browseTab);
-  const mobileMode=document.createElement('select');mobileMode.id='mobileView';mobileMode.setAttribute('aria-label','Choose learning section');mobileMode.innerHTML=modes.map((v,i)=>`<option value="${v}">${['Command catalog','Read a lesson','Pipeline practice','Quiz','Flashcards','Industry practice'][i]}</option>`).join('');document.querySelector('.toolbar').append(mobileMode);
+  const mobileMode=document.createElement('select');mobileMode.id='mobileView';mobileMode.setAttribute('aria-label','Choose learning section');mobileMode.innerHTML=modes.map((v,i)=>`<option value="${v}">${['Command catalog','Read a lesson','Quiz','Industry practice','Unix Architecture'][i]}</option>`).join('');document.querySelector('.toolbar').append(mobileMode);
   const browse = document.createElement('section'); browse.id='browseView'; browse.hidden=true;
   browse.innerHTML=`<div class="section-heading"><p class="eyebrow">FIND YOUR NEXT COMMAND</p><h2>What would you like to do?</h2><p>Choose a guided path, explore the new additions, or search for a command or task.</p></div><div class="resume-panel"><div><strong id="resumeTitle"></strong><p id="resumeText"></p></div><button class="primary" id="resumeLesson">Continue learning</button></div><div id="learningPaths" class="learning-paths"></div><div class="catalog-toolbar"><label for="catalogSearch">Search all commands, flags & examples<input type="search" id="catalogSearch" placeholder="Try backup, memory, -n, or read a file…"></label><label for="collection">Collection<select id="collection"><option value="all">All 80 lessons</option><option value="expanded">28 new lessons</option><option value="starter">First steps</option></select></label></div><div class="catalog-status"><p id="catalogCount" role="status"></p><button id="clearFilters">Clear filters</button></div><div id="catalog" class="catalog-grid"></div>`;
   $('learnView').before(browse);
+  browse.insertAdjacentHTML('afterbegin','<a class="industry-home-link" href="#architecture"><strong>Unix Architecture · See how Unix works</strong><span>A beginner guide with 14 chapters and 11 illustrated diagrams.</span></a>');
   browse.insertAdjacentHTML('afterbegin','<a class="industry-home-link" href="#industry"><strong>Industry practice · 300 coding questions</strong><span>Realistic tasks, worked solutions, outputs and a summary for every question.</span></a>');
   const sidebarReset=document.createElement('button');sidebarReset.id='resetFilters';sidebarReset.textContent='Reset filters';$('filter').after(sidebarReset);
   const closeIndex=document.createElement('button');closeIndex.className='sidebar-close';closeIndex.textContent='Close commands';$('sidebar').prepend(closeIndex);
@@ -40,7 +41,6 @@
   $('collection').insertAdjacentHTML('beforeend','<option value="deep">40 new in-depth examples</option>');
   const pathDetails=document.createElement('details');pathDetails.className='path-options';pathDetails.innerHTML='<summary>Or choose a guided learning path</summary>';$('learningPaths').before(pathDetails);pathDetails.append($('learningPaths'));
   const catalogTopic=document.createElement('label');catalogTopic.setAttribute('for','catalogTopic');catalogTopic.innerHTML='Topic<select id="catalogTopic"></select>';document.querySelector('.catalog-toolbar').append(catalogTopic);
-  let pipelineStep = 0, pipelineFrames = [], playTimer = null;
   const fixture = `# Run in Bash on Linux / WSL. Creates a fresh practice directory.
 lab_dir=$(mktemp -d /tmp/unix-motion-lab.XXXXXX) || exit 1
 cd "$lab_dir" || exit 1
@@ -161,20 +161,17 @@ printf 'Practice directory: %s\\n' "$PWD"`;
   }
   function toggle(field) { state[field] = state[field].includes(current.id) ? state[field].filter(id => id !== current.id) : [...state[field], current.id]; persist(); renderLesson(); renderList(); }
   function navigate(id) { location.hash = `learn/${id}`; }
-  function stopPlay() { clearTimeout(playTimer); playTimer = null; $('pipelinePlay').textContent = 'Play'; }
   function route() {
     const [mode, id] = location.hash.slice(1).split('/');
     view = modes.includes(mode) ? mode : 'browse';
     if (view === 'learn' && id) current = lessons.find(l => l.id === id) || lessons[0];
-    stopPlay();
     for (const v of modes) $(`${v}View`).hidden = v !== view;
     document.querySelector('.hero').hidden=view!=='browse';
     document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
     $('mobileView').value=view;
     if (view === 'learn') renderLesson();
-    if (view === 'pipeline') renderPipeline();
     if (view === 'quiz') renderQuiz();
-    if (view === 'cards') renderCards();
+    if (view === 'architecture') window.UnixArchitecture.render(id);
     if (view === 'industry') window.UnixIndustry.render(id);
     renderList(); persist();
   }
@@ -202,42 +199,6 @@ printf 'Practice directory: %s\\n' "$PWD"`;
   document.addEventListener('keydown',e=>{if(e.key==='Escape' && matchMedia('(max-width:760px)').matches){state.indexHidden=true;updateIndex();$('menu').focus();persist();}});
   document.addEventListener('keydown',e=>{if(e.key==='Tab' && matchMedia('(max-width:760px)').matches&&!state.indexHidden){const nodes=[...$('sidebar').querySelectorAll('button,input,select,a')].filter(n=>!n.disabled);const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
 
-  function buildPipeline() {
-    stopPlay();
-    const raw = $('pipelineInput').value.replace(/\r\n?/g,'\n');
-    let lines = raw ? raw.split('\n') : []; if (raw.endsWith('\n')) lines.pop();
-    if (lines.length > 200) { toast('Use at most 200 lines.'); return; }
-    const pattern = $('pipelinePattern').value, matched = lines.filter(l => l.includes(pattern)), sorted = [...matched].sort(), unique = sorted.filter((l,i) => i === 0 || l !== sorted[i-1]);
-    pipelineFrames = [
-      {label:'input', lines, detail:'Start with newline-terminated records supplied in the input area.'},
-      {label:'grep -F', lines:matched, detail:`Select lines containing the literal text ${JSON.stringify(pattern)}. ${matched.length} of ${lines.length} records match. A real grep exits 1 when none match.`},
-      {label:'sort', lines:sorted, detail:'Sort matching lines lexically. For ASCII input this mirrors LC_ALL=C sort. Equal lines become adjacent.'},
-      {label:'uniq', lines:unique, detail:`Collapse adjacent duplicate records. ${unique.length} distinct matching lines remain.`},
-      {label:'wc -l', lines:[String(unique.length)], detail:'Count the newline-terminated records from uniq. The result is a count of unique matching lines, not a count of original occurrences.'}
-    ];
-    pipelineStep = 0; renderPipeline();
-  }
-  function renderPipeline() {
-    if (!pipelineFrames.length) return;
-    $('pipelineStages').innerHTML = pipelineFrames.map((f,i) => `<button data-stage="${i}" aria-pressed="${i === pipelineStep}">${escape(f.label)}</button>`).join('');
-    $('pipelineStages').querySelectorAll('button').forEach(b => b.onclick = () => { stopPlay(); pipelineStep = Number(b.dataset.stage); renderPipeline(); });
-    const frame = pipelineFrames[pipelineStep]; $('pipelineOutput').textContent = frame.lines.length ? frame.lines.join('\n') : '(no output)';
-    $('pipelineStatus').textContent = `Stage ${pipelineStep+1} / 5 · ${frame.detail}`;
-    $('timeline').value = pipelineStep; $('pipelineBack').disabled = pipelineStep === 0; $('pipelineNext').disabled = pipelineStep === 4;
-  }
-  $('pipelineApply').onclick = buildPipeline;
-  $('pipelineNext').onclick = () => { stopPlay(); pipelineStep = Math.min(4,pipelineStep+1); renderPipeline(); };
-  $('pipelineBack').onclick = () => { stopPlay(); pipelineStep = Math.max(0,pipelineStep-1); renderPipeline(); };
-  $('pipelineReset').onclick = () => { stopPlay(); pipelineStep = 0; renderPipeline(); };
-  $('timeline').oninput = () => { stopPlay(); pipelineStep = Number($('timeline').value); renderPipeline(); };
-  $('pipelinePlay').onclick = () => {
-    if (playTimer) { stopPlay(); return; }
-    if (pipelineStep === 4) pipelineStep = 0;
-    $('pipelinePlay').textContent = 'Pause'; renderPipeline();
-    function tick() { pipelineStep++; renderPipeline(); if (pipelineStep === 4) stopPlay(); else playTimer = setTimeout(tick, Number($('pipelineSpeed').value)); }
-    playTimer = setTimeout(tick, Number($('pipelineSpeed').value));
-  };
-  document.addEventListener('visibilitychange', () => { if (document.hidden) stopPlay(); });
   function shuffle(items) { const copy = [...items]; for (let i=copy.length-1;i>0;i--) {const j=Math.floor(Math.random()*(i+1)); [copy[i],copy[j]]=[copy[j],copy[i]];} return copy; }
   function validQuiz(q) {
     return q && Array.isArray(q.ids) && q.ids.length > 0 && new Set(q.ids).size === q.ids.length && q.ids.every(id => questions.some(item => item.id === id)) &&
@@ -276,16 +237,5 @@ printf 'Practice directory: %s\\n' "$PWD"`;
     $('quizNext').onclick = () => { quiz.index++; persist(); renderQuiz(); };
     $('finishQuiz').onclick = () => { quiz.index = quiz.ids.length; persist(); renderQuiz(); };
   }
-  function cardDeck() { return lessons.filter(l => cardFilter === 'all' || cardFilter === 'saved' && state.bookmarks.includes(l.id) || cardFilter === 'unfinished' && !state.done.includes(l.id)); }
-  function renderCards() {
-    const deck = cardDeck(); cardIndex = deck.length ? cardIndex % deck.length : 0; const l = deck[cardIndex];
-    $('cards').innerHTML = `<label for="cardDeck">Deck</label><select id="cardDeck"><option value="all">All lessons</option><option value="saved">Bookmarked lessons</option><option value="unfinished">Not completed</option></select>${l ? `<p class="eyebrow">CARD ${cardIndex+1} / ${deck.length} · ${escape(l.group)}</p><h2>${escape(l.title)}</h2><p>What does it do? Explain one flag and predict an example’s output before revealing.</p><button id="revealCard" aria-expanded="${revealed}">${revealed?'Hide answer':'Reveal answer'}</button><div class="flash-answer" ${revealed?'':'hidden'}><p>${escape(l.summary)}</p><p><code>${escape(l.flags[0].flag)}</code>: ${escape(l.flags[0].meaning)}</p><pre><code>${escape(l.examples[0].code)}</code></pre><p>${l.examples[0].variable?'Illustrative':'Expected'} output:</p><pre><code>${escape(l.examples[0].output)}</code></pre><p>${escape(l.examples[0].explanation)}</p><a href="#learn/${l.id}">Open full lesson</a></div><div class="card-controls"><button id="againCard">Next card</button><button id="randomCard">Random card</button><button id="knowCard" ${revealed?'':'disabled'}>Got it · mark completed</button></div>` : '<p class="empty">No cards in this deck. Bookmark a lesson or select another deck.</p>'}`;
-    $('cardDeck').value = cardFilter; $('cardDeck').onchange = () => {cardFilter=$('cardDeck').value;cardIndex=0;revealed=false;renderCards();};
-    if (!l) return;
-    $('revealCard').onclick = () => {revealed=!revealed;renderCards();};
-    $('againCard').onclick = () => {cardIndex++;revealed=false;renderCards();};
-    $('randomCard').onclick = () => {cardIndex=deck.length > 1 ? (cardIndex + 1 + Math.floor(Math.random()*(deck.length-1))) % deck.length : 0;revealed=false;renderCards();};
-    $('knowCard').onclick = () => {if(!state.done.includes(l.id))state.done.push(l.id);persist();renderList();if(cardFilter!=='unfinished')cardIndex++;revealed=false;renderCards();};
-  }
-  updateTheme(); updateIndex(); readingPreferences(); buildPipeline(); route();
+  updateTheme(); updateIndex(); readingPreferences(); route();
 })();

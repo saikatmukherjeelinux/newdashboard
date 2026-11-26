@@ -36,11 +36,6 @@ const {lessons,quizzes:questions} = require('./load-content.cjs');
     assert.equal(await page.locator('#bookmark').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#complete').getAttribute('aria-pressed'),'true');
     await page.locator('#filter').selectOption('saved');assert.equal(await page.locator('.lesson-link').count(),1);await page.locator('#filter').selectOption('all');
     await page.locator('#category').selectOption('Files & paths');assert.equal(await page.locator('.lesson-link').count(),9);await page.locator('#category').selectOption('all');
-    await page.locator('[data-view="pipeline"]').click();await page.locator('#timeline').fill('4');assert.equal(await page.locator('#pipelineOutput').textContent(),'2');
-    await page.locator('#pipelineInput').fill('b\na\nb\n');await page.locator('#pipelinePattern').fill('');await page.locator('#pipelineApply').click();await page.locator('#timeline').fill('3');assert.equal(await page.locator('#pipelineOutput').textContent(),'a\nb');
-    await page.locator('#pipelineInput').fill('');await page.locator('#pipelineApply').click();await page.locator('#timeline').fill('4');assert.equal(await page.locator('#pipelineOutput').textContent(),'0');
-    await page.locator('#pipelinePlay').click();assert.equal(await page.locator('#pipelinePlay').textContent(),'Pause');await page.locator('[data-view="cards"]').click();assert.equal(await page.locator('#pipelinePlay').textContent(),'Play');
-    await page.locator('#cardDeck').selectOption('saved');assert((await page.locator('#cards h2').textContent()).includes('grep'));await page.locator('#revealCard').click();assert(await page.locator('.flash-answer').isVisible());
     await page.locator('[data-view="quiz"]').click();await page.locator('#quizLength').selectOption('all');await page.locator('#startQuiz').click();
     for(let i=0;i<questions.length;i++){
       const session=await page.evaluate(()=>JSON.parse(localStorage.getItem('unix-motion-lab-v1')).quiz);const q=questions.find(q=>q.id===session.ids[session.index]);
@@ -60,10 +55,9 @@ const {lessons,quizzes:questions} = require('./load-content.cjs');
     await page.locator('.glossary summary').click();assert.equal(await page.locator('.glossary dt').count(),20);
     await page.locator('#examples').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,'examples.png')});
     await page.locator('.deep-jump').click();await page.screenshot({path:path.join(output,'deep-examples.png')});
-    await page.locator('[data-view="pipeline"]').click();await page.locator('#pipelineView').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,'pipeline.png')});
     for(const width of [390,768]){
       await page.setViewportSize({width,height:844});
-      for(const mode of ['browse','learn','pipeline','quiz','cards']){if(width<=760)await page.locator('#mobileView').selectOption(mode);else await page.locator(`[data-view="${mode}"]`).click();assert(!(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)),`Overflow at ${width} / ${mode}`);}
+      for(const mode of ['browse','learn','quiz','industry','architecture']){if(width<=760)await page.locator('#mobileView').selectOption(mode);else await page.locator(`[data-view="${mode}"]`).click();assert(!(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)),`Overflow at ${width} / ${mode}`);}
     }
     await page.setViewportSize({width:390,height:844});await page.locator('#mobileView').selectOption('learn');
     if(await page.locator('#menu').getAttribute('aria-expanded')==='true')await page.locator('.sidebar-close').click();

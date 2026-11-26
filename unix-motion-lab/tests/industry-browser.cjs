@@ -10,7 +10,7 @@ const {questions}=require('../assets/industry-data.js');
     const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
     const url=pathToFileURL(path.resolve(__dirname,'../index.html')).href;
-    await page.goto(url);await page.locator('.industry-home-link').click();
+    await page.goto(url);await page.locator('.industry-home-link[href="#industry"]').click();
     assert(await page.locator('#industryView').isVisible());assert(!(await page.locator('#browseView').isVisible()));
     assert.equal(await page.locator('.industry-question').count(),20);assert.equal(await page.locator('#industryCount').textContent(),'300 questions found');
     await page.locator('#industryNextPage').click();assert((await page.locator('.industry-number').first().textContent()).includes('021'));
