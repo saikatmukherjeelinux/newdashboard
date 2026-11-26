@@ -439,6 +439,8 @@ printf 'service=%s; location=%s\\n' "$service" "$location"`,'service=api; locati
   }
   const plain = typeof module !== 'undefined' ? require('./industry-plain.js') : root.UnixIndustryPlain;
   plain.attach(questions);
+  const commandGuide = typeof module !== 'undefined' ? require('./industry-commands.js') : root.UnixIndustryCommands;
+  commandGuide.attach(questions);
   root.UNIX_INDUSTRY=questions;
   if(typeof module!=='undefined')module.exports={questions,group,refs};
 })(typeof window==='undefined'?globalThis:window);
