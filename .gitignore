@@ -1,0 +1,15 @@
+# Local dependencies, environments and generated checks
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+test-results/
+playwright-report/
+
+# Local credentials and editor/OS files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
