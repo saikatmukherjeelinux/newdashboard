@@ -437,6 +437,8 @@ printf 'service=%s; location=%s\\n' "$service" "$location"`,'service=api; locati
     }
     if(q.category==='Services')q.source=`https://www.freedesktop.org/software/systemd/man/latest/${q.code.startsWith('systemctl')?'systemctl':'journalctl'}.html`;
   }
+  const plain = typeof module !== 'undefined' ? require('./industry-plain.js') : root.UnixIndustryPlain;
+  plain.attach(questions);
   root.UNIX_INDUSTRY=questions;
   if(typeof module!=='undefined')module.exports={questions,group,refs};
 })(typeof window==='undefined'?globalThis:window);

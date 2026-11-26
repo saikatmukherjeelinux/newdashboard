@@ -21,6 +21,8 @@ const {questions}=require('../assets/industry-data.js');
     for(const q of questions){
       await page.goto(`${url}#industry/${q.id}`);
       await page.waitForFunction(title=>document.querySelector('#industryTitle')?.textContent===title,q.title);
+      assert.equal(await page.locator('.industry-simple-explanation').textContent(),q.simpleExplanation);
+      assert((await page.locator('.industry-input-guide').textContent()).includes(q.introduction));
       assert.equal(await page.locator('#industryCode').textContent(),q.code);
       assert.equal(await page.locator('#industryOutput').textContent(),q.output||'(No output on success)');
       assert.equal(await page.locator('.industry-summary p').textContent(),q.summary);

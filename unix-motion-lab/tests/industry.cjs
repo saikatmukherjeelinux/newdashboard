@@ -10,6 +10,8 @@ for(const category of categories)assert.equal(questions.filter(q=>q.category===c
 questions.forEach((q,i)=>{
   assert.equal(q.id,`ops-${String(i+1).padStart(3,'0')}`);assert.equal(q.number,i+1);
   for(const field of ['title','question','code','summary','environment','caveat','source'])assert(typeof q[field]==='string'&&q[field].trim().length>0,`${q.id}: ${field}`);
+  for(const field of ['introduction','simpleExplanation','topic'])assert(q[field].length>8,`${q.id}: missing plain-language ${field}`);
+  assert(q.question.startsWith('Your task: '));
   assert.equal(q.steps.length,3);q.steps.forEach(s=>assert(s.length>30,`${q.id}: explanation too short`));
   assert.equal(typeof q.output,'string');assert.equal(typeof q.variable,'boolean');assert.equal(typeof q.setup,'string');
   assert(q.source.startsWith('https://'));assert(!q.code.includes('\r'));assert(!q.code.includes('\0'));
