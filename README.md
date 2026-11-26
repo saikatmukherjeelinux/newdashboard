@@ -38,4 +38,4 @@ Replace the example folder with the project you actually added. When Pages is co
 
 ## ML Lab
 
-[Open ML Lab](ml-motion-lab/index.html): 40 mathematics lessons in 10 modules, 160 examples, 40 explained practice answers, compact original diagrams and interactive experiments. Covers foundations, linear algebra, calculus, probability, statistics, information theory, optimization and their connections to modern AI. See [the ML Lab guide](ml-motion-lab/README.md) for scope, sources and validation.
+[Open ML Lab](ml-motion-lab/index.html): 40 mathematics lessons in 10 modules, 240 examples, 40 explained practice answers, compact original diagrams and interactive experiments. Covers foundations, linear algebra, calculus, probability, statistics, information theory, optimization and their connections to modern AI. See [the ML Lab guide](ml-motion-lab/README.md) for scope, sources and validation.

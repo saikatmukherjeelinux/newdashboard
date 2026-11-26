@@ -2,3 +2,5 @@
 
 /* Beginner reading flow */
 .example h2{font-size:22px}.example ol li{margin:18px 0}.advanced-example{padding:20px 0;border-top:1px solid var(--line)}#advanced[open]>summary{margin-bottom:24px}#advanced li{margin:12px 0}#advanced h2{margin-top:24px}.takeaway p{font-size:19px}.lesson-header .intro{max-width:760px}
+
+.extra-example{border-top:1px solid var(--line);padding:18px 0}.extra-example summary{font-size:18px;line-height:1.6}.extra-example h3{margin-top:24px}.extra-example li{margin:18px 0}.extra-example p{padding:0}.extra-example .result{margin:22px 0}

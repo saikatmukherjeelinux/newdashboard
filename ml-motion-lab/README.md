@@ -1,6 +1,6 @@
 # ML Lab — Mathematics for AI and machine learning
 
-A standalone, buildless learning lab with 40 lessons, 160 examples (80 simple everyday examples and 80 optional mathematical examples), 40 practice questions with explained answers, 39 compact original SVG diagrams and three interactive experiments. Every lesson introduces the idea, defines its symbols, explains the steps, shows calculations and results, discusses a deeper connection and finishes with a mistake to avoid and a summary.
+A standalone, buildless learning lab with 40 lessons, 240 examples (80 simple everyday examples, 80 additional detailed examples and 80 optional mathematical examples), 40 practice questions with explained answers, 39 compact original SVG diagrams and three interactive experiments. Every lesson introduces the idea, defines its symbols, explains the steps, shows calculations and results, discusses a deeper connection and finishes with a mistake to avoid and a summary.
 
 ## Syllabus
 
@@ -38,3 +38,7 @@ Browser screenshots are written to ignored `test-results/`. No JavaScript depend
 ## Beginner reading mode
 
 Each lesson now starts with an everyday explanation, three short word definitions, two examples with three small steps each, the meaning of each result, and one takeaway. The 80 original mathematical examples, formulas and compact diagrams remain in a closed optional section. All 40 lesson titles use plain language. The search includes both beginner wording and technical terminology. Existing bookmarks and progress keep their lesson identifiers.
+
+## More examples for every topic
+
+Each of the 40 topics now has two additional original worked examples in `assets/more-examples.js`. Each explains its setup, four calculation/reasoning steps, the result and why it matters. Two separate disclosures keep extra reading manageable. Search includes these examples. Total: six worked examples per topic, or 240 across the lab. The examples use fictional data and do not load external datasets.
