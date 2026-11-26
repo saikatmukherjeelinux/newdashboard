@@ -16,12 +16,20 @@ const {lessons,quizzes:questions} = require('./load-content.cjs');
     await page.locator('#catalogSearch').fill('memory');assert((await page.locator('.command-card').count())>0);
     await page.locator('#catalogSearch').fill('doesnotexistzz');assert.equal(await page.locator('.command-card').count(),0);
     await page.locator('#clearFilters').click();assert.equal(await page.locator('.command-card').count(),80);
+    await page.locator('#collection').selectOption('deep');assert.equal(await page.locator('.command-card').count(),20);
+    await page.locator('.command-card[href="#learn/grep"]').click();assert.equal(await page.locator('.deep-example').count(),2);
+    await page.locator('.deep-jump').click();await page.locator('.example-flags summary').first().click();assert(await page.locator('.example-flags dl').first().isVisible());
+    await page.locator('.example-challenge summary').first().click();assert((await page.locator('.example-challenge details p').first().textContent()).includes('Only line 2'));
+    await page.locator('[data-view="browse"]').click();await page.locator('#clearFilters').click();
     await page.locator('#catalogTopic').selectOption('Network & services');assert.equal(await page.locator('.command-card').count(),3);await page.locator('#clearFilters').click();
     await page.locator('.path-options summary').click();await page.locator('[data-path="Start from zero"]').click();assert.equal(await page.locator('.command-card').count(),10);
     await page.locator('.command-card').first().click();await page.locator('#next').click();assert((await page.locator('#lesson h2').textContent()).includes('help'));
     await page.locator('[data-view="browse"]').click();await page.locator('#clearFilters').click();
     await page.locator('#menu').click();
-    for(const l of lessons){await page.goto(`${url}#learn/${l.id}`);await page.waitForFunction(id=>document.querySelector('#lesson h2')?.textContent===window.UNIX_LESSONS.find(l=>l.id===id).title,l.id);assert.equal(await page.locator('.example').count(),3);assert.equal(await page.locator('.example > pre code').first().textContent(),l.examples[0].code);assert.equal(await page.locator('.beginner-steps li').count(),3);assert((await page.locator('.beginner-intro').textContent()).length>80);}
+    for(const l of lessons){await page.goto(`${url}#learn/${l.id}`);await page.waitForFunction(id=>document.querySelector('#lesson h2')?.textContent===window.UNIX_LESSONS.find(l=>l.id===id).title,l.id);assert.equal(await page.locator('.example').count(),l.examples.length);assert.equal(await page.locator('.example > pre code').first().textContent(),l.examples[0].code);assert.equal(await page.locator('.beginner-steps li').count(),3);assert((await page.locator('.beginner-intro').textContent()).length>80);
+      assert.deepEqual(await page.locator('.example > pre.output code').allTextContents(),l.examples.map(e=>e.output));
+      assert.equal(await page.locator('.deep-steps li').count(),l.examples.filter(e=>e.collection==='deep').length*3);
+    }
     await page.locator('#search').fill('nonexistenttermzz');assert.equal(await page.locator('.lesson-link').count(),0);
     await page.locator('#search').fill('pipefail');assert((await page.locator('.lesson-link').count())>0);await page.locator('#search').fill('');
     await page.goto(`${url}#learn/grep`);await page.locator('#bookmark').click();await page.locator('#complete').click();await page.reload();
@@ -51,6 +59,7 @@ const {lessons,quizzes:questions} = require('./load-content.cjs');
     await page.locator('.reading-tools summary').click();await page.locator('#fontSize').click();await page.locator('#wrapCode').click();
     await page.locator('.glossary summary').click();assert.equal(await page.locator('.glossary dt').count(),20);
     await page.locator('#examples').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,'examples.png')});
+    await page.locator('.deep-jump').click();await page.screenshot({path:path.join(output,'deep-examples.png')});
     await page.locator('[data-view="pipeline"]').click();await page.locator('#pipelineView').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,'pipeline.png')});
     for(const width of [390,768]){
       await page.setViewportSize({width,height:844});
@@ -65,6 +74,6 @@ const {lessons,quizzes:questions} = require('./load-content.cjs');
     await page.evaluate(()=>localStorage.setItem('unix-motion-lab-v1','{"done":"invalid","quiz":{"ids":[]}}'));await page.reload();assert.equal(await page.locator('.example').count(),3);
     await page.goto(pathToFileURL(path.resolve(__dirname,'../../index.html')).href);assert.equal(await page.locator('.labs > a').count(),3);assert(!(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)));
     await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:path.join(output,'dashboard.png')});
-    assert.deepEqual(errors,[]);console.log(`PASS: ${lessons.length} beginner lessons; all ${questions.length} quiz paths; catalog search, new collection, guided sequence, glossary, reading preferences, retry/resume, filters, bookmarks, completion, themes, cards, pipeline, corrupt storage, dashboard and mobile layouts.`);
+    assert.deepEqual(errors,[]);console.log(`PASS: ${lessons.length} beginner lessons and all 280 output displays; 40 new deep examples, option explanations and challenge answers; all ${questions.length} quiz paths; catalog search, guided sequence, glossary, preferences, persistence and mobile layouts.`);
   } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

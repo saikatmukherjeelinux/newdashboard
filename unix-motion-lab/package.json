@@ -1,8 +1,8 @@
 {
   "name": "unix-motion-lab",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
-  "description": "Static Unix learning lab with 80 lessons and 240 worked examples",
+  "description": "Static Unix learning lab with 80 lessons and 280 worked examples",
   "scripts": {
     "test": "node tests/content.cjs",
     "test:browser": "node tests/browser.cjs",

@@ -8,11 +8,20 @@ assert.equal(lessons.filter(l=>l.collection==='expanded').length,28);
 assert.equal(Object.keys(guides).length,lessons.length);
 assert(glossary.length>=20);
 assert.equal(new Set(lessons.map(l=>l.id)).size, lessons.length);
+const deepExamples=lessons.flatMap(l=>l.examples.filter(e=>e.collection==='deep'));
+assert.equal(deepExamples.length,40);
+assert.equal(lessons.reduce((n,l)=>n+l.examples.length,0),280);
+assert.equal(new Set(deepExamples.map(e=>e.code)).size,40);
+for(const e of deepExamples){
+  assert(e.scenario.length>30);assert.equal(e.steps.length,3);
+  assert(e.steps.every(s=>s.length>50));assert(e.flags.length>=2);
+  assert(e.pitfall.length>40);assert(e.challenge.question.length>20);assert(e.challenge.answer.length>30);
+}
 for (const lesson of lessons) {
   for (const field of ['id','group','title','summary','syntax','detail','pitfall','platform']) assert(lesson[field]?.length, `${lesson.id}: ${field}`);
   assert(lesson.flags.length >= 2, lesson.id);
   for (const flag of lesson.flags) assert(flag.flag && flag.meaning);
-  assert.equal(lesson.examples.length, 3, lesson.id);
+  assert.equal(lesson.examples.length,lesson.examples.some(e=>e.collection==='deep')?5:3,lesson.id);
   for (const example of lesson.examples) {
     for (const field of ['title','code','output','explanation']) assert(example[field]?.length, `${lesson.id}: example ${field}`);
     assert.equal(typeof example.variable, 'boolean');
@@ -38,4 +47,4 @@ for (const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)) {
   assert(fs.existsSync(path.resolve(root,match[1])), `Missing local asset: ${match[1]}`);
 }
 assert(fs.readFileSync(path.join(root,'..','index.html'),'utf8').includes('unix-motion-lab/index.html'));
-console.log(`PASS: ${lessons.length} complete lessons, ${lessons.length*3} examples, ${quizzes.length} linked quiz questions and all local links.`);
+console.log(`PASS: ${lessons.length} complete lessons, ${lessons.reduce((n,l)=>n+l.examples.length,0)} examples including 40 detailed scenarios, ${quizzes.length} linked quiz questions and all local links.`);

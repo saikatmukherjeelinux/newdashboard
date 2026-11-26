@@ -7,7 +7,8 @@ No build, backend, external font, CDN or package installation is needed to use t
 ## Learning material
 
 - **80 lessons**, each with syntax, common flags and operands, conceptual explanation, pitfalls, a short takeaway and a manual reference.
-- **240 worked examples** with commands, expected or explicitly illustrative output, and an explanation of why that output appears.
+- **280 worked examples** with commands, expected or explicitly illustrative output, and an explanation of why that output appears.
+- **40 new in-depth scenarios across 20 lessons**, bringing those lessons to five examples each. Every addition includes a concrete task, three reasoning steps, an example-specific option/symbol glossary, a common mistake, and a practice question with a revealable answer. Choose **40 new in-depth examples** in the catalog collection filter or use the lesson’s jump link to reach examples 4 and 5.
 - **80 authored quiz questions**, one per lesson, with four shuffled choices, first-answer locking, explanations, topic and session-length selection, saved sessions, results and retry of missed/unanswered questions.
 - **80 flashcards**, with bookmarked and unfinished decks.
 - Plain-language introductions and “when would I use it?” guidance for **all 80 lessons**, plus **240 authored walkthrough steps** explaining each lesson’s first worked example. Every example retains its output explanation; relevant practice-file contents can be expanded beside the example.
@@ -36,6 +37,7 @@ The page never executes shell commands. Use Bash on Linux or WSL to practice. Po
 | `assets/quizzes.js` | Authored quiz bank |
 | `assets/lessons-more.js` | 28 additional lessons, 84 worked examples and 28 additional quizzes |
 | `assets/beginners.js` | 80 plain-language guides, first-example walkthroughs and glossary |
+| `assets/deep-examples.js` | 40 detailed scenarios attached to the existing lesson IDs |
 | `assets/app.js` | Navigation, persistence, learning modes and simulation |
 | `assets/style.css` | Responsive dark/light design |
 | `tests/content.cjs` | Lesson/quiz consistency and local link checks |

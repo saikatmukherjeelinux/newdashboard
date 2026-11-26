@@ -35,7 +35,8 @@
   function closeSidebar(){state.indexHidden=true;updateIndex();persist();$('menu').focus();}
   closeIndex.onclick=closeSidebar;backdrop.onclick=closeSidebar;
   // Keep the home page small: one starting point, search, and an optional guided path.
-  document.querySelector('.hero').innerHTML='<p class="eyebrow">UNIX, ONE SMALL STEP AT A TIME</p><h1>Learn the command line.</h1><p>80 plain-language lessons. 240 examples with explained outputs.<br>New to Unix? Start with the shell. No experience needed.</p><a class="start-link" href="#learn/shell">Start with the basics</a>';
+  document.querySelector('.hero').innerHTML=`<p class="eyebrow">UNIX, ONE SMALL STEP AT A TIME</p><h1>Learn the command line.</h1><p>${lessons.length} plain-language lessons. ${lessons.reduce((n,l)=>n+l.examples.length,0)} examples with explained outputs.<br>New to Unix? Start with the shell. No experience needed.</p><a class="start-link" href="#learn/shell">Start with the basics</a>`;
+  $('collection').insertAdjacentHTML('beforeend','<option value="deep">40 new in-depth examples</option>');
   const pathDetails=document.createElement('details');pathDetails.className='path-options';pathDetails.innerHTML='<summary>Or choose a guided learning path</summary>';$('learningPaths').before(pathDetails);pathDetails.append($('learningPaths'));
   const catalogTopic=document.createElement('label');catalogTopic.setAttribute('for','catalogTopic');catalogTopic.innerHTML='Topic<select id="catalogTopic"></select>';document.querySelector('.catalog-toolbar').append(catalogTopic);
   let pipelineStep = 0, pipelineFrames = [], playTimer = null;
@@ -93,7 +94,7 @@ printf 'Practice directory: %s\\n' "$PWD"`;
     const term = $('search').value.trim().toLowerCase(), category = $('category').value, filter = $('filter').value;
     const collection=$('collection').value, path=paths.find(p=>p.name===activePath);
     return lessons.filter(l => (category === 'all' || l.group === category) && (!path || path.ids.includes(l.id)) &&
-      (collection!=='expanded' || l.collection==='expanded') && (collection!=='starter' || paths[0].ids.includes(l.id)) &&
+      (collection!=='expanded' || l.collection==='expanded') && (collection!=='starter' || paths[0].ids.includes(l.id)) && (collection!=='deep' || l.examples.some(e=>e.collection==='deep')) &&
       (filter !== 'saved' || state.bookmarks.includes(l.id)) && (filter !== 'done' || state.done.includes(l.id)) && (filter !== 'unfinished' || !state.done.includes(l.id)) &&
       (!term || term.split(/\s+/).every(word=>searchIndex.get(l.id).includes(word)))).sort((a,b)=>path?path.ids.indexOf(a.id)-path.ids.indexOf(b.id):0);
   }
@@ -128,6 +129,22 @@ printf 'Practice directory: %s\\n' "$PWD"`;
     $('lesson').querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{$(b.dataset.jump).scrollIntoView({block:'start'});$(b.dataset.jump).focus({preventScroll:true});});
     $('bookmark').onclick = () => toggle('bookmarks'); $('complete').onclick = () => toggle('done');
     $('lesson').querySelectorAll('[data-copy]').forEach(b => b.onclick = () => copy(l.examples[Number(b.dataset.copy)].code));
+    // Extra reasoning is progressively disclosed so five-example lessons stay readable.
+    $('lesson').querySelectorAll('.example').forEach((section,i)=>{
+      const e=l.examples[i];section.id=`example-${i+1}`;
+      if(e.collection!=='deep')return;
+      section.classList.add('deep-example');
+      const scenario=document.createElement('p');scenario.className='example-scenario';scenario.innerHTML=`<span class="badge">NEW · IN-DEPTH PRACTICE</span><br><strong>The task:</strong> ${escape(e.scenario)}`;section.querySelector('h3').after(scenario);
+      const reasoning=section.querySelector('h4');
+      reasoning.textContent='Follow the reasoning, one step at a time';
+      const summary=reasoning.nextElementSibling;const list=document.createElement('ol');list.className='deep-steps';list.innerHTML=e.steps.map(s=>`<li>${escape(s)}</li>`).join('');summary.replaceWith(list);
+      const detail=document.createElement('details');detail.className='example-input example-flags';detail.innerHTML=`<summary>Every option and symbol used here</summary><dl>${e.flags.map(f=>`<dt><code>${escape(f.flag)}</code></dt><dd>${escape(f.meaning)}</dd>`).join('')}</dl>`;section.append(detail);
+      const mistake=document.createElement('p');mistake.className='note';mistake.innerHTML=`<strong>Watch out:</strong> ${escape(e.pitfall)}`;section.append(mistake);
+      const challenge=document.createElement('div');challenge.className='example-challenge';challenge.innerHTML=`<h4>Check your understanding</h4><p>${escape(e.challenge.question)}</p><details><summary>Show the answer</summary><p>${escape(e.challenge.answer)}</p></details>`;section.append(challenge);
+    });
+    if(l.examples.some(e=>e.collection==='deep')){
+      const jump=document.createElement('a');jump.href='#example-4';jump.textContent='Go to the 2 new in-depth examples';jump.className='deep-jump';jump.onclick=event=>{event.preventDefault();$('example-4').scrollIntoView({block:'start'});};$('examples').after(jump);
+    }
     const inputs={'names.txt':'Ada\nLinus\nAda\nGrace','people.csv':'name,age\nAda,36\nLinus,54\nGrace,85','logs.txt':'INFO start\nERROR disk\nWARN memory\nERROR network\nINFO done','docs/guide.txt':'Read the manual.'};
     $('lesson').querySelectorAll('.example').forEach((section,i)=>{
       const files=Object.entries(inputs).filter(([name])=>l.examples[i].code.includes(name));
