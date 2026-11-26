@@ -2,7 +2,7 @@
 
 [Open the dashboard website](https://saikatmukherjeelinux.github.io/newdashboard/)
 
-Three standalone learning projects share this static dashboard:
+Four standalone learning projects share this static dashboard:
 
 | Project | Learning experience |
 |---|---|
@@ -35,3 +35,7 @@ git push origin main
 ```
 
 Replace the example folder with the project you actually added. When Pages is configured for `main` and `/(root)`, pushing updates triggers deployment. The root `.gitignore` prevents new generated test outputs, dependency folders and local environment files from being added accidentally; it does not untrack files already uploaded in earlier commits.
+
+## ML Lab
+
+[Open ML Lab](ml-motion-lab/index.html): 40 mathematics lessons in 10 modules, 80 worked examples, 40 explained practice answers, compact original diagrams and interactive experiments. Covers foundations, linear algebra, calculus, probability, statistics, information theory, optimization and their connections to modern AI. See [the ML Lab guide](ml-motion-lab/README.md) for scope, sources and validation.

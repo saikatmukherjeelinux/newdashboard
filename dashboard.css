@@ -64,3 +64,6 @@
 .labs{grid-template-columns:repeat(3,minmax(0,1fr))}.unix{--accent:#88e0ba}.unix-art code{font:13px/1.8 Consolas,monospace;color:#c4d2e8}.unix-art code span{color:var(--accent)}
 @media(min-width:701px) and (max-width:1000px){.labs{grid-template-columns:repeat(2,minmax(0,1fr))}.unix{grid-column:1/-1}.unix .illustration{max-width:520px}}
 @media(max-width:700px){.labs{grid-template-columns:1fr}}
+
+/* ML Lab dashboard card */
+.ml{--accent:#f0c884}.ml-art{display:flex;flex-direction:column;justify-content:center;gap:12px}.ml-art strong{font:26px/1.4 Consolas,monospace;color:var(--accent)}.math-line,.math-caption{font-size:12px;color:#b9c6dc}.labs{grid-template-columns:repeat(2,minmax(0,1fr))}.unix{grid-column:auto}@media(max-width:700px){.labs{grid-template-columns:1fr}}
