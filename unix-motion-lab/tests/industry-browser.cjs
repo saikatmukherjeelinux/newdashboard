@@ -32,6 +32,8 @@ const {questions}=require('../assets/industry-data.js');
     assert(await page.locator('#industryCode').isVisible());
     await page.evaluate(()=>{window.copiedText='';Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{window.copiedText=text;}}});});
     await page.locator('[data-industry-copy="code"]').click();assert.equal(await page.evaluate(()=>window.copiedText),questions[0].code);
+    assert(!(await page.locator('#industrySetup').isVisible()));
+    await page.locator('.industry-try>summary').click();
     await page.locator('[data-industry-copy="setup"]').click();assert((await page.evaluate(()=>window.copiedText)).includes(questions[0].setup));
     await page.locator('#industrySave').click();await page.locator('#industryDone').click();await page.reload();
     assert.equal(await page.locator('#industrySave').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#industryDone').getAttribute('aria-pressed'),'true');
