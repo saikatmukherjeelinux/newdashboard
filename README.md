@@ -8,7 +8,7 @@ Three standalone learning projects share this static dashboard:
 |---|---|
 | [Python Motion Lab](https://saikatmukherjeelinux.github.io/newdashboard/python-motion-lab/) | Python concepts, worked examples, visual experiments, quizzes and flashcards |
 | [DSA Motion Lab](https://saikatmukherjeelinux.github.io/newdashboard/dsa-motion-lab/) | Algorithm animations, Python implementations, interview questions and quizzes |
-| [Unix Motion Lab](https://saikatmukherjeelinux.github.io/newdashboard/unix-motion-lab/) | 80 command/shell lessons, 280 examples with outputs, flag explanations, pipeline simulation, 80 quiz questions and flashcards |
+| [Unix Motion Lab](https://saikatmukherjeelinux.github.io/newdashboard/unix-motion-lab/) | 80 command/shell lessons, 280 examples with outputs, flag explanations, pipeline simulation, 80 quiz questions, flashcards and 300 industry-style coding questions with solutions, outputs and summaries |
 
 These website links use the `newdashboard` repository. The older `/dashboard_All/` URL opens a different deployment. On github.com, clicking an HTML source file shows its code; use the website links above to run the dashboard.
 

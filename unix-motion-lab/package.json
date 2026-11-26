@@ -1,11 +1,13 @@
 {
   "name": "unix-motion-lab",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
-  "description": "Static Unix learning lab with 80 lessons and 280 worked examples",
+  "description": "Static Unix lab with 80 lessons, 280 examples and 300 industry practice questions",
   "scripts": {
-    "test": "node tests/content.cjs",
+    "test": "node tests/content.cjs && node tests/industry.cjs",
     "test:browser": "node tests/browser.cjs",
-    "test:examples": "python3 tests/examples.py"
+    "test:examples": "python3 tests/examples.py",
+    "test:industry:browser": "node tests/industry-browser.cjs",
+    "test:industry:examples": "python3 tests/industry-examples.py"
   }
 }

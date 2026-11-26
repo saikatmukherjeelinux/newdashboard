@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const {questions}=require('../assets/industry-data.js');
+assert.equal(questions.length,300);
+assert.equal(new Set(questions.map(q=>q.id)).size,300);
+assert.equal(new Set(questions.map(q=>q.title)).size,300);
+assert.equal(new Set(questions.map(q=>q.code)).size,300);
+const categories=[...new Set(questions.map(q=>q.category))];
+assert.equal(categories.length,15);
+for(const category of categories)assert.equal(questions.filter(q=>q.category===category).length,20);
+questions.forEach((q,i)=>{
+  assert.equal(q.id,`ops-${String(i+1).padStart(3,'0')}`);assert.equal(q.number,i+1);
+  for(const field of ['title','question','code','summary','environment','caveat','source'])assert(typeof q[field]==='string'&&q[field].trim().length>0,`${q.id}: ${field}`);
+  assert.equal(q.steps.length,3);q.steps.forEach(s=>assert(s.length>30,`${q.id}: explanation too short`));
+  assert.equal(typeof q.output,'string');assert.equal(typeof q.variable,'boolean');assert.equal(typeof q.setup,'string');
+  assert(q.source.startsWith('https://'));assert(!q.code.includes('\r'));assert(!q.code.includes('\0'));
+});
+assert.equal(questions.filter(q=>q.variable).length,63);
+console.log('PASS: 300 distinct questions; 15 topics × 20; 900 explanation steps; 300 summaries; 237 fixed-output exercises and 63 illustrative host/identity examples.');

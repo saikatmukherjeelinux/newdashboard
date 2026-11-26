@@ -23,12 +23,13 @@
   ];
   let activePath = 'all';
   const searchIndex = new Map(lessons.map(l=>[l.id, JSON.stringify([l,window.UNIX_BEGINNERS[l.id]]).toLowerCase()]));
-  const modes = ['browse','learn','pipeline','quiz','cards'];
+  const modes = ['browse','learn','pipeline','quiz','cards','industry'];
   const browseTab = document.createElement('button'); browseTab.dataset.view='browse'; browseTab.textContent='Command catalog'; browseTab.setAttribute('aria-pressed','false'); document.querySelector('.modes').prepend(browseTab);
-  const mobileMode=document.createElement('select');mobileMode.id='mobileView';mobileMode.setAttribute('aria-label','Choose learning section');mobileMode.innerHTML=modes.map((v,i)=>`<option value="${v}">${['Command catalog','Read a lesson','Pipeline practice','Quiz','Flashcards'][i]}</option>`).join('');document.querySelector('.toolbar').append(mobileMode);
+  const mobileMode=document.createElement('select');mobileMode.id='mobileView';mobileMode.setAttribute('aria-label','Choose learning section');mobileMode.innerHTML=modes.map((v,i)=>`<option value="${v}">${['Command catalog','Read a lesson','Pipeline practice','Quiz','Flashcards','Industry practice'][i]}</option>`).join('');document.querySelector('.toolbar').append(mobileMode);
   const browse = document.createElement('section'); browse.id='browseView'; browse.hidden=true;
   browse.innerHTML=`<div class="section-heading"><p class="eyebrow">FIND YOUR NEXT COMMAND</p><h2>What would you like to do?</h2><p>Choose a guided path, explore the new additions, or search for a command or task.</p></div><div class="resume-panel"><div><strong id="resumeTitle"></strong><p id="resumeText"></p></div><button class="primary" id="resumeLesson">Continue learning</button></div><div id="learningPaths" class="learning-paths"></div><div class="catalog-toolbar"><label for="catalogSearch">Search all commands, flags & examples<input type="search" id="catalogSearch" placeholder="Try backup, memory, -n, or read a file…"></label><label for="collection">Collection<select id="collection"><option value="all">All 80 lessons</option><option value="expanded">28 new lessons</option><option value="starter">First steps</option></select></label></div><div class="catalog-status"><p id="catalogCount" role="status"></p><button id="clearFilters">Clear filters</button></div><div id="catalog" class="catalog-grid"></div>`;
   $('learnView').before(browse);
+  browse.insertAdjacentHTML('afterbegin','<a class="industry-home-link" href="#industry"><strong>Industry practice · 300 coding questions</strong><span>Realistic tasks, worked solutions, outputs and a summary for every question.</span></a>');
   const sidebarReset=document.createElement('button');sidebarReset.id='resetFilters';sidebarReset.textContent='Reset filters';$('filter').after(sidebarReset);
   const closeIndex=document.createElement('button');closeIndex.className='sidebar-close';closeIndex.textContent='Close commands';$('sidebar').prepend(closeIndex);
   const backdrop=document.createElement('button');backdrop.className='backdrop';backdrop.setAttribute('aria-label','Close command index');document.body.append(backdrop);
@@ -174,6 +175,7 @@ printf 'Practice directory: %s\\n' "$PWD"`;
     if (view === 'pipeline') renderPipeline();
     if (view === 'quiz') renderQuiz();
     if (view === 'cards') renderCards();
+    if (view === 'industry') window.UnixIndustry.render(id);
     renderList(); persist();
   }
   function stepLesson(delta) {const sequence=filteredLessons(), index=sequence.findIndex(l=>l.id===current.id);if(sequence[index+delta])navigate(sequence[index+delta].id);}

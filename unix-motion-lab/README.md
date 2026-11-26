@@ -22,6 +22,39 @@ Topics cover shell anatomy/help; navigation and files; reading text; grep/regex/
 
 This is a substantial practical course, **not an exhaustive specification of every Unix utility or every version-specific flag**. Each lesson links to the relevant manual for full option coverage. Bash and GNU/Linux are the baseline. GNU-only syntax, interactive behavior, Linux-only networking tools and common macOS/BSD differences are identified.
 
+## Industry practice: 300 coding questions
+
+Open **Industry practice** from the Unix navigation, mobile section selector, or catalog link. Direct link: `index.html#industry`. Questions use stable links from `#industry/ops-001` to `#industry/ops-300`.
+
+Each question contains a task and starting conditions, copyable setup and solution, expected or illustrative output, three detailed explanation steps covering the commands and relevant flags, a specific summary, and a documentation reference. Answers are folded initially so learners can attempt the task first. Search covers the question, commands, flags and explanations; results show 20 questions per page. Topic and completion/saved filters, previous/next navigation and browser-local progress keep the section manageable.
+
+The 15 topics each contain 20 independently scoped questions:
+
+| Topics 1–5 | Topics 6–10 | Topics 11–15 |
+|---|---|---|
+| Log analysis | Permissions and access | Services |
+| Delimited reports | Shell logic | Archives and backups |
+| Text cleanup | Reliable scripts | Data comparison |
+| File discovery | Processes | Release workflows |
+| File lifecycle | Networking | Incident triage |
+
+These are authored industry-style exercises, not questions attributed to real company interviews. Foundational tasks build toward production concerns such as failure propagation, NUL-safe filenames, restoration checks, release switching and incident evidence. The 300 questions are separate from the existing 280 lesson examples and 80 multiple-choice quizzes.
+
+**Output conventions:** 237 exercises have fixed outputs from supplied disposable fixtures. The other 63 use illustrative host or identity outputs, clearly labeled in the UI. Host responses can be abbreviated and differ by user, privileges, clock, process state and network. Shell commands are never executed by the page. Practice requires Bash on Linux with GNU tools; PowerShell does not interpret these examples. Start a new temporary directory for each fixture question. Some operational commands require procps, iproute2, systemd, DNS tools, psmisc or lsof. The examples do not constitute complete production deployment or backup procedures.
+
+Source: `assets/industry-data.js` holds the 300 question records, `assets/industry.js` handles the isolated practice UI, and `assets/industry.css` supplies its responsive layout. Progress uses the separate `unix-industry-practice-v1` browser-storage key.
+
+Validation from the repository root:
+
+```sh
+node unix-motion-lab/tests/industry.cjs
+node unix-motion-lab/tests/industry-browser.cjs
+# On Linux with Node, Bash, GNU utilities, awk and diffutils:
+python3 unix-motion-lab/tests/industry-examples.py
+```
+
+The browser test requires Playwright and a supported browser (Edge on Windows). It checks all 300 displayed solutions, outputs, explanations and summaries, plus filters, pagination, copying, persistence and mobile layout. The Linux verifier runs only the 237 fixed-output exercises, each in a fresh temporary directory, comparing stdout, stderr and status. It never runs the 63 host/identity examples or network requests. The verifier is included for Linux validation; authoring on Windows does not constitute executing these Bash examples.
+
 ## Example conventions
 
 Expand **Start here: practice files & output conventions** in Learn commands. The setup creates a fresh temporary directory, sets `LC_ALL=C`, and creates the exact files used in the examples. Each example starts independently after that setup. Commands with fixed content show expected output; dates, PIDs, usernames, filesystem allocation, network replies and interactive displays show illustrative output or excerpts.
