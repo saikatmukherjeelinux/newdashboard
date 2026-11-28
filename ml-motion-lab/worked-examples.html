@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ML Lab · Worked code examples</title><link rel="stylesheet" href="../reading.css"></head><body class="code-guide"><a class="skip" href="#main">Skip to content</a><header><a href="../index.html">Dashboard</a><a href="index.html">Return to ML Lab</a></header><main id="main"><h1>ML Lab: worked code examples</h1><p>Read the idea, run the code, compare the output, and follow each explanation. All input data is fictional.</p><section class="panel"><h2>How to run these examples</h2><p>Use Python 3. All examples use only the standard library. Copy one complete example into a .py file and run it with python filename.py. Each example starts independently; the page displays code and does not run it.</p></section><nav id="guide-index" class="panel" aria-label="Examples"><h2>Choose an example</h2><ol><li><a href="#example-1">Make a numeric prediction and inspect every contribution</a></li><li><a href="#example-2">Measure prediction error with MSE</a></li><li><a href="#example-3">Follow gradient descent for three steps</a></li><li><a href="#example-4">Calculate softmax without enormous exponentials</a></li><li><a href="#example-5">Compute a Bayes update with counts</a></li><li><a href="#example-6">Build an attention-weighted mixture</a></li><li><a href="#example-7">Standardize using training information only</a></li><li><a href="#example-8">Check a tiny classifier beyond accuracy</a></li></ol></nav><article class="guide-example panel" id="example-1"><p class="eyebrow">EXAMPLE 1 · PYTHON</p><h2>Make a numeric prediction and inspect every contribution</h2><p>A weighted sum is the same arithmetic as a shopping bill. Each feature contributes its value times its weight.</p><h3>Complete code</h3><button class="copy-code" data-code="code-1">Copy code</button><pre><code id="code-1">features = [2, 3]
+weights = [4, -1]
+contributions = [x * w for x, w in zip(features, weights)]
+bias = 1
+prediction = sum(contributions) + bias
+print(contributions)
+print(prediction)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[8, -3]
+6</code></pre><h3>Read it step by step</h3><ol><li>Each feature pairs with its corresponding weight; the assumed list lengths match.</li><li>The contributions are 2×4=8 and 3×(−1)=−3.</li><li>Their sum is 5, then the fixed bias adds 1.</li><li>zip stops at the shorter input, so production code should validate equal lengths rather than silently accept mismatches.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> A negative weight reduces a score; its meaning depends on the feature and fitted model.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-2"><p class="eyebrow">EXAMPLE 2 · PYTHON</p><h2>Measure prediction error with MSE</h2><p>Mean squared error turns a list of residuals into one nonnegative summary.</p><h3>Complete code</h3><button class="copy-code" data-code="code-2">Copy code</button><pre><code id="code-2">actual = [2, 4, 6]
+predicted = [1, 5, 6]
+errors = [p - y for p, y in zip(predicted, actual)]
+squares = [e * e for e in errors]
+print(errors)
+print(squares)
+print(f&quot;MSE={sum(squares) / len(squares):.4f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[-1, 1, 0]
+[1, 1, 0]
+MSE=0.6667</code></pre><h3>Read it step by step</h3><ol><li>Subtract actual from predicted consistently to define each residual.</li><li>Squaring prevents negative and positive residuals from canceling.</li><li>Sum the squares and divide by the number of examples.</li><li>:.4f displays four decimal places; the internal division is not rounded at that earlier step.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> MSE emphasizes larger errors and uses squared target units. It is not the only sensible loss.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-3"><p class="eyebrow">EXAMPLE 3 · PYTHON</p><h2>Follow gradient descent for three steps</h2><p>This is a one-parameter training example with a known minimum at w=3.</p><h3>Complete code</h3><button class="copy-code" data-code="code-3">Copy code</button><pre><code id="code-3">w = 0.0
+rate = 0.1
+for step in range(1, 4):
+    gradient = 2 * (w - 3)
+    w -= rate * gradient
+    loss = (w - 3) ** 2
+    print(f&quot;step={step} w={w:.4f} loss={loss:.4f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>step=1 w=0.6000 loss=5.7600
+step=2 w=1.0800 loss=3.6864
+step=3 w=1.4640 loss=2.3593</code></pre><h3>Read it step by step</h3><ol><li>The derivative of (w−3)² is 2(w−3), evaluated at the current w.</li><li>Subtract rate times gradient to move locally downhill.</li><li>Recalculate loss after the update so the printed weight and loss match.</li><li>The loss decreases here; a rate that is too large can make this same procedure diverge.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> An optimization example is not evidence that every model will find a global minimum.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-4"><p class="eyebrow">EXAMPLE 4 · PYTHON</p><h2>Calculate softmax without enormous exponentials</h2><p>Softmax turns scores into positive values summing to one. Subtracting a shared maximum leaves the probabilities unchanged.</p><h3>Complete code</h3><button class="copy-code" data-code="code-4">Copy code</button><pre><code id="code-4">from math import exp
+scores = [1000.0, 1001.0]
+largest = max(scores)
+scaled = [exp(x - largest) for x in scores]
+total = sum(scaled)
+probabilities = [x / total for x in scaled]
+print([round(p, 4) for p in probabilities])
+print(f&quot;sum={sum(probabilities):.4f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[0.2689, 0.7311]
+sum=1.0000</code></pre><h3>Read it step by step</h3><ol><li>Direct exp(1000) can overflow; shifting gives exponent arguments −1 and 0.</li><li>Exponentials are positive, then division by their sum normalizes them.</li><li>The larger score receives the larger probability.</li><li>The example rounds only the displayed list. Very tiny probabilities can still underflow in extreme cases; log-softmax is useful when log probabilities are needed.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> A numerically stable formula can be algebraically equivalent to an unstable one.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-5"><p class="eyebrow">EXAMPLE 5 · PYTHON</p><h2>Compute a Bayes update with counts</h2><p>Fictional item flags illustrate why a useful detector can still produce many false alarms.</p><h3>Complete code</h3><button class="copy-code" data-code="code-5">Copy code</button><pre><code id="code-5">faulty_and_flagged = 8
+good_and_flagged = 18
+flagged = faulty_and_flagged + good_and_flagged
+posterior = faulty_and_flagged / flagged
+print(f&quot;Flagged: {flagged}&quot;)
+print(f&quot;Faulty among flagged: {posterior:.2%}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>Flagged: 26
+Faulty among flagged: 30.77%</code></pre><h3>Read it step by step</h3><ol><li>Restrict attention to the group already known to be flagged.</li><li>Count all flags, including false alarms, to obtain the correct denominator.</li><li>Divide the faulty flags by all flags.</li><li>:.2% converts a fraction into a displayed percentage with two decimal places.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> This is the probability of a fault given a flag, not the probability of a flag given a fault.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-6"><p class="eyebrow">EXAMPLE 6 · PYTHON</p><h2>Build an attention-weighted mixture</h2><p>Attention mixes value vectors using weights. This example supplies the weights so the mixing step is easy to inspect.</p><h3>Complete code</h3><button class="copy-code" data-code="code-6">Copy code</button><pre><code id="code-6">weights = [0.25, 0.75]
+values = [[2, 0], [0, 4]]
+result = [
+    sum(weight * value[j] for weight, value in zip(weights, values))
+    for j in range(2)
+]
+print(result)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[0.5, 3.0]</code></pre><h3>Read it step by step</h3><ol><li>Each value vector has two coordinates.</li><li>For the first coordinate, calculate 0.25×2+0.75×0=0.5.</li><li>For the second, calculate 0.25×0+0.75×4=3.</li><li>A complete attention layer calculates weights from queries and keys; this snippet isolates the weighted-value calculation.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> The vector output keeps its coordinate dimension while combining information across positions.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-7"><p class="eyebrow">EXAMPLE 7 · PYTHON</p><h2>Standardize using training information only</h2><p>Preprocessing is part of the fitted procedure. Use the training mean and scale for later examples.</p><h3>Complete code</h3><button class="copy-code" data-code="code-7">Copy code</button><pre><code id="code-7">from statistics import mean, pstdev
+train = [2, 4, 6]
+center = mean(train)
+scale = pstdev(train)
+new_value = 8
+z = (new_value - center) / scale
+print(f&quot;mean={center:.1f} scale={scale:.4f}&quot;)
+print(f&quot;new z={z:.4f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>mean=4.0 scale=1.6330
+new z=2.4495</code></pre><h3>Read it step by step</h3><ol><li>mean computes the training center. pstdev uses the population denominator over the training values for this scaling convention.</li><li>The new value does not enter the fitted mean or scale.</li><li>Subtract the stored center and divide by the stored positive scale.</li><li>A constant training feature has zero scale and needs an explicit handling rule before division.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Including held-out data in fitted preprocessing can leak information into evaluation.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-8"><p class="eyebrow">EXAMPLE 8 · PYTHON</p><h2>Check a tiny classifier beyond accuracy</h2><p>Counts of true and false positives answer different questions from overall accuracy.</p><h3>Complete code</h3><button class="copy-code" data-code="code-8">Copy code</button><pre><code id="code-8">tp, fp, fn, tn = 30, 10, 20, 40
+precision = tp / (tp + fp)
+recall = tp / (tp + fn)
+accuracy = (tp + tn) / (tp + fp + fn + tn)
+print(f&quot;precision={precision:.2f}&quot;)
+print(f&quot;recall={recall:.2f}&quot;)
+print(f&quot;accuracy={accuracy:.2f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>precision=0.75
+recall=0.60
+accuracy=0.70</code></pre><h3>Read it step by step</h3><ol><li>Precision asks how many predicted positives were actually positive.</li><li>Recall asks how many actual positives were found.</li><li>Accuracy counts all correct labels over all labels.</li><li>The example denominators are nonzero; a reusable implementation needs a documented convention for undefined precision or recall.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Choose metrics that match the consequences of mistakes, not only the largest-looking score.</p><a href="#guide-index">Back to example list</a></article></main><p id="copy-status" role="status" aria-live="polite"></p><script src="../study-copy.js"></script></body></html>

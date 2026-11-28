@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DSA Lab · Worked code examples</title><link rel="stylesheet" href="../reading.css"></head><body class="code-guide"><a class="skip" href="#main">Skip to content</a><header><a href="../index.html">Dashboard</a><a href="index.html">Return to DSA Lab</a></header><main id="main"><h1>DSA Lab: worked code examples</h1><p>Read the idea, run the code, compare the output, and follow each explanation. All input data is fictional.</p><section class="panel"><h2>How to run these examples</h2><p>Use Python 3. All examples use only the standard library. Copy one complete example into a .py file and run it with python filename.py. Each example starts independently; the page displays code and does not run it.</p></section><nav id="guide-index" class="panel" aria-label="Examples"><h2>Choose an example</h2><ol><li><a href="#example-1">Linear search: inspect one item at a time</a></li><li><a href="#example-2">Binary search: halve a sorted search range</a></li><li><a href="#example-3">Use a stack to check brackets</a></li><li><a href="#example-4">Breadth-first search with a queue</a></li><li><a href="#example-5">Merge two already-sorted lists</a></li><li><a href="#example-6">Two-sum with remembered values</a></li><li><a href="#example-7">Dynamic programming: reuse earlier answers</a></li><li><a href="#example-8">Prefix sums answer range questions quickly</a></li></ol></nav><article class="guide-example panel" id="example-1"><p class="eyebrow">EXAMPLE 1 · PYTHON</p><h2>Linear search: inspect one item at a time</h2><p>Linear search works without sorted input. It returns the first matching position, or a clearly specified missing marker.</p><h3>Complete code</h3><button class="copy-code" data-code="code-1">Copy code</button><pre><code id="code-1">def find_first(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+print(find_first([8, 3, 7, 3], 3))
+print(find_first([8, 3, 7, 3], 9))</code></pre><h3>Expected output</h3><pre class="expected-output"><code>1
+-1</code></pre><h3>Read it step by step</h3><ol><li>enumerate supplies the zero-based index and its value.</li><li>The first match returns immediately, so the later 3 is not returned.</li><li>If the loop ends without a match, -1 is the chosen sentinel.</li><li>Worst-case work grows linearly with the list length: O(n) time and O(1) extra space.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Document the missing marker so callers do not accidentally use -1 as a valid Python list index.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-2"><p class="eyebrow">EXAMPLE 2 · PYTHON</p><h2>Binary search: halve a sorted search range</h2><p>Binary search needs sorted data. It compares with the middle and discards the half that cannot contain the target.</p><h3>Complete code</h3><button class="copy-code" data-code="code-2">Copy code</button><pre><code id="code-2">def binary_search(values, target):
+    low, high = 0, len(values) - 1
+    while low &lt;= high:
+        mid = (low + high) // 2
+        if values[mid] == target:
+            return mid
+        if values[mid] &lt; target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+print(binary_search([2, 4, 6, 8, 10], 8))
+print(binary_search([], 8))</code></pre><h3>Expected output</h3><pre class="expected-output"><code>3
+-1</code></pre><h3>Read it step by step</h3><ol><li>low and high bound the remaining inclusive range.</li><li>Integer division // picks a valid middle index.</li><li>The updates exclude the already-compared middle, ensuring progress.</li><li>Time is O(log n) on a sorted random-access list; sorting an unsorted input first has its own cost.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Never apply this version to an unsorted list and trust the answer.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-3"><p class="eyebrow">EXAMPLE 3 · PYTHON</p><h2>Use a stack to check brackets</h2><p>A stack remembers the most recent unmatched opening bracket. The next closing bracket must match it.</p><h3>Complete code</h3><button class="copy-code" data-code="code-3">Copy code</button><pre><code id="code-3">def balanced(text):
+    stack = []
+    matching = {&#x27;)&#x27;: &#x27;(&#x27;, &#x27;]&#x27;: &#x27;[&#x27;, &#x27;}&#x27;: &#x27;{&#x27;}
+    for char in text:
+        if char in &#x27;([{&#x27;:
+            stack.append(char)
+        elif char in matching:
+            if not stack or stack.pop() != matching[char]:
+                return False
+    return not stack
+
+print(balanced(&quot;([])&quot;))
+print(balanced(&quot;([)]&quot;))</code></pre><h3>Expected output</h3><pre class="expected-output"><code>True
+False</code></pre><h3>Read it step by step</h3><ol><li>append pushes an opening bracket onto the stack.</li><li>pop removes the most recent opener, implementing last-in-first-out order.</li><li>A closer with an empty stack or the wrong opener fails immediately.</li><li>This checks bracket characters, not a full programming-language grammar; quoted strings are not specially parsed.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> The stack structure mirrors nested matching. Time and worst-case space are O(n).</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-4"><p class="eyebrow">EXAMPLE 4 · PYTHON</p><h2>Breadth-first search with a queue</h2><p>BFS explores an unweighted graph in layers. A queue processes earlier discoveries before later ones.</p><h3>Complete code</h3><button class="copy-code" data-code="code-4">Copy code</button><pre><code id="code-4">from collections import deque
+graph = {&quot;A&quot;: [&quot;B&quot;, &quot;C&quot;], &quot;B&quot;: [&quot;D&quot;], &quot;C&quot;: [&quot;D&quot;], &quot;D&quot;: []}
+queue = deque([&quot;A&quot;])
+seen = {&quot;A&quot;}
+order = []
+while queue:
+    node = queue.popleft()
+    order.append(node)
+    for neighbor in graph[node]:
+        if neighbor not in seen:
+            seen.add(neighbor)
+            queue.append(neighbor)
+print(order)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;]</code></pre><h3>Read it step by step</h3><ol><li>deque supports removing the oldest queued item efficiently.</li><li>Mark nodes seen when they are enqueued, preventing D from being added twice.</li><li>Neighbor-list order determines the order among nodes at the same layer.</li><li>With adjacency lists, work is O(V+E) for the explored graph; memory tracks the queue and visited nodes.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> BFS finds shortest edge-count paths in unweighted graphs, not arbitrary weighted shortest paths.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-5"><p class="eyebrow">EXAMPLE 5 · PYTHON</p><h2>Merge two already-sorted lists</h2><p>Keep a pointer into each list. Repeatedly take the smaller next value, then append any remaining tail.</p><h3>Complete code</h3><button class="copy-code" data-code="code-5">Copy code</button><pre><code id="code-5">def merge(left, right):
+    result = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:
+            result.append(left[i]); i += 1
+        else:
+            result.append(right[j]); j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+print(merge([1, 4, 7], [2, 4, 8]))</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[1, 2, 4, 4, 7, 8]</code></pre><h3>Read it step by step</h3><ol><li>Each pointer identifies the next unused value.</li><li>Choosing &lt;= takes an equal value from the left first, preserving cross-list order for ties in a stable merge.</li><li>Once either list ends, its partner’s remaining values are already ordered.</li><li>Time is O(n+m); the returned list uses O(n+m) space.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> This merges sorted inputs; it does not sort arbitrary unsorted inputs.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-6"><p class="eyebrow">EXAMPLE 6 · PYTHON</p><h2>Two-sum with remembered values</h2><p>Remember earlier values so that each new value can ask whether its complement has appeared.</p><h3>Complete code</h3><button class="copy-code" data-code="code-6">Copy code</button><pre><code id="code-6">def two_sum(values, target):
+    seen = {}
+    for index, value in enumerate(values):
+        other = target - value
+        if other in seen:
+            return (seen[other], index)
+        seen[value] = index
+    return None
+
+print(two_sum([2, 7, 11, 15], 9))
+print(two_sum([3, 3], 6))</code></pre><h3>Expected output</h3><pre class="expected-output"><code>(0, 1)
+(0, 1)</code></pre><h3>Read it step by step</h3><ol><li>For value 7 and target 9, the complement is 2.</li><li>Check before inserting the current item, so it cannot pair with itself.</li><li>Repeated values can still form a valid pair at different indices.</li><li>Expected time is O(n) with ordinary hash-table behavior; extra storage is O(n).</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Return indices or values deliberately: callers need to know which interpretation they receive.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-7"><p class="eyebrow">EXAMPLE 7 · PYTHON</p><h2>Dynamic programming: reuse earlier answers</h2><p>The number of ways to climb n steps using steps of size 1 or 2 can be built from the two smaller answers.</p><h3>Complete code</h3><button class="copy-code" data-code="code-7">Copy code</button><pre><code id="code-7">def ways(n):
+    if n &lt; 0:
+        raise ValueError(&quot;n must be nonnegative&quot;)
+    previous, current = 1, 1
+    for _ in range(2, n + 1):
+        previous, current = current, previous + current
+    return current
+
+print(ways(4))
+print(ways(0))</code></pre><h3>Expected output</h3><pre class="expected-output"><code>5
+1</code></pre><h3>Read it step by step</h3><ol><li>The final move is either one step from n−1 or two steps from n−2.</li><li>The base case n=0 counts one empty sequence; n=1 has one way.</li><li>Only the previous two counts are needed, so the code stores two integers.</li><li>There are O(n) updates and O(1) stored integer objects; integer bit sizes grow with n.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> A recurrence plus base cases makes repeated subproblems explicit.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-8"><p class="eyebrow">EXAMPLE 8 · PYTHON</p><h2>Prefix sums answer range questions quickly</h2><p>Precompute totals before each position. A range total is the difference between two prefix totals.</p><h3>Complete code</h3><button class="copy-code" data-code="code-8">Copy code</button><pre><code id="code-8">values = [3, 1, 4, 2]
+prefix = [0]
+for value in values:
+    prefix.append(prefix[-1] + value)
+
+def range_sum(start, stop):
+    return prefix[stop] - prefix[start]
+
+print(prefix)
+print(range_sum(1, 3))</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[0, 3, 4, 8, 10]
+5</code></pre><h3>Read it step by step</h3><ol><li>prefix[k] holds the sum of values before index k.</li><li>The query uses a half-open range: start is included and stop is excluded.</li><li>For [1,3), subtract prefix[1]=3 from prefix[3]=8 to obtain 1+4=5.</li><li>Building costs O(n) time and storage; each valid query costs O(1).</li></ol><p class="guide-takeaway"><strong>Remember:</strong> If the underlying values change, this stored prefix array must be updated or rebuilt.</p><a href="#guide-index">Back to example list</a></article></main><p id="copy-status" role="status" aria-live="polite"></p><script src="../study-copy.js"></script></body></html>

@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Statistics Lab · Worked code examples</title><link rel="stylesheet" href="../reading.css"></head><body class="code-guide"><a class="skip" href="#main">Skip to content</a><header><a href="../index.html">Dashboard</a><a href="index.html">Return to Statistics Lab</a></header><main id="main"><h1>Statistics Lab: worked code examples</h1><p>Read the idea, run the code, compare the output, and follow each explanation. All input data is fictional.</p><section class="panel"><h2>How to run these examples</h2><p>Use Python 3. All examples use only the standard library. Copy one complete example into a .py file and run it with python filename.py. Each example starts independently; the page displays code and does not run it.</p></section><nav id="guide-index" class="panel" aria-label="Examples"><h2>Choose an example</h2><ol><li><a href="#example-1">Mean, median and two variance conventions</a></li><li><a href="#example-2">Build a frequency table with percentages</a></li><li><a href="#example-3">Weighted averages for unequal groups</a></li><li><a href="#example-4">Compute an exact binomial probability</a></li><li><a href="#example-5">Show the working in a normal-approximation interval</a></li><li><a href="#example-6">Analyze paired changes rather than unrelated groups</a></li><li><a href="#example-7">Fit a small least-squares line</a></li><li><a href="#example-8">Enumerate all bootstrap resamples of a tiny sample</a></li></ol></nav><article class="guide-example panel" id="example-1"><p class="eyebrow">EXAMPLE 1 · PYTHON</p><h2>Mean, median and two variance conventions</h2><p>The standard library can calculate common summaries, but you still need to choose the correct interpretation.</p><h3>Complete code</h3><button class="copy-code" data-code="code-1">Copy code</button><pre><code id="code-1">from statistics import mean, median, pvariance, variance
+values = [2, 4, 6, 8]
+print(f&quot;mean={mean(values):.1f}&quot;)
+print(f&quot;median={median(values):.1f}&quot;)
+print(f&quot;population variance={pvariance(values):.4f}&quot;)
+print(f&quot;sample variance={variance(values):.4f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>mean=5.0
+median=5.0
+population variance=5.0000
+sample variance=6.6667</code></pre><h3>Read it step by step</h3><ol><li>The mean is 20/4=5. The median averages the middle pair 4 and 6.</li><li>Squared distances from 5 are 9,1,1,9; their sum is 20.</li><li>pvariance divides by 4, treating this list as the described population.</li><li>variance divides by 3 for the usual sample-variance estimator. It requires at least two values.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Different denominator conventions answer different questions; neither should be chosen to manipulate a result.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-2"><p class="eyebrow">EXAMPLE 2 · PYTHON</p><h2>Build a frequency table with percentages</h2><p>Count labels first, then divide by the explicitly defined sample size.</p><h3>Complete code</h3><button class="copy-code" data-code="code-2">Copy code</button><pre><code id="code-2">from collections import Counter
+answers = [&quot;yes&quot;, &quot;no&quot;, &quot;yes&quot;, &quot;yes&quot;, &quot;no&quot;]
+counts = Counter(answers)
+for label in sorted(counts):
+    count = counts[label]
+    print(f&quot;{label}: {count} ({count / len(answers):.0%})&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>no: 2 (40%)
+yes: 3 (60%)</code></pre><h3>Read it step by step</h3><ol><li>Counter counts each occurrence of each label.</li><li>The denominator is all five answers in this example.</li><li>Sorting gives a predictable output order for comparison with the expected output.</li><li>Missing or multiple-response answers would require an explicit denominator policy.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> A percentage is meaningful only after its whole has been defined.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-3"><p class="eyebrow">EXAMPLE 3 · PYTHON</p><h2>Weighted averages for unequal groups</h2><p>Combining group averages requires group sizes when the target is the overall observation-level mean.</p><h3>Complete code</h3><button class="copy-code" data-code="code-3">Copy code</button><pre><code id="code-3">group_means = [10, 20]
+group_sizes = [2, 8]
+total = sum(m * n for m, n in zip(group_means, group_sizes))
+combined = total / sum(group_sizes)
+print(f&quot;combined mean={combined:.1f}&quot;)
+print(f&quot;unweighted group mean={sum(group_means) / 2:.1f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>combined mean=18.0
+unweighted group mean=15.0</code></pre><h3>Read it step by step</h3><ol><li>A group’s mean times its size recovers its total.</li><li>Combine totals 20 and 160, then divide by the 10 observations.</li><li>The unweighted mean gives each group equal influence, despite different sizes.</li><li>Both calculations can have a purpose, but they answer different questions.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Weight by observation count only when an individual-level combined mean is the target.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-4"><p class="eyebrow">EXAMPLE 4 · PYTHON</p><h2>Compute an exact binomial probability</h2><p>This calculates one count probability directly for a small independent-trial model.</p><h3>Complete code</h3><button class="copy-code" data-code="code-4">Copy code</button><pre><code id="code-4">from math import comb
+n, k, p = 3, 2, 0.5
+probability = comb(n, k) * p ** k * (1 - p) ** (n - k)
+print(f&quot;arrangements={comb(n, k)}&quot;)
+print(f&quot;probability={probability:.3f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>arrangements=3
+probability=0.375</code></pre><h3>Read it step by step</h3><ol><li>comb(3,2) counts which two trial positions are successes.</li><li>p**k is the contribution from successes and (1-p)**(n-k) from failures.</li><li>The combination factor includes all three successful arrangements.</li><li>The model assumes fixed n, independent trials and the same p in each trial.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> The formula gives a model probability, not a guarantee about a particular sample.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-5"><p class="eyebrow">EXAMPLE 5 · PYTHON</p><h2>Show the working in a normal-approximation interval</h2><p>This example uses an explicitly supplied standard error and normal critical multiplier. It is not a universal small-sample recipe.</p><h3>Complete code</h3><button class="copy-code" data-code="code-5">Copy code</button><pre><code id="code-5">estimate = 50.0
+standard_error = 2.0
+critical_value = 1.96
+margin = critical_value * standard_error
+print(f&quot;margin={margin:.2f}&quot;)
+print(f&quot;interval=[{estimate - margin:.2f}, {estimate + margin:.2f}]&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>margin=3.92
+interval=[46.08, 53.92]</code></pre><h3>Read it step by step</h3><ol><li>A standard error describes uncertainty in the estimate, not spread of individual observations.</li><li>Multiply by the critical value to obtain the margin.</li><li>Subtract and add the margin to build the interval.</li><li>Normal approximation and standard-error validity need justification; a t or design-based method may be appropriate instead.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> The confidence interpretation belongs to the interval procedure and its assumptions.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-6"><p class="eyebrow">EXAMPLE 6 · PYTHON</p><h2>Analyze paired changes rather than unrelated groups</h2><p>Before and after values must remain matched to the same units.</p><h3>Complete code</h3><button class="copy-code" data-code="code-6">Copy code</button><pre><code id="code-6">from statistics import mean, stdev
+from math import sqrt
+before = [5, 7, 9, 10]
+after = [6, 9, 12, 14]
+differences = [b - a for a, b in zip(before, after)]
+average = mean(differences)
+se = stdev(differences) / sqrt(len(differences))
+print(differences)
+print(f&quot;mean change={average:.4f}&quot;)
+print(f&quot;SE={se:.4f}&quot;)
+print(f&quot;t={average / se:.4f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>[1, 2, 3, 4]
+mean change=2.5000
+SE=0.6455
+t=3.8730</code></pre><h3>Read it step by step</h3><ol><li>Subtract before from after for each matched unit, yielding the differences.</li><li>Calculate the mean and sample SD of differences, not two unrelated outcome SDs.</li><li>Divide that SD by √number of pairs to get the SE under the independence assumptions.</li><li>The statistic needs an appropriate t reference with 3 degrees of freedom for a p-value; this snippet stops at the statistic.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> A paired analysis depends on valid matching and appropriate assumptions about the differences.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-7"><p class="eyebrow">EXAMPLE 7 · PYTHON</p><h2>Fit a small least-squares line</h2><p>This hand-written calculation exposes the arithmetic of simple regression without an external package.</p><h3>Complete code</h3><button class="copy-code" data-code="code-7">Copy code</button><pre><code id="code-7">from statistics import mean
+x, y = [1, 2, 3], [2, 4, 5]
+mx, my = mean(x), mean(y)
+numerator = sum((a - mx) * (b - my) for a, b in zip(x, y))
+denominator = sum((a - mx) ** 2 for a in x)
+slope = numerator / denominator
+intercept = my - slope * mx
+print(f&quot;slope={slope:.4f}&quot;)
+print(f&quot;intercept={intercept:.4f}&quot;)
+print(f&quot;prediction at 4={intercept + slope * 4:.4f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>slope=1.5000
+intercept=0.6667
+prediction at 4=6.6667</code></pre><h3>Read it step by step</h3><ol><li>Center x and y around their own means.</li><li>The slope is their centered cross-product sum divided by the centered x squared sum.</li><li>Choose the intercept so the line passes through the two means.</li><li>Prediction at 4 is beyond the observed x range 1–3, so it is an extrapolation that needs caution.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> If every x were equal, the denominator would be zero and this slope would not be identifiable.</p><a href="#guide-index">Back to example list</a></article><article class="guide-example panel" id="example-8"><p class="eyebrow">EXAMPLE 8 · PYTHON</p><h2>Enumerate all bootstrap resamples of a tiny sample</h2><p>For three observations there are only 3³=27 ordered same-size bootstrap samples, so exact enumeration is practical as a demonstration.</p><h3>Complete code</h3><button class="copy-code" data-code="code-8">Copy code</button><pre><code id="code-8">from itertools import product
+from statistics import mean
+values = [2, 4, 6]
+bootstrap_means = [mean(sample) for sample in product(values, repeat=3)]
+print(f&quot;resamples={len(bootstrap_means)}&quot;)
+print(f&quot;average of means={mean(bootstrap_means):.1f}&quot;)
+print(f&quot;range={min(bootstrap_means):.1f} to {max(bootstrap_means):.1f}&quot;)</code></pre><h3>Expected output</h3><pre class="expected-output"><code>resamples=27
+average of means=4.0
+range=2.0 to 6.0</code></pre><h3>Read it step by step</h3><ol><li>product with repeat=3 lists ordered draws with replacement, including repetitions such as (2,2,6).</li><li>Each ordered resample has equal probability under this empirical sampling model.</li><li>Compute a mean for every resample to examine a bootstrap distribution.</li><li>The full minimum-to-maximum range is not a 95% confidence interval. Enumeration grows exponentially and is only for this tiny example.</li></ol><p class="guide-takeaway"><strong>Remember:</strong> Resampling reuses observed information; it does not create 27 new independent real-world studies.</p><a href="#guide-index">Back to example list</a></article></main><p id="copy-status" role="status" aria-live="polite"></p><script src="../study-copy.js"></script></body></html>

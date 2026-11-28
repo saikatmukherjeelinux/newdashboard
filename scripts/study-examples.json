@@ -1,0 +1,572 @@
+{
+  "python-motion-lab": [
+    {
+      "title": "Names, values and a small bill",
+      "idea": "A variable gives a name to a value. Keeping quantities separate makes a calculation easier to read and change.",
+      "code": "price = 12\nquantity = 3\ntotal = price * quantity\nprint(f\"Total: {total}\")",
+      "output": "Total: 36\n",
+      "steps": [
+        "price and quantity store integers. Their names explain what the numbers mean.",
+        "The * operator multiplies; the result is stored in total.",
+        "The f-string inserts total inside the displayed text. print ends the line with a newline.",
+        "Change quantity to 4 and reason that the output becomes Total: 48 before running it."
+      ],
+      "lesson": "A variable is a name for a value, not a promise that the value can never change.",
+      "language": "python"
+    },
+    {
+      "title": "Convert text before arithmetic",
+      "idea": "User input and file fields often arrive as strings. Convert them when the operation requires numbers.",
+      "code": "text = \"15\"\nnumber = int(text)\nprint(text + \"5\")\nprint(number + 5)",
+      "output": "155\n20\n",
+      "steps": [
+        "The quotation marks create text. Adding two strings joins their characters.",
+        "int(text) parses an integer from the text; it can raise ValueError for invalid input.",
+        "The first print joins \"15\" and \"5\". The second adds the numbers 15 and 5.",
+        "If text were \"fifteen\", conversion would fail rather than guess a number."
+      ],
+      "lesson": "The same + symbol has different behavior for strings and numbers.",
+      "language": "python"
+    },
+    {
+      "title": "Filter a list with a loop",
+      "idea": "A loop repeats a small action for each item. An if statement chooses when that action should happen.",
+      "code": "values = [2, 7, 4, 9]\nkept = []\nfor value in values:\n    if value >= 5:\n        kept.append(value)\nprint(kept)",
+      "output": "[7, 9]\n",
+      "steps": [
+        "Start with an empty result list. Each iteration gives value the next number.",
+        "The >= test is true only for 7 and 9.",
+        "append adds one accepted item to the end. Input order is preserved.",
+        "A list comprehension [v for v in values if v >= 5] expresses the same selection more compactly."
+      ],
+      "lesson": "Use the longer loop until the condition and update are clear.",
+      "language": "python"
+    },
+    {
+      "title": "Write a function with a clear return value",
+      "idea": "A function packages a reusable rule. Returning an answer is different from displaying it.",
+      "code": "def bill(count, price=10):\n    return count * price\n\nfirst = bill(3)\nsecond = bill(2, price=7)\nprint(first)\nprint(second)",
+      "output": "30\n14\n",
+      "steps": [
+        "def defines a function; its body runs when the function is called.",
+        "price=10 supplies a default only when no price argument is provided.",
+        "return sends a value back to the caller. Here the caller stores it in a name.",
+        "The two print calls display the results; the function itself does not print."
+      ],
+      "lesson": "Separate calculation from display so a function can be reused in other contexts.",
+      "language": "python"
+    },
+    {
+      "title": "Count items with a dictionary",
+      "idea": "A dictionary associates keys with values. It can keep a running count for each label.",
+      "code": "labels = [\"red\", \"blue\", \"red\", \"green\", \"blue\", \"red\"]\ncounts = {}\nfor label in labels:\n    counts[label] = counts.get(label, 0) + 1\nfor label in sorted(counts):\n    print(label, counts[label])",
+      "output": "blue 2\ngreen 1\nred 3\n",
+      "steps": [
+        "The label is the key and its count is the value.",
+        "get(label, 0) returns an existing count or zero for a new label.",
+        "Adding one and assigning it updates the count for that occurrence.",
+        "sorted(counts) sorts keys for predictable display; it does not change the stored counts."
+      ],
+      "lesson": "Dictionaries are useful when you need a value associated with each distinct key.",
+      "language": "python"
+    },
+    {
+      "title": "Understand a list copy",
+      "idea": "Two names can refer to the same mutable list. A shallow copy creates a new outer list, but does not recursively copy nested objects.",
+      "code": "original = [1, 2]\nalias = original\nseparate = original.copy()\nalias.append(3)\nprint(original)\nprint(separate)",
+      "output": "[1, 2, 3]\n[1, 2]\n",
+      "steps": [
+        "alias = original does not create a list. Both names point to the same object.",
+        "copy creates a new outer list containing the same entries.",
+        "Appending through alias therefore changes original, but not separate.",
+        "For nested lists, a shallow copy still shares the nested objects; consider the intended ownership before copying."
+      ],
+      "lesson": "Assignment and copying are different operations.",
+      "language": "python"
+    },
+    {
+      "title": "Handle a specific conversion failure",
+      "idea": "An exception lets code report that an operation could not finish normally. Catch the failure you can actually handle.",
+      "code": "items = [\"3\", \"bad\", \"5\"]\ntotal = 0\nfor item in items:\n    try:\n        total += int(item)\n    except ValueError:\n        print(f\"Skipped: {item}\")\nprint(f\"Total: {total}\")",
+      "output": "Skipped: bad\nTotal: 8\n",
+      "steps": [
+        "int succeeds for \"3\" and \"5\", adding them to total.",
+        "It raises ValueError for \"bad\". Control moves to the matching except block.",
+        "The message records the skipped input rather than silently losing it.",
+        "The loop continues, but in some applications rejecting the entire input would be more appropriate."
+      ],
+      "lesson": "Choose error handling according to the task instead of catching every exception blindly.",
+      "language": "python"
+    },
+    {
+      "title": "Generate values one at a time",
+      "idea": "A generator yields a sequence without constructing the entire result list in advance.",
+      "code": "def squares(limit):\n    for number in range(limit):\n        yield number * number\n\nstream = squares(4)\nprint(next(stream))\nprint(list(stream))",
+      "output": "0\n[1, 4, 9]\n",
+      "steps": [
+        "Calling squares creates a generator; it does not immediately run every loop iteration.",
+        "next requests the first yielded value, 0.",
+        "list consumes the remaining values, not the already-consumed first value.",
+        "Once exhausted, a generator does not restart; call squares again to create a new one."
+      ],
+      "lesson": "A generator is a stateful stream, so consuming it changes what remains.",
+      "language": "python"
+    }
+  ],
+  "dsa-motion-lab": [
+    {
+      "title": "Linear search: inspect one item at a time",
+      "idea": "Linear search works without sorted input. It returns the first matching position, or a clearly specified missing marker.",
+      "code": "def find_first(values, target):\n    for index, value in enumerate(values):\n        if value == target:\n            return index\n    return -1\n\nprint(find_first([8, 3, 7, 3], 3))\nprint(find_first([8, 3, 7, 3], 9))",
+      "output": "1\n-1\n",
+      "steps": [
+        "enumerate supplies the zero-based index and its value.",
+        "The first match returns immediately, so the later 3 is not returned.",
+        "If the loop ends without a match, -1 is the chosen sentinel.",
+        "Worst-case work grows linearly with the list length: O(n) time and O(1) extra space."
+      ],
+      "lesson": "Document the missing marker so callers do not accidentally use -1 as a valid Python list index.",
+      "language": "python"
+    },
+    {
+      "title": "Binary search: halve a sorted search range",
+      "idea": "Binary search needs sorted data. It compares with the middle and discards the half that cannot contain the target.",
+      "code": "def binary_search(values, target):\n    low, high = 0, len(values) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if values[mid] == target:\n            return mid\n        if values[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n\nprint(binary_search([2, 4, 6, 8, 10], 8))\nprint(binary_search([], 8))",
+      "output": "3\n-1\n",
+      "steps": [
+        "low and high bound the remaining inclusive range.",
+        "Integer division // picks a valid middle index.",
+        "The updates exclude the already-compared middle, ensuring progress.",
+        "Time is O(log n) on a sorted random-access list; sorting an unsorted input first has its own cost."
+      ],
+      "lesson": "Never apply this version to an unsorted list and trust the answer.",
+      "language": "python"
+    },
+    {
+      "title": "Use a stack to check brackets",
+      "idea": "A stack remembers the most recent unmatched opening bracket. The next closing bracket must match it.",
+      "code": "def balanced(text):\n    stack = []\n    matching = {')': '(', ']': '[', '}': '{'}\n    for char in text:\n        if char in '([{':\n            stack.append(char)\n        elif char in matching:\n            if not stack or stack.pop() != matching[char]:\n                return False\n    return not stack\n\nprint(balanced(\"([])\"))\nprint(balanced(\"([)]\"))",
+      "output": "True\nFalse\n",
+      "steps": [
+        "append pushes an opening bracket onto the stack.",
+        "pop removes the most recent opener, implementing last-in-first-out order.",
+        "A closer with an empty stack or the wrong opener fails immediately.",
+        "This checks bracket characters, not a full programming-language grammar; quoted strings are not specially parsed."
+      ],
+      "lesson": "The stack structure mirrors nested matching. Time and worst-case space are O(n).",
+      "language": "python"
+    },
+    {
+      "title": "Breadth-first search with a queue",
+      "idea": "BFS explores an unweighted graph in layers. A queue processes earlier discoveries before later ones.",
+      "code": "from collections import deque\ngraph = {\"A\": [\"B\", \"C\"], \"B\": [\"D\"], \"C\": [\"D\"], \"D\": []}\nqueue = deque([\"A\"])\nseen = {\"A\"}\norder = []\nwhile queue:\n    node = queue.popleft()\n    order.append(node)\n    for neighbor in graph[node]:\n        if neighbor not in seen:\n            seen.add(neighbor)\n            queue.append(neighbor)\nprint(order)",
+      "output": "['A', 'B', 'C', 'D']\n",
+      "steps": [
+        "deque supports removing the oldest queued item efficiently.",
+        "Mark nodes seen when they are enqueued, preventing D from being added twice.",
+        "Neighbor-list order determines the order among nodes at the same layer.",
+        "With adjacency lists, work is O(V+E) for the explored graph; memory tracks the queue and visited nodes."
+      ],
+      "lesson": "BFS finds shortest edge-count paths in unweighted graphs, not arbitrary weighted shortest paths.",
+      "language": "python"
+    },
+    {
+      "title": "Merge two already-sorted lists",
+      "idea": "Keep a pointer into each list. Repeatedly take the smaller next value, then append any remaining tail.",
+      "code": "def merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i]); i += 1\n        else:\n            result.append(right[j]); j += 1\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result\n\nprint(merge([1, 4, 7], [2, 4, 8]))",
+      "output": "[1, 2, 4, 4, 7, 8]\n",
+      "steps": [
+        "Each pointer identifies the next unused value.",
+        "Choosing <= takes an equal value from the left first, preserving cross-list order for ties in a stable merge.",
+        "Once either list ends, its partner’s remaining values are already ordered.",
+        "Time is O(n+m); the returned list uses O(n+m) space."
+      ],
+      "lesson": "This merges sorted inputs; it does not sort arbitrary unsorted inputs.",
+      "language": "python"
+    },
+    {
+      "title": "Two-sum with remembered values",
+      "idea": "Remember earlier values so that each new value can ask whether its complement has appeared.",
+      "code": "def two_sum(values, target):\n    seen = {}\n    for index, value in enumerate(values):\n        other = target - value\n        if other in seen:\n            return (seen[other], index)\n        seen[value] = index\n    return None\n\nprint(two_sum([2, 7, 11, 15], 9))\nprint(two_sum([3, 3], 6))",
+      "output": "(0, 1)\n(0, 1)\n",
+      "steps": [
+        "For value 7 and target 9, the complement is 2.",
+        "Check before inserting the current item, so it cannot pair with itself.",
+        "Repeated values can still form a valid pair at different indices.",
+        "Expected time is O(n) with ordinary hash-table behavior; extra storage is O(n)."
+      ],
+      "lesson": "Return indices or values deliberately: callers need to know which interpretation they receive.",
+      "language": "python"
+    },
+    {
+      "title": "Dynamic programming: reuse earlier answers",
+      "idea": "The number of ways to climb n steps using steps of size 1 or 2 can be built from the two smaller answers.",
+      "code": "def ways(n):\n    if n < 0:\n        raise ValueError(\"n must be nonnegative\")\n    previous, current = 1, 1\n    for _ in range(2, n + 1):\n        previous, current = current, previous + current\n    return current\n\nprint(ways(4))\nprint(ways(0))",
+      "output": "5\n1\n",
+      "steps": [
+        "The final move is either one step from n−1 or two steps from n−2.",
+        "The base case n=0 counts one empty sequence; n=1 has one way.",
+        "Only the previous two counts are needed, so the code stores two integers.",
+        "There are O(n) updates and O(1) stored integer objects; integer bit sizes grow with n."
+      ],
+      "lesson": "A recurrence plus base cases makes repeated subproblems explicit.",
+      "language": "python"
+    },
+    {
+      "title": "Prefix sums answer range questions quickly",
+      "idea": "Precompute totals before each position. A range total is the difference between two prefix totals.",
+      "code": "values = [3, 1, 4, 2]\nprefix = [0]\nfor value in values:\n    prefix.append(prefix[-1] + value)\n\ndef range_sum(start, stop):\n    return prefix[stop] - prefix[start]\n\nprint(prefix)\nprint(range_sum(1, 3))",
+      "output": "[0, 3, 4, 8, 10]\n5\n",
+      "steps": [
+        "prefix[k] holds the sum of values before index k.",
+        "The query uses a half-open range: start is included and stop is excluded.",
+        "For [1,3), subtract prefix[1]=3 from prefix[3]=8 to obtain 1+4=5.",
+        "Building costs O(n) time and storage; each valid query costs O(1)."
+      ],
+      "lesson": "If the underlying values change, this stored prefix array must be updated or rebuilt.",
+      "language": "python"
+    }
+  ],
+  "unix-motion-lab": [
+    {
+      "title": "Print predictable lines with printf",
+      "idea": "Use a fixed set of fictional names as input. These examples target Bash with GNU/Linux utilities; they do not execute in the web page.",
+      "code": "printf '%s\\n' 'Ada' 'Ben' 'Cara' ",
+      "output": "Ada\nBen\nCara\n",
+      "steps": [
+        "printf is a shell command that formats arguments.",
+        "%s means print the next argument as text. The format’s \\n means end the line.",
+        "The format is reused for each remaining argument, producing one line per name.",
+        "Single quotes preserve text literally. This command has a format argument, not a dash-prefixed option."
+      ],
+      "lesson": "Prefer printf for predictable formatting; echo handling of escapes varies across environments.",
+      "language": "bash"
+    },
+    {
+      "title": "Find matching lines and show their positions",
+      "idea": "A pipe sends one command’s output to the next command’s input. grep selects lines matching a pattern.",
+      "code": "printf '%s\\n' 'INFO ready' 'ERROR disk' 'ERROR network' | grep -n 'ERROR' ",
+      "output": "2:ERROR disk\n3:ERROR network\n",
+      "steps": [
+        "printf supplies three lines to the pipe.",
+        "grep reads those lines from standard input.",
+        "-n prefixes each match with its original line number, starting at 1.",
+        "The pattern ERROR matches these uppercase strings; this example does not use -i for case-insensitive matching."
+      ],
+      "lesson": "Line numbers refer to the input stream. grep normally returns status 1 when no line matches; that is not the same as a tool error.",
+      "language": "bash"
+    },
+    {
+      "title": "Count repeated labels after sorting",
+      "idea": "uniq combines adjacent identical lines. Sorting first makes all identical labels adjacent.",
+      "code": "export LC_ALL=C\nprintf '%s\\n' 'red' 'blue' 'red' 'blue' 'red' | sort | uniq -c | awk '{print $1, $2}' ",
+      "output": "2 blue\n3 red\n",
+      "steps": [
+        "LC_ALL=C requests a consistent byte-oriented sorting locale for this example.",
+        "sort orders the lines; it does not count them.",
+        "uniq -c adds an occurrence count. The -c option means count.",
+        "awk prints its first and second whitespace-separated fields with one space, removing uniq’s padding from the displayed output."
+      ],
+      "lesson": "uniq alone only notices adjacent duplicates, so input ordering matters.",
+      "language": "bash"
+    },
+    {
+      "title": "Sort numbers as numbers",
+      "idea": "Text sorting and numerical sorting answer different questions. Specify the intended interpretation.",
+      "code": "printf '%s\\n' 10 2 30 | sort -n ",
+      "output": "2\n10\n30\n",
+      "steps": [
+        "The input lines contain decimal integer text.",
+        "sort -n compares numerical values instead of ordinary text order.",
+        "Without numerical comparison, text beginning with 1 may come before text beginning with 2.",
+        "Add -r together with -n if you deliberately want largest first; this example keeps ascending order."
+      ],
+      "lesson": "GNU sort -n and -g have different numeric parsing rules. Use -g when you specifically need its general numeric format behavior.",
+      "language": "bash"
+    },
+    {
+      "title": "Filter rows with awk and calculate a total",
+      "idea": "The fictional input has two whitespace-separated fields: a product name and a quantity.",
+      "code": "printf '%s\\n' 'pen 3' 'book 5' 'bag 2' | awk '$2 >= 3 {total += $2; print $1} END {print \"total\", total}' ",
+      "output": "pen\nbook\ntotal 8\n",
+      "steps": [
+        "$2 names the second field. The condition $2 >= 3 selects the first two rows.",
+        "Inside braces, total += $2 accumulates selected quantities and print $1 displays the product.",
+        "END runs once after all input lines and prints the accumulated total.",
+        "The single-quoted program is an awk argument, not a shell variable expression. There are no command flags in this example."
+      ],
+      "lesson": "The field format is part of the example. This is not a general CSV parser with quoted commas or embedded newlines.",
+      "language": "bash"
+    },
+    {
+      "title": "Replace text using sed",
+      "idea": "sed can transform a stream without changing any existing file. This example replaces a word on every line.",
+      "code": "printf '%s\\n' 'red red' 'blue red' | sed 's/red/green/g' ",
+      "output": "green green\nblue green\n",
+      "steps": [
+        "s introduces substitution; the slashes separate pattern, replacement and modifiers.",
+        "red is the pattern and green is the replacement.",
+        "The final g replaces every match on each line. Without it, only the first match on each line is replaced.",
+        "No -i option is used: the transformed text goes to standard output, not back into a file."
+      ],
+      "lesson": "sed patterns are regular expressions. Special characters need appropriate escaping when you intend literal matching.",
+      "language": "bash"
+    },
+    {
+      "title": "Select a delimited field with cut",
+      "idea": "cut extracts positions or fields from simple delimited text.",
+      "code": "printf '%s\\n' 'Ada:10' 'Ben:20' | cut -d ':' -f 2 ",
+      "output": "10\n20\n",
+      "steps": [
+        "-d chooses the delimiter, here a colon.",
+        "-f 2 selects the second field on each input line.",
+        "Single quotes make the colon an explicit literal argument.",
+        "The names are omitted and the quantity field is printed on its own line."
+      ],
+      "lesson": "For real CSV with quoting rules, use a CSV-aware parser rather than assuming cut handles every case.",
+      "language": "bash"
+    },
+    {
+      "title": "Count a filtered result and inspect exit status",
+      "idea": "Commands communicate through both printed output and an exit status. They are different channels of information.",
+      "code": "printf '%s\\n' 'INFO ready' 'ERROR disk' 'ERROR network' | grep -c 'ERROR'\nprintf '%s\\n' 'INFO ready' | grep -q 'ERROR'\nstatus=$?\nprintf 'status=%s\\n' \"$status\" ",
+      "output": "2\nstatus=1\n",
+      "steps": [
+        "grep -c prints the number of matching lines, here 2; it counts lines, not occurrences within each line.",
+        "grep -q runs quietly and prints no matches.",
+        "$? immediately after that pipeline is the status of its last command under this ordinary Bash pipeline configuration. Save it before another command changes it.",
+        "Status 1 means no match for grep. The quoted \"$status\" passes one argument to printf."
+      ],
+      "lesson": "These commands are for an ordinary interactive Bash session without set -e; automatic exit-on-failure scripts need deliberate handling of no-match results.",
+      "language": "bash"
+    }
+  ],
+  "ml-motion-lab": [
+    {
+      "title": "Make a numeric prediction and inspect every contribution",
+      "idea": "A weighted sum is the same arithmetic as a shopping bill. Each feature contributes its value times its weight.",
+      "code": "features = [2, 3]\nweights = [4, -1]\ncontributions = [x * w for x, w in zip(features, weights)]\nbias = 1\nprediction = sum(contributions) + bias\nprint(contributions)\nprint(prediction)",
+      "output": "[8, -3]\n6\n",
+      "steps": [
+        "Each feature pairs with its corresponding weight; the assumed list lengths match.",
+        "The contributions are 2×4=8 and 3×(−1)=−3.",
+        "Their sum is 5, then the fixed bias adds 1.",
+        "zip stops at the shorter input, so production code should validate equal lengths rather than silently accept mismatches."
+      ],
+      "lesson": "A negative weight reduces a score; its meaning depends on the feature and fitted model.",
+      "language": "python"
+    },
+    {
+      "title": "Measure prediction error with MSE",
+      "idea": "Mean squared error turns a list of residuals into one nonnegative summary.",
+      "code": "actual = [2, 4, 6]\npredicted = [1, 5, 6]\nerrors = [p - y for p, y in zip(predicted, actual)]\nsquares = [e * e for e in errors]\nprint(errors)\nprint(squares)\nprint(f\"MSE={sum(squares) / len(squares):.4f}\")",
+      "output": "[-1, 1, 0]\n[1, 1, 0]\nMSE=0.6667\n",
+      "steps": [
+        "Subtract actual from predicted consistently to define each residual.",
+        "Squaring prevents negative and positive residuals from canceling.",
+        "Sum the squares and divide by the number of examples.",
+        ":.4f displays four decimal places; the internal division is not rounded at that earlier step."
+      ],
+      "lesson": "MSE emphasizes larger errors and uses squared target units. It is not the only sensible loss.",
+      "language": "python"
+    },
+    {
+      "title": "Follow gradient descent for three steps",
+      "idea": "This is a one-parameter training example with a known minimum at w=3.",
+      "code": "w = 0.0\nrate = 0.1\nfor step in range(1, 4):\n    gradient = 2 * (w - 3)\n    w -= rate * gradient\n    loss = (w - 3) ** 2\n    print(f\"step={step} w={w:.4f} loss={loss:.4f}\")",
+      "output": "step=1 w=0.6000 loss=5.7600\nstep=2 w=1.0800 loss=3.6864\nstep=3 w=1.4640 loss=2.3593\n",
+      "steps": [
+        "The derivative of (w−3)² is 2(w−3), evaluated at the current w.",
+        "Subtract rate times gradient to move locally downhill.",
+        "Recalculate loss after the update so the printed weight and loss match.",
+        "The loss decreases here; a rate that is too large can make this same procedure diverge."
+      ],
+      "lesson": "An optimization example is not evidence that every model will find a global minimum.",
+      "language": "python"
+    },
+    {
+      "title": "Calculate softmax without enormous exponentials",
+      "idea": "Softmax turns scores into positive values summing to one. Subtracting a shared maximum leaves the probabilities unchanged.",
+      "code": "from math import exp\nscores = [1000.0, 1001.0]\nlargest = max(scores)\nscaled = [exp(x - largest) for x in scores]\ntotal = sum(scaled)\nprobabilities = [x / total for x in scaled]\nprint([round(p, 4) for p in probabilities])\nprint(f\"sum={sum(probabilities):.4f}\")",
+      "output": "[0.2689, 0.7311]\nsum=1.0000\n",
+      "steps": [
+        "Direct exp(1000) can overflow; shifting gives exponent arguments −1 and 0.",
+        "Exponentials are positive, then division by their sum normalizes them.",
+        "The larger score receives the larger probability.",
+        "The example rounds only the displayed list. Very tiny probabilities can still underflow in extreme cases; log-softmax is useful when log probabilities are needed."
+      ],
+      "lesson": "A numerically stable formula can be algebraically equivalent to an unstable one.",
+      "language": "python"
+    },
+    {
+      "title": "Compute a Bayes update with counts",
+      "idea": "Fictional item flags illustrate why a useful detector can still produce many false alarms.",
+      "code": "faulty_and_flagged = 8\ngood_and_flagged = 18\nflagged = faulty_and_flagged + good_and_flagged\nposterior = faulty_and_flagged / flagged\nprint(f\"Flagged: {flagged}\")\nprint(f\"Faulty among flagged: {posterior:.2%}\")",
+      "output": "Flagged: 26\nFaulty among flagged: 30.77%\n",
+      "steps": [
+        "Restrict attention to the group already known to be flagged.",
+        "Count all flags, including false alarms, to obtain the correct denominator.",
+        "Divide the faulty flags by all flags.",
+        ":.2% converts a fraction into a displayed percentage with two decimal places."
+      ],
+      "lesson": "This is the probability of a fault given a flag, not the probability of a flag given a fault.",
+      "language": "python"
+    },
+    {
+      "title": "Build an attention-weighted mixture",
+      "idea": "Attention mixes value vectors using weights. This example supplies the weights so the mixing step is easy to inspect.",
+      "code": "weights = [0.25, 0.75]\nvalues = [[2, 0], [0, 4]]\nresult = [\n    sum(weight * value[j] for weight, value in zip(weights, values))\n    for j in range(2)\n]\nprint(result)",
+      "output": "[0.5, 3.0]\n",
+      "steps": [
+        "Each value vector has two coordinates.",
+        "For the first coordinate, calculate 0.25×2+0.75×0=0.5.",
+        "For the second, calculate 0.25×0+0.75×4=3.",
+        "A complete attention layer calculates weights from queries and keys; this snippet isolates the weighted-value calculation."
+      ],
+      "lesson": "The vector output keeps its coordinate dimension while combining information across positions.",
+      "language": "python"
+    },
+    {
+      "title": "Standardize using training information only",
+      "idea": "Preprocessing is part of the fitted procedure. Use the training mean and scale for later examples.",
+      "code": "from statistics import mean, pstdev\ntrain = [2, 4, 6]\ncenter = mean(train)\nscale = pstdev(train)\nnew_value = 8\nz = (new_value - center) / scale\nprint(f\"mean={center:.1f} scale={scale:.4f}\")\nprint(f\"new z={z:.4f}\")",
+      "output": "mean=4.0 scale=1.6330\nnew z=2.4495\n",
+      "steps": [
+        "mean computes the training center. pstdev uses the population denominator over the training values for this scaling convention.",
+        "The new value does not enter the fitted mean or scale.",
+        "Subtract the stored center and divide by the stored positive scale.",
+        "A constant training feature has zero scale and needs an explicit handling rule before division."
+      ],
+      "lesson": "Including held-out data in fitted preprocessing can leak information into evaluation.",
+      "language": "python"
+    },
+    {
+      "title": "Check a tiny classifier beyond accuracy",
+      "idea": "Counts of true and false positives answer different questions from overall accuracy.",
+      "code": "tp, fp, fn, tn = 30, 10, 20, 40\nprecision = tp / (tp + fp)\nrecall = tp / (tp + fn)\naccuracy = (tp + tn) / (tp + fp + fn + tn)\nprint(f\"precision={precision:.2f}\")\nprint(f\"recall={recall:.2f}\")\nprint(f\"accuracy={accuracy:.2f}\")",
+      "output": "precision=0.75\nrecall=0.60\naccuracy=0.70\n",
+      "steps": [
+        "Precision asks how many predicted positives were actually positive.",
+        "Recall asks how many actual positives were found.",
+        "Accuracy counts all correct labels over all labels.",
+        "The example denominators are nonzero; a reusable implementation needs a documented convention for undefined precision or recall."
+      ],
+      "lesson": "Choose metrics that match the consequences of mistakes, not only the largest-looking score.",
+      "language": "python"
+    }
+  ],
+  "statistics-lab": [
+    {
+      "title": "Mean, median and two variance conventions",
+      "idea": "The standard library can calculate common summaries, but you still need to choose the correct interpretation.",
+      "code": "from statistics import mean, median, pvariance, variance\nvalues = [2, 4, 6, 8]\nprint(f\"mean={mean(values):.1f}\")\nprint(f\"median={median(values):.1f}\")\nprint(f\"population variance={pvariance(values):.4f}\")\nprint(f\"sample variance={variance(values):.4f}\")",
+      "output": "mean=5.0\nmedian=5.0\npopulation variance=5.0000\nsample variance=6.6667\n",
+      "steps": [
+        "The mean is 20/4=5. The median averages the middle pair 4 and 6.",
+        "Squared distances from 5 are 9,1,1,9; their sum is 20.",
+        "pvariance divides by 4, treating this list as the described population.",
+        "variance divides by 3 for the usual sample-variance estimator. It requires at least two values."
+      ],
+      "lesson": "Different denominator conventions answer different questions; neither should be chosen to manipulate a result.",
+      "language": "python"
+    },
+    {
+      "title": "Build a frequency table with percentages",
+      "idea": "Count labels first, then divide by the explicitly defined sample size.",
+      "code": "from collections import Counter\nanswers = [\"yes\", \"no\", \"yes\", \"yes\", \"no\"]\ncounts = Counter(answers)\nfor label in sorted(counts):\n    count = counts[label]\n    print(f\"{label}: {count} ({count / len(answers):.0%})\")",
+      "output": "no: 2 (40%)\nyes: 3 (60%)\n",
+      "steps": [
+        "Counter counts each occurrence of each label.",
+        "The denominator is all five answers in this example.",
+        "Sorting gives a predictable output order for comparison with the expected output.",
+        "Missing or multiple-response answers would require an explicit denominator policy."
+      ],
+      "lesson": "A percentage is meaningful only after its whole has been defined.",
+      "language": "python"
+    },
+    {
+      "title": "Weighted averages for unequal groups",
+      "idea": "Combining group averages requires group sizes when the target is the overall observation-level mean.",
+      "code": "group_means = [10, 20]\ngroup_sizes = [2, 8]\ntotal = sum(m * n for m, n in zip(group_means, group_sizes))\ncombined = total / sum(group_sizes)\nprint(f\"combined mean={combined:.1f}\")\nprint(f\"unweighted group mean={sum(group_means) / 2:.1f}\")",
+      "output": "combined mean=18.0\nunweighted group mean=15.0\n",
+      "steps": [
+        "A group’s mean times its size recovers its total.",
+        "Combine totals 20 and 160, then divide by the 10 observations.",
+        "The unweighted mean gives each group equal influence, despite different sizes.",
+        "Both calculations can have a purpose, but they answer different questions."
+      ],
+      "lesson": "Weight by observation count only when an individual-level combined mean is the target.",
+      "language": "python"
+    },
+    {
+      "title": "Compute an exact binomial probability",
+      "idea": "This calculates one count probability directly for a small independent-trial model.",
+      "code": "from math import comb\nn, k, p = 3, 2, 0.5\nprobability = comb(n, k) * p ** k * (1 - p) ** (n - k)\nprint(f\"arrangements={comb(n, k)}\")\nprint(f\"probability={probability:.3f}\")",
+      "output": "arrangements=3\nprobability=0.375\n",
+      "steps": [
+        "comb(3,2) counts which two trial positions are successes.",
+        "p**k is the contribution from successes and (1-p)**(n-k) from failures.",
+        "The combination factor includes all three successful arrangements.",
+        "The model assumes fixed n, independent trials and the same p in each trial."
+      ],
+      "lesson": "The formula gives a model probability, not a guarantee about a particular sample.",
+      "language": "python"
+    },
+    {
+      "title": "Show the working in a normal-approximation interval",
+      "idea": "This example uses an explicitly supplied standard error and normal critical multiplier. It is not a universal small-sample recipe.",
+      "code": "estimate = 50.0\nstandard_error = 2.0\ncritical_value = 1.96\nmargin = critical_value * standard_error\nprint(f\"margin={margin:.2f}\")\nprint(f\"interval=[{estimate - margin:.2f}, {estimate + margin:.2f}]\")",
+      "output": "margin=3.92\ninterval=[46.08, 53.92]\n",
+      "steps": [
+        "A standard error describes uncertainty in the estimate, not spread of individual observations.",
+        "Multiply by the critical value to obtain the margin.",
+        "Subtract and add the margin to build the interval.",
+        "Normal approximation and standard-error validity need justification; a t or design-based method may be appropriate instead."
+      ],
+      "lesson": "The confidence interpretation belongs to the interval procedure and its assumptions.",
+      "language": "python"
+    },
+    {
+      "title": "Analyze paired changes rather than unrelated groups",
+      "idea": "Before and after values must remain matched to the same units.",
+      "code": "from statistics import mean, stdev\nfrom math import sqrt\nbefore = [5, 7, 9, 10]\nafter = [6, 9, 12, 14]\ndifferences = [b - a for a, b in zip(before, after)]\naverage = mean(differences)\nse = stdev(differences) / sqrt(len(differences))\nprint(differences)\nprint(f\"mean change={average:.4f}\")\nprint(f\"SE={se:.4f}\")\nprint(f\"t={average / se:.4f}\")",
+      "output": "[1, 2, 3, 4]\nmean change=2.5000\nSE=0.6455\nt=3.8730\n",
+      "steps": [
+        "Subtract before from after for each matched unit, yielding the differences.",
+        "Calculate the mean and sample SD of differences, not two unrelated outcome SDs.",
+        "Divide that SD by √number of pairs to get the SE under the independence assumptions.",
+        "The statistic needs an appropriate t reference with 3 degrees of freedom for a p-value; this snippet stops at the statistic."
+      ],
+      "lesson": "A paired analysis depends on valid matching and appropriate assumptions about the differences.",
+      "language": "python"
+    },
+    {
+      "title": "Fit a small least-squares line",
+      "idea": "This hand-written calculation exposes the arithmetic of simple regression without an external package.",
+      "code": "from statistics import mean\nx, y = [1, 2, 3], [2, 4, 5]\nmx, my = mean(x), mean(y)\nnumerator = sum((a - mx) * (b - my) for a, b in zip(x, y))\ndenominator = sum((a - mx) ** 2 for a in x)\nslope = numerator / denominator\nintercept = my - slope * mx\nprint(f\"slope={slope:.4f}\")\nprint(f\"intercept={intercept:.4f}\")\nprint(f\"prediction at 4={intercept + slope * 4:.4f}\")",
+      "output": "slope=1.5000\nintercept=0.6667\nprediction at 4=6.6667\n",
+      "steps": [
+        "Center x and y around their own means.",
+        "The slope is their centered cross-product sum divided by the centered x squared sum.",
+        "Choose the intercept so the line passes through the two means.",
+        "Prediction at 4 is beyond the observed x range 1–3, so it is an extrapolation that needs caution."
+      ],
+      "lesson": "If every x were equal, the denominator would be zero and this slope would not be identifiable.",
+      "language": "python"
+    },
+    {
+      "title": "Enumerate all bootstrap resamples of a tiny sample",
+      "idea": "For three observations there are only 3³=27 ordered same-size bootstrap samples, so exact enumeration is practical as a demonstration.",
+      "code": "from itertools import product\nfrom statistics import mean\nvalues = [2, 4, 6]\nbootstrap_means = [mean(sample) for sample in product(values, repeat=3)]\nprint(f\"resamples={len(bootstrap_means)}\")\nprint(f\"average of means={mean(bootstrap_means):.1f}\")\nprint(f\"range={min(bootstrap_means):.1f} to {max(bootstrap_means):.1f}\")",
+      "output": "resamples=27\naverage of means=4.0\nrange=2.0 to 6.0\n",
+      "steps": [
+        "product with repeat=3 lists ordered draws with replacement, including repetitions such as (2,2,6).",
+        "Each ordered resample has equal probability under this empirical sampling model.",
+        "Compute a mean for every resample to examine a bootstrap distribution.",
+        "The full minimum-to-maximum range is not a 95% confidence interval. Enumeration grows exponentially and is only for this tiny example."
+      ],
+      "lesson": "Resampling reuses observed information; it does not create 27 new independent real-world studies.",
+      "language": "python"
+    }
+  ]
+}

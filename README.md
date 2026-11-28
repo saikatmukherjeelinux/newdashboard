@@ -2,7 +2,7 @@
 
 [Open the dashboard website](https://saikatmukherjeelinux.github.io/newdashboard/)
 
-Four standalone learning projects share this static dashboard:
+Five standalone learning projects share this static dashboard:
 
 | Project | Learning experience |
 |---|---|
@@ -39,3 +39,13 @@ Replace the example folder with the project you actually added. When Pages is co
 ## ML Lab
 
 [Open ML Lab](ml-motion-lab/index.html): 40 mathematics lessons in 10 modules, 240 examples, 40 explained practice answers, compact original diagrams and interactive experiments. Covers foundations, linear algebra, calculus, probability, statistics, information theory, optimization and their connections to modern AI. See [the ML Lab guide](ml-motion-lab/README.md) for scope, sources and validation.
+
+## Statistics Lab
+
+[Statistics Lab](statistics-lab/index.html) covers 60 topics across 12 chapters with 180 original worked examples, a descriptive calculator and a method-selection starting guide. See [its project guide](statistics-lab/README.md) for scope and assumptions.
+
+## Reading-first layout and coding guides
+
+All five labs share larger reading text, compact introductions and prominent worked-code links. Decorative dashboard scripts are no longer loaded. Existing learning tools and useful instructional diagrams remain available. Each lab includes eight new standalone examples with complete code, expected output and four explanatory steps. Python snippets use only the standard library; Unix snippets target Bash with GNU utilities. Browser pages display code rather than execute it.
+
+Generate the guides with `python scripts/build-study-guides.py`; verify code with `python scripts/verify-study-examples.py`. The shared reading layer is `reading.css` and `reading.js`. This change does not claim that every pre-existing lesson was rewritten.
