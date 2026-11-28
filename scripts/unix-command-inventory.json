@@ -1,0 +1,2450 @@
+[
+  {
+    "id": "shell",
+    "title": "The shell & command anatomy",
+    "group": "Start here",
+    "flags": [
+      {
+        "flag": "-l",
+        "meaning": "A short option, usually one letter. Its meaning depends on the command."
+      },
+      {
+        "flag": "-lh",
+        "meaning": "Often combines -l and -h, if that program supports short-option grouping."
+      },
+      {
+        "flag": "--",
+        "meaning": "Ends option parsing in many commands; following words are operands."
+      },
+      {
+        "flag": "--help",
+        "meaning": "GNU convention for help; not a universal Unix flag."
+      }
+    ],
+    "syntax": "command [options] [operands]",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "help",
+    "title": "man, help & command discovery",
+    "group": "Start here",
+    "flags": [
+      {
+        "flag": "man 1",
+        "meaning": "Section 1 documents user commands; section 5 covers file formats."
+      },
+      {
+        "flag": "man -k",
+        "meaning": "Search manual descriptions by keyword."
+      },
+      {
+        "flag": "help",
+        "meaning": "Bash builtin help for other builtins."
+      },
+      {
+        "flag": "command -v",
+        "meaning": "Print the command resolution result without running it."
+      }
+    ],
+    "syntax": "man [section] name | help builtin | command -v name",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "pwd",
+    "title": "pwd — where am I?",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-L",
+        "meaning": "Use the logical path, which can preserve symlink components."
+      },
+      {
+        "flag": "-P",
+        "meaning": "Resolve symbolic links to the physical directory."
+      }
+    ],
+    "syntax": "pwd [-L | -P]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "cd",
+    "title": "cd — navigate directories",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-L",
+        "meaning": "Follow the logical directory structure (Bash default)."
+      },
+      {
+        "flag": "-P",
+        "meaning": "Resolve symlinks physically before processing the path."
+      },
+      {
+        "flag": "-",
+        "meaning": "An operand meaning the previous directory ($OLDPWD)."
+      },
+      {
+        "flag": "~",
+        "meaning": "Unquoted tilde expands to the home directory; it is shell syntax, not a cd flag."
+      }
+    ],
+    "syntax": "cd [-L|-P] [directory]",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "ls",
+    "title": "ls — list directory entries",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-l",
+        "meaning": "Long format: type/permissions, link count, owner, group, size, timestamp, name."
+      },
+      {
+        "flag": "-a / -A",
+        "meaning": "Include hidden entries; -A excludes . and ..."
+      },
+      {
+        "flag": "-h",
+        "meaning": "Human-readable sizes when used with -l or -s."
+      },
+      {
+        "flag": "-1",
+        "meaning": "One entry per line."
+      },
+      {
+        "flag": "-d",
+        "meaning": "List a directory itself rather than its contents."
+      },
+      {
+        "flag": "-R",
+        "meaning": "List subdirectories recursively."
+      },
+      {
+        "flag": "-t / -r",
+        "meaning": "Sort by modification time / reverse the selected order."
+      }
+    ],
+    "syntax": "ls [options] [path ...]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "mkdir",
+    "title": "mkdir & rmdir — directory lifecycle",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-p",
+        "meaning": "Create missing parents; do not error for existing directories."
+      },
+      {
+        "flag": "-m",
+        "meaning": "Set the new directory mode explicitly."
+      },
+      {
+        "flag": "rmdir -p",
+        "meaning": "Remove the directory and then empty parents where possible."
+      }
+    ],
+    "syntax": "mkdir [-p] [-m mode] path ... | rmdir path ...",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "touch",
+    "title": "touch — timestamps and empty files",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-a",
+        "meaning": "Change access time only."
+      },
+      {
+        "flag": "-m",
+        "meaning": "Change modification time only."
+      },
+      {
+        "flag": "-c",
+        "meaning": "Do not create a missing file."
+      },
+      {
+        "flag": "-r",
+        "meaning": "Copy timestamps from a reference file."
+      }
+    ],
+    "syntax": "touch [-a|-m] [-c] [-r reference] file ...",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "cp",
+    "title": "cp — copy files and directories",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-R",
+        "meaning": "Copy directory trees recursively."
+      },
+      {
+        "flag": "-i",
+        "meaning": "Prompt before overwriting."
+      },
+      {
+        "flag": "-p",
+        "meaning": "Preserve mode, ownership when permitted, and timestamps."
+      },
+      {
+        "flag": "-a",
+        "meaning": "GNU archive mode: recursive copy with metadata/symlink preservation."
+      },
+      {
+        "flag": "-v",
+        "meaning": "GNU verbose reporting."
+      }
+    ],
+    "syntax": "cp [options] source destination",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "mv",
+    "title": "mv — move and rename",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-i",
+        "meaning": "Prompt before replacing an existing destination."
+      },
+      {
+        "flag": "-f",
+        "meaning": "Do not prompt before replacing; does not bypass filesystem permissions."
+      },
+      {
+        "flag": "-v",
+        "meaning": "GNU verbose reporting."
+      }
+    ],
+    "syntax": "mv [options] source destination",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "rm",
+    "title": "rm — remove directory entries",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-i",
+        "meaning": "Ask before each removal."
+      },
+      {
+        "flag": "-r / -R",
+        "meaning": "Recursively remove directory contents and directories."
+      },
+      {
+        "flag": "-f",
+        "meaning": "Ignore missing operands/files and suppress prompts; does not bypass permissions."
+      },
+      {
+        "flag": "--",
+        "meaning": "End options, useful for names beginning with a dash."
+      }
+    ],
+    "syntax": "rm [options] file ...",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "ln",
+    "title": "ln & readlink — links",
+    "group": "Files & paths",
+    "flags": [
+      {
+        "flag": "-s",
+        "meaning": "Create a symbolic link instead of a hard link."
+      },
+      {
+        "flag": "-f",
+        "meaning": "Replace an existing destination; use cautiously."
+      },
+      {
+        "flag": "readlink",
+        "meaning": "Print the stored target of a symbolic link."
+      }
+    ],
+    "syntax": "ln [-s] target linkname | readlink linkname",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "cat",
+    "title": "cat — concatenate content",
+    "group": "Read & inspect",
+    "flags": [
+      {
+        "flag": "-n",
+        "meaning": "Number all output lines (GNU)."
+      },
+      {
+        "flag": "-b",
+        "meaning": "Number nonblank lines (GNU)."
+      },
+      {
+        "flag": "-s",
+        "meaning": "Collapse repeated empty lines (GNU)."
+      },
+      {
+        "flag": "-A",
+        "meaning": "Show nonprinting characters; GNU shorthand for -vET."
+      },
+      {
+        "flag": "-",
+        "meaning": "Read standard input at this point in the file list."
+      }
+    ],
+    "syntax": "cat [options] [file ...]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "less",
+    "title": "less — page through large text",
+    "group": "Read & inspect",
+    "flags": [
+      {
+        "flag": "-N",
+        "meaning": "Show line numbers."
+      },
+      {
+        "flag": "-S",
+        "meaning": "Chop long lines instead of wrapping them."
+      },
+      {
+        "flag": "-i",
+        "meaning": "Ignore case in searches unless the pattern contains uppercase letters."
+      },
+      {
+        "flag": "-F",
+        "meaning": "Exit if the content fits on one screen."
+      }
+    ],
+    "syntax": "less [options] file",
+    "source": [
+      "Linux manual pages",
+      "https://www.kernel.org/doc/man-pages/"
+    ]
+  },
+  {
+    "id": "head-tail",
+    "title": "head & tail — inspect file edges",
+    "group": "Read & inspect",
+    "flags": [
+      {
+        "flag": "-n N",
+        "meaning": "Output N lines (default 10)."
+      },
+      {
+        "flag": "head -c N",
+        "meaning": "Output the first N bytes (GNU)."
+      },
+      {
+        "flag": "tail -n +N",
+        "meaning": "Start at line N and continue to the end."
+      },
+      {
+        "flag": "tail -f",
+        "meaning": "Follow a growing file."
+      },
+      {
+        "flag": "tail -F",
+        "meaning": "GNU follow-by-name with retry, useful after log rotation."
+      }
+    ],
+    "syntax": "head [-n count] file | tail [-n count] file",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "wc",
+    "title": "wc — count lines, words and bytes",
+    "group": "Read & inspect",
+    "flags": [
+      {
+        "flag": "-l",
+        "meaning": "Count newline characters, not visually wrapped lines."
+      },
+      {
+        "flag": "-w",
+        "meaning": "Count whitespace-delimited words."
+      },
+      {
+        "flag": "-c",
+        "meaning": "Count bytes."
+      },
+      {
+        "flag": "-m",
+        "meaning": "Count characters under the current locale."
+      }
+    ],
+    "syntax": "wc [-lwmc] [file ...]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "file-stat",
+    "title": "file & stat — identify and inspect",
+    "group": "Read & inspect",
+    "flags": [
+      {
+        "flag": "file -b",
+        "meaning": "Brief output without the filename prefix."
+      },
+      {
+        "flag": "file -L",
+        "meaning": "Follow symbolic links."
+      },
+      {
+        "flag": "stat -c FORMAT",
+        "meaning": "GNU output format; macOS uses a different -f syntax."
+      },
+      {
+        "flag": "%s / %a / %n",
+        "meaning": "GNU stat placeholders for byte size, octal permissions and filename."
+      }
+    ],
+    "syntax": "file path | stat [options] path",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "grep",
+    "title": "grep — select matching lines",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-i",
+        "meaning": "Ignore case."
+      },
+      {
+        "flag": "-n",
+        "meaning": "Prefix each match with its line number."
+      },
+      {
+        "flag": "-v",
+        "meaning": "Select nonmatching lines."
+      },
+      {
+        "flag": "-c",
+        "meaning": "Count matching lines, not individual matches."
+      },
+      {
+        "flag": "-F",
+        "meaning": "Treat the pattern as a fixed string."
+      },
+      {
+        "flag": "-E",
+        "meaning": "Use extended regular expressions."
+      },
+      {
+        "flag": "-r",
+        "meaning": "Search directories recursively (GNU/common extension)."
+      },
+      {
+        "flag": "-l",
+        "meaning": "Print names of files with matches."
+      },
+      {
+        "flag": "-A / -B / -C N",
+        "meaning": "Show N lines after/before/around matches (GNU/common extension)."
+      },
+      {
+        "flag": "-q",
+        "meaning": "Quiet mode; use exit status only."
+      }
+    ],
+    "syntax": "grep [options] pattern [file ...]",
+    "source": [
+      "GNU Grep manual",
+      "https://www.gnu.org/software/grep/manual/grep.html"
+    ]
+  },
+  {
+    "id": "regex",
+    "title": "Regular expressions — matching text",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "^ / $",
+        "meaning": "Anchor to the beginning / end of a line."
+      },
+      {
+        "flag": "[0-9]",
+        "meaning": "Match one digit in the C locale."
+      },
+      {
+        "flag": ". / .*",
+        "meaning": "Match one character / zero or more characters."
+      },
+      {
+        "flag": "+ / ? / {m,n}",
+        "meaning": "In ERE: one or more / optional / bounded repetition."
+      },
+      {
+        "flag": "(a|b)",
+        "meaning": "In ERE: group alternatives."
+      }
+    ],
+    "syntax": "grep -E 'pattern' file",
+    "source": [
+      "GNU Grep manual",
+      "https://www.gnu.org/software/grep/manual/grep.html"
+    ]
+  },
+  {
+    "id": "find",
+    "title": "find — walk a directory tree",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-name PATTERN",
+        "meaning": "Match a basename with a quoted shell-style pattern."
+      },
+      {
+        "flag": "-type f / d / l",
+        "meaning": "Select regular files / directories / symbolic links."
+      },
+      {
+        "flag": "-mtime +N",
+        "meaning": "Modification age in whole 24-hour periods; +N means greater than N rounded-down periods."
+      },
+      {
+        "flag": "-size +1M",
+        "meaning": "GNU: size rounded to MiB units exceeds 1."
+      },
+      {
+        "flag": "-print",
+        "meaning": "Print each matching pathname (default in simple expressions)."
+      },
+      {
+        "flag": "-print0",
+        "meaning": "NUL-delimited paths for robust tool pipelines."
+      },
+      {
+        "flag": "-exec cmd {} +",
+        "meaning": "Pass matches as separate arguments in batches."
+      }
+    ],
+    "syntax": "find starting-path [expression]",
+    "source": [
+      "GNU Findutils manual",
+      "https://www.gnu.org/software/findutils/manual/html_mono/find.html"
+    ]
+  },
+  {
+    "id": "sort",
+    "title": "sort — order lines",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-n",
+        "meaning": "Compare numeric values."
+      },
+      {
+        "flag": "-r",
+        "meaning": "Reverse the comparison order."
+      },
+      {
+        "flag": "-u",
+        "meaning": "Output one line per equal sort key."
+      },
+      {
+        "flag": "-t CHAR",
+        "meaning": "Use CHAR as the field separator."
+      },
+      {
+        "flag": "-k START,END",
+        "meaning": "Choose a sort key by field positions."
+      },
+      {
+        "flag": "-h",
+        "meaning": "GNU human-readable numeric sort (2K, 1M)."
+      }
+    ],
+    "syntax": "sort [options] [file ...]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "uniq",
+    "title": "uniq — adjacent duplicate groups",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-c",
+        "meaning": "Prefix each group with its count."
+      },
+      {
+        "flag": "-d",
+        "meaning": "Print only repeated groups, once each."
+      },
+      {
+        "flag": "-u",
+        "meaning": "Print only groups that occurred once."
+      },
+      {
+        "flag": "-i",
+        "meaning": "Ignore case when comparing (GNU/common extension)."
+      }
+    ],
+    "syntax": "uniq [-cdu] [input]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "cut",
+    "title": "cut — select simple fields",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-d CHAR",
+        "meaning": "Set a single-character input field delimiter; default is tab."
+      },
+      {
+        "flag": "-f LIST",
+        "meaning": "Select fields, e.g. 1,3 or 2-4."
+      },
+      {
+        "flag": "-c LIST",
+        "meaning": "Select character positions (GNU behavior can be byte-oriented for multibyte text)."
+      },
+      {
+        "flag": "-b LIST",
+        "meaning": "Select byte positions."
+      },
+      {
+        "flag": "-s",
+        "meaning": "Skip lines without the delimiter."
+      }
+    ],
+    "syntax": "cut -d delimiter -f fields file",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "tr",
+    "title": "tr — translate or delete characters",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-d",
+        "meaning": "Delete characters in set1."
+      },
+      {
+        "flag": "-s",
+        "meaning": "Squeeze repeated characters from the last specified set."
+      },
+      {
+        "flag": "-c",
+        "meaning": "Complement the first character set."
+      },
+      {
+        "flag": "[:lower:] / [:upper:]",
+        "meaning": "Character classes interpreted according to locale."
+      }
+    ],
+    "syntax": "tr [options] set1 [set2]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "sed",
+    "title": "sed — stream editing",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-n",
+        "meaning": "Suppress automatic printing; use p explicitly."
+      },
+      {
+        "flag": "-e SCRIPT",
+        "meaning": "Add a script; repeat to apply multiple scripts."
+      },
+      {
+        "flag": "-E",
+        "meaning": "Enable extended regular expressions."
+      },
+      {
+        "flag": "-i",
+        "meaning": "Edit in place; GNU/BSD argument conventions differ."
+      },
+      {
+        "flag": "s/old/new/g",
+        "meaning": "Substitute every match per line; without g only the first."
+      },
+      {
+        "flag": "2p / 2d",
+        "meaning": "Print / delete line two in the output stream."
+      }
+    ],
+    "syntax": "sed [options] 'script' [file ...]",
+    "source": [
+      "GNU Sed manual",
+      "https://www.gnu.org/software/sed/manual/sed.html"
+    ]
+  },
+  {
+    "id": "awk",
+    "title": "awk — records, fields and calculations",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-F",
+        "meaning": "Set the input field separator."
+      },
+      {
+        "flag": "-v name=value",
+        "meaning": "Assign an awk variable before processing input."
+      },
+      {
+        "flag": "$0 / $1 / $2",
+        "meaning": "Whole record / first field / second field."
+      },
+      {
+        "flag": "NR / NF",
+        "meaning": "Current record number / number of fields."
+      },
+      {
+        "flag": "BEGIN / END",
+        "meaning": "Run actions before input / after all input."
+      }
+    ],
+    "syntax": "awk [-F separator] 'pattern { action }' file",
+    "source": [
+      "GNU Awk manual",
+      "https://www.gnu.org/software/gawk/manual/gawk.html"
+    ]
+  },
+  {
+    "id": "xargs",
+    "title": "xargs — turn input into arguments",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "-0",
+        "meaning": "Read NUL-delimited items instead of whitespace/quote parsing."
+      },
+      {
+        "flag": "-n N",
+        "meaning": "Use at most N input arguments per invocation."
+      },
+      {
+        "flag": "-I {}",
+        "meaning": "Replace {} with each input line; changes batching behavior."
+      },
+      {
+        "flag": "-r",
+        "meaning": "GNU: do not run the command on empty input."
+      }
+    ],
+    "syntax": "producer | xargs [options] command",
+    "source": [
+      "GNU Findutils manual",
+      "https://www.gnu.org/software/findutils/manual/html_mono/find.html"
+    ]
+  },
+  {
+    "id": "diff",
+    "title": "diff & cmp — compare files",
+    "group": "Search & transform",
+    "flags": [
+      {
+        "flag": "diff -u",
+        "meaning": "Unified patch-style output with context."
+      },
+      {
+        "flag": "diff -r",
+        "meaning": "Compare directory trees recursively."
+      },
+      {
+        "flag": "diff -q",
+        "meaning": "Only report whether files differ."
+      },
+      {
+        "flag": "cmp -s",
+        "meaning": "Silent byte comparison; inspect exit status."
+      }
+    ],
+    "syntax": "diff [-u] first second | cmp [-s] first second",
+    "source": [
+      "Linux manual pages",
+      "https://www.kernel.org/doc/man-pages/"
+    ]
+  },
+  {
+    "id": "printf",
+    "title": "printf & echo — produce text",
+    "group": "Shell building blocks",
+    "flags": [
+      {
+        "flag": "%s",
+        "meaning": "Insert a string."
+      },
+      {
+        "flag": "%d",
+        "meaning": "Format an integer."
+      },
+      {
+        "flag": "%.2f",
+        "meaning": "Format a floating-point value with two decimal places."
+      },
+      {
+        "flag": "\\n / \\t",
+        "meaning": "Newline / tab escapes in the format string."
+      },
+      {
+        "flag": "echo -n",
+        "meaning": "Common extension to omit a newline; echo options and escapes vary by shell."
+      }
+    ],
+    "syntax": "printf FORMAT [argument ...]",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "quoting",
+    "title": "Quoting, variables & expansion",
+    "group": "Shell building blocks",
+    "flags": [
+      {
+        "flag": "'text'",
+        "meaning": "Single quotes preserve literal characters (a single quote cannot appear directly inside)."
+      },
+      {
+        "flag": "\"text\"",
+        "meaning": "Double quotes preserve spaces but allow $variable and $(command) expansion."
+      },
+      {
+        "flag": "\\",
+        "meaning": "Escape the next character outside single quotes."
+      },
+      {
+        "flag": "${name}",
+        "meaning": "Delimited variable expansion."
+      },
+      {
+        "flag": "$(command)",
+        "meaning": "Substitute command stdout, removing trailing newlines."
+      }
+    ],
+    "syntax": "name=value; printf '%s\\n' \"$name\"",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "globs",
+    "title": "Globs & brace expansion",
+    "group": "Shell building blocks",
+    "flags": [
+      {
+        "flag": "*",
+        "meaning": "Match zero or more filename characters, normally not a leading dot or /."
+      },
+      {
+        "flag": "?",
+        "meaning": "Match one filename character."
+      },
+      {
+        "flag": "[abc]",
+        "meaning": "Match one character from a set."
+      },
+      {
+        "flag": "{a,b}",
+        "meaning": "Bash brace expansion produces words; it is not a filesystem search."
+      },
+      {
+        "flag": "shopt -s nullglob",
+        "meaning": "Bash: expand an unmatched glob to no words rather than a literal pattern."
+      }
+    ],
+    "syntax": "command *.txt",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "redirect",
+    "title": "Redirection — stdin, stdout & stderr",
+    "group": "Shell building blocks",
+    "flags": [
+      {
+        "flag": "0 / 1 / 2",
+        "meaning": "Standard input / standard output / standard error file descriptors."
+      },
+      {
+        "flag": "> / >>",
+        "meaning": "Create or truncate output / append output."
+      },
+      {
+        "flag": "<",
+        "meaning": "Read stdin from a file."
+      },
+      {
+        "flag": "2>",
+        "meaning": "Redirect stderr only."
+      },
+      {
+        "flag": "2>&1",
+        "meaning": "Duplicate the current stdout destination onto stderr."
+      },
+      {
+        "flag": "/dev/null",
+        "meaning": "A device that discards writes and returns EOF on reads."
+      }
+    ],
+    "syntax": "command > output.txt 2> errors.txt",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "pipes",
+    "title": "Pipes & tee — compose small tools",
+    "group": "Shell building blocks",
+    "flags": [
+      {
+        "flag": "|",
+        "meaning": "Pipe stdout only."
+      },
+      {
+        "flag": "|&",
+        "meaning": "Bash shorthand to pipe stdout and stderr."
+      },
+      {
+        "flag": "tee",
+        "meaning": "Copy stdin to stdout and named files."
+      },
+      {
+        "flag": "tee -a",
+        "meaning": "Append to files instead of overwriting."
+      },
+      {
+        "flag": "set -o pipefail",
+        "meaning": "Bash: pipeline status is the rightmost failed command, or zero if all succeed."
+      }
+    ],
+    "syntax": "producer | filter | consumer",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "status",
+    "title": "Exit status, &&, || & tests",
+    "group": "Shell building blocks",
+    "flags": [
+      {
+        "flag": "$?",
+        "meaning": "Status of the immediately preceding pipeline."
+      },
+      {
+        "flag": "&&",
+        "meaning": "Run the right command only when the left succeeds."
+      },
+      {
+        "flag": "||",
+        "meaning": "Run the right command only when the left fails."
+      },
+      {
+        "flag": ";",
+        "meaning": "Run the next command regardless of prior success."
+      },
+      {
+        "flag": "test -f / -d / -e",
+        "meaning": "Check regular file / directory / existence."
+      },
+      {
+        "flag": "test -n / -z",
+        "meaning": "Check nonempty / empty string."
+      }
+    ],
+    "syntax": "command && on_success || on_failure",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "env",
+    "title": "env, export & PATH",
+    "group": "Shell building blocks",
+    "flags": [
+      {
+        "flag": "export",
+        "meaning": "Mark shell variables for inheritance by children."
+      },
+      {
+        "flag": "env -i",
+        "meaning": "Run with an empty starting environment; you may need to set PATH."
+      },
+      {
+        "flag": "unset NAME",
+        "meaning": "Remove a shell variable."
+      },
+      {
+        "flag": "PATH",
+        "meaning": "Colon-separated command search directories on Unix."
+      }
+    ],
+    "syntax": "export NAME=value | env NAME=value command",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "chmod",
+    "title": "chmod — permissions",
+    "group": "Permissions & identity",
+    "flags": [
+      {
+        "flag": "u / g / o / a",
+        "meaning": "Owner / group / others / all."
+      },
+      {
+        "flag": "+ / - / =",
+        "meaning": "Add / remove / set specified permissions."
+      },
+      {
+        "flag": "r / w / x",
+        "meaning": "Read / write / execute (or directory traversal)."
+      },
+      {
+        "flag": "-R",
+        "meaning": "Apply recursively; avoid blanket modes on mixed trees."
+      },
+      {
+        "flag": "4 / 2 / 1",
+        "meaning": "Octal bits for read / write / execute; add them for each class."
+      }
+    ],
+    "syntax": "chmod [options] mode file",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "identity",
+    "title": "id, whoami, chown & chgrp",
+    "group": "Permissions & identity",
+    "flags": [
+      {
+        "flag": "id -u / -g",
+        "meaning": "Print numeric effective user / primary group ID."
+      },
+      {
+        "flag": "id -n",
+        "meaning": "Print names instead of numbers with -u, -g or -G."
+      },
+      {
+        "flag": "id -G",
+        "meaning": "Print group IDs."
+      },
+      {
+        "flag": "chown -R",
+        "meaning": "Recursively change ownership (requires appropriate privilege)."
+      },
+      {
+        "flag": "chgrp",
+        "meaning": "Change group ownership to a group you are permitted to use."
+      }
+    ],
+    "syntax": "id [user] | whoami | chown owner[:group] file",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "umask",
+    "title": "umask — default permission mask",
+    "group": "Permissions & identity",
+    "flags": [
+      {
+        "flag": "022",
+        "meaning": "Mask group/other write: typical files 644 and directories 755."
+      },
+      {
+        "flag": "077",
+        "meaning": "Mask all group/other permissions: typical files 600 and directories 700."
+      },
+      {
+        "flag": "-S",
+        "meaning": "Display the allowed permission mask symbolically."
+      }
+    ],
+    "syntax": "umask [mask]",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "ps",
+    "title": "ps — inspect running processes",
+    "group": "Processes & system",
+    "flags": [
+      {
+        "flag": "-e",
+        "meaning": "Select all processes."
+      },
+      {
+        "flag": "-f",
+        "meaning": "Full-format listing."
+      },
+      {
+        "flag": "-p PID",
+        "meaning": "Select a particular PID."
+      },
+      {
+        "flag": "-o FORMAT",
+        "meaning": "Choose output columns (e.g. pid,ppid,comm)."
+      },
+      {
+        "flag": "aux",
+        "meaning": "BSD-style flags commonly supported on Linux: all users, user format, include no-terminal processes."
+      }
+    ],
+    "syntax": "ps [options]",
+    "source": [
+      "Linux manual pages",
+      "https://www.kernel.org/doc/man-pages/"
+    ]
+  },
+  {
+    "id": "jobs",
+    "title": "jobs, bg, fg & wait",
+    "group": "Processes & system",
+    "flags": [
+      {
+        "flag": "&",
+        "meaning": "Launch a command asynchronously."
+      },
+      {
+        "flag": "jobs -l",
+        "meaning": "List shell jobs with process IDs."
+      },
+      {
+        "flag": "%1",
+        "meaning": "Job specification, not the same thing as PID 1."
+      },
+      {
+        "flag": "$!",
+        "meaning": "PID of the most recent asynchronous command."
+      },
+      {
+        "flag": "Ctrl+Z / Ctrl+C",
+        "meaning": "Usually suspend / interrupt the foreground job."
+      }
+    ],
+    "syntax": "command & | jobs | bg %job | fg %job | wait pid",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "kill",
+    "title": "kill — send process signals",
+    "group": "Processes & system",
+    "flags": [
+      {
+        "flag": "-s TERM",
+        "meaning": "Request graceful termination (default)."
+      },
+      {
+        "flag": "-s KILL",
+        "meaning": "Immediate forced termination; cannot be caught for cleanup."
+      },
+      {
+        "flag": "-s STOP / CONT",
+        "meaning": "Suspend / continue a process."
+      },
+      {
+        "flag": "-0",
+        "meaning": "Check existence/permission without sending a signal."
+      },
+      {
+        "flag": "-l",
+        "meaning": "List signal names."
+      }
+    ],
+    "syntax": "kill [-s signal] pid",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "system",
+    "title": "uname, uptime & date",
+    "group": "Processes & system",
+    "flags": [
+      {
+        "flag": "uname -s / -r / -m",
+        "meaning": "Kernel name / release / machine hardware name."
+      },
+      {
+        "flag": "uname -a",
+        "meaning": "All supported system identification fields."
+      },
+      {
+        "flag": "date -u",
+        "meaning": "Use UTC."
+      },
+      {
+        "flag": "date +FORMAT",
+        "meaning": "Format the current date using percent directives."
+      },
+      {
+        "flag": "%Y / %m / %d / %H / %M / %S",
+        "meaning": "Year / month / day / hour / minute / second."
+      }
+    ],
+    "syntax": "uname [options] | uptime | date [format]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "disk",
+    "title": "df & du — disk capacity and usage",
+    "group": "Processes & system",
+    "flags": [
+      {
+        "flag": "-h",
+        "meaning": "Human-readable sizes."
+      },
+      {
+        "flag": "df -P",
+        "meaning": "Use the POSIX output format."
+      },
+      {
+        "flag": "du -s",
+        "meaning": "Only a total for each argument."
+      },
+      {
+        "flag": "du -a",
+        "meaning": "Include individual files as well as directories."
+      },
+      {
+        "flag": "du -x",
+        "meaning": "Stay on one filesystem."
+      },
+      {
+        "flag": "du --apparent-size",
+        "meaning": "GNU: report logical byte sizes rather than allocated blocks."
+      }
+    ],
+    "syntax": "df [options] [path] | du [options] [path]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "tar",
+    "title": "tar — bundle and extract files",
+    "group": "Archives & transfer",
+    "flags": [
+      {
+        "flag": "-c / -t / -x",
+        "meaning": "Create / list / extract; choose one main operation."
+      },
+      {
+        "flag": "-f FILE",
+        "meaning": "Use this archive filename; the following argument belongs to -f."
+      },
+      {
+        "flag": "-v",
+        "meaning": "Show processed paths."
+      },
+      {
+        "flag": "-z",
+        "meaning": "Filter through gzip."
+      },
+      {
+        "flag": "-C DIR",
+        "meaning": "Change directory before processing following file arguments or extracting."
+      },
+      {
+        "flag": "-p",
+        "meaning": "Preserve permissions on extraction where supported/permitted."
+      }
+    ],
+    "syntax": "tar -cf archive.tar paths | tar -tf archive.tar",
+    "source": [
+      "GNU Tar manual",
+      "https://www.gnu.org/software/tar/manual/tar.html"
+    ]
+  },
+  {
+    "id": "gzip",
+    "title": "gzip & gunzip — compress a stream",
+    "group": "Archives & transfer",
+    "flags": [
+      {
+        "flag": "-c",
+        "meaning": "Write compressed/decompressed bytes to stdout and keep input."
+      },
+      {
+        "flag": "-d",
+        "meaning": "Decompress (also available as gunzip)."
+      },
+      {
+        "flag": "-k",
+        "meaning": "Keep the original file (GNU/common modern extension)."
+      },
+      {
+        "flag": "-t",
+        "meaning": "Test compressed-stream integrity."
+      },
+      {
+        "flag": "-1 / -9",
+        "meaning": "Faster compression / greater compression effort."
+      }
+    ],
+    "syntax": "gzip [options] file | gunzip file.gz",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "curl",
+    "title": "curl — transfer URLs",
+    "group": "Archives & transfer",
+    "flags": [
+      {
+        "flag": "-I",
+        "meaning": "Request headers with HTTP HEAD; some servers handle HEAD differently."
+      },
+      {
+        "flag": "-L",
+        "meaning": "Follow redirects."
+      },
+      {
+        "flag": "-o FILE",
+        "meaning": "Save response bytes to an explicit filename."
+      },
+      {
+        "flag": "-f",
+        "meaning": "Fail on many HTTP error statuses instead of treating them as success."
+      },
+      {
+        "flag": "-sS",
+        "meaning": "Hide the progress meter but still show errors."
+      },
+      {
+        "flag": "--max-time SECONDS",
+        "meaning": "Limit the total transfer duration."
+      },
+      {
+        "flag": "-H HEADER",
+        "meaning": "Add an HTTP request header."
+      }
+    ],
+    "syntax": "curl [options] URL",
+    "source": [
+      "curl manual",
+      "https://curl.se/docs/manpage.html"
+    ]
+  },
+  {
+    "id": "ssh",
+    "title": "ssh & scp — remote work",
+    "group": "Archives & transfer",
+    "flags": [
+      {
+        "flag": "ssh -p PORT",
+        "meaning": "Use a nondefault SSH server port."
+      },
+      {
+        "flag": "ssh -i FILE",
+        "meaning": "Use the specified private identity file."
+      },
+      {
+        "flag": "ssh -T",
+        "meaning": "Disable pseudo-terminal allocation."
+      },
+      {
+        "flag": "scp -P PORT",
+        "meaning": "Use a nondefault port; uppercase P differs from ssh."
+      },
+      {
+        "flag": "scp -r",
+        "meaning": "Recursively copy directories."
+      }
+    ],
+    "syntax": "ssh [options] user@host [command] | scp source destination",
+    "source": [
+      "OpenBSD SSH manual",
+      "https://man.openbsd.org/ssh"
+    ]
+  },
+  {
+    "id": "network",
+    "title": "ip, ss & ping — inspect networking",
+    "group": "Processes & system",
+    "flags": [
+      {
+        "flag": "ip -brief address",
+        "meaning": "Linux: concise interface addresses."
+      },
+      {
+        "flag": "ss -l",
+        "meaning": "Linux: listening sockets only."
+      },
+      {
+        "flag": "ss -t / -u / -n / -p",
+        "meaning": "TCP / UDP / numeric addresses / process information where permitted."
+      },
+      {
+        "flag": "ping -c N",
+        "meaning": "Send N probes then stop."
+      },
+      {
+        "flag": "ping -n",
+        "meaning": "Avoid reverse name lookup where supported."
+      }
+    ],
+    "syntax": "ip address | ss [options] | ping [options] host",
+    "source": [
+      "Linux manual pages",
+      "https://www.kernel.org/doc/man-pages/"
+    ]
+  },
+  {
+    "id": "loops",
+    "title": "for & while — repeat work",
+    "group": "Shell scripting",
+    "flags": [
+      {
+        "flag": "for ... in",
+        "meaning": "Iterate over shell words."
+      },
+      {
+        "flag": "while condition",
+        "meaning": "Repeat as long as the condition returns zero."
+      },
+      {
+        "flag": "read -r",
+        "meaning": "Read a line without interpreting backslashes as escapes."
+      },
+      {
+        "flag": "IFS=",
+        "meaning": "Disable field splitting for the associated read."
+      },
+      {
+        "flag": "break / continue",
+        "meaning": "Leave a loop / skip to its next iteration."
+      }
+    ],
+    "syntax": "for item in list; do commands; done",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "conditions",
+    "title": "if & case — choose behavior",
+    "group": "Shell scripting",
+    "flags": [
+      {
+        "flag": "then / fi",
+        "meaning": "Begin / finish an if body."
+      },
+      {
+        "flag": "elif / else",
+        "meaning": "Additional condition / fallback branch."
+      },
+      {
+        "flag": "case word in",
+        "meaning": "Select the first matching shell pattern."
+      },
+      {
+        "flag": ";;",
+        "meaning": "End a case branch."
+      },
+      {
+        "flag": "-eq / -gt / -lt",
+        "meaning": "Integer equal / greater than / less than in test."
+      }
+    ],
+    "syntax": "if command; then ...; else ...; fi",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "functions",
+    "title": "Functions & script arguments",
+    "group": "Shell scripting",
+    "flags": [
+      {
+        "flag": "$0",
+        "meaning": "Script name (or shell name depending on context)."
+      },
+      {
+        "flag": "$1 / $2",
+        "meaning": "First / second positional argument."
+      },
+      {
+        "flag": "$#",
+        "meaning": "Number of positional arguments."
+      },
+      {
+        "flag": "\"$@\"",
+        "meaning": "Expand each positional argument as a separate word, preserving spaces."
+      },
+      {
+        "flag": "return N",
+        "meaning": "Set the function status without exiting the shell."
+      },
+      {
+        "flag": "local",
+        "meaning": "Bash: scope a variable to the function."
+      }
+    ],
+    "syntax": "name() { commands; } | ./script.sh arg1 arg2",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "scripts",
+    "title": "Scripts, debugging & traps",
+    "group": "Shell scripting",
+    "flags": [
+      {
+        "flag": "#!/bin/sh",
+        "meaning": "Shebang for a POSIX shell; use a Bash shebang if Bash features are required."
+      },
+      {
+        "flag": "bash -n",
+        "meaning": "Parse syntax without executing the script."
+      },
+      {
+        "flag": "bash -x",
+        "meaning": "Trace expanded commands to stderr while executing."
+      },
+      {
+        "flag": "set -u",
+        "meaning": "Treat many unset-variable expansions as errors."
+      },
+      {
+        "flag": "set -e",
+        "meaning": "Exit on some failures, with significant conditional/context exceptions."
+      },
+      {
+        "flag": "trap COMMAND EXIT",
+        "meaning": "Bash: run cleanup when the shell exits normally; not on SIGKILL."
+      }
+    ],
+    "syntax": "bash script.sh | bash -n script.sh",
+    "source": [
+      "GNU Bash manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "temp",
+    "title": "mktemp — temporary working files",
+    "group": "Shell scripting",
+    "flags": [
+      {
+        "flag": "-d",
+        "meaning": "Create a directory instead of a file."
+      },
+      {
+        "flag": "XXXXXX",
+        "meaning": "At least six trailing X characters provide a portable template convention."
+      },
+      {
+        "flag": "TMPDIR",
+        "meaning": "Common environment variable for the temporary directory."
+      }
+    ],
+    "syntax": "mktemp [-d] [template]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "basename",
+    "title": "basename — extract a filename",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "SUFFIX",
+        "meaning": "Remove this exact trailing suffix, not an arbitrary regex."
+      },
+      {
+        "flag": "-a",
+        "meaning": "GNU: accept multiple path operands."
+      },
+      {
+        "flag": "-s SUFFIX",
+        "meaning": "GNU: remove a suffix; implies multiple-argument support."
+      }
+    ],
+    "syntax": "basename path [suffix]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "dirname",
+    "title": "dirname — extract a parent path",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "PATH",
+        "meaning": "The text of a path; quote spaces and wildcards."
+      },
+      {
+        "flag": "-z",
+        "meaning": "GNU: terminate output with NUL instead of newline."
+      }
+    ],
+    "syntax": "dirname path",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "realpath",
+    "title": "realpath — resolve a path",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-e",
+        "meaning": "Require every path component to exist."
+      },
+      {
+        "flag": "-m",
+        "meaning": "Allow missing components (GNU)."
+      },
+      {
+        "flag": "--relative-to=DIR",
+        "meaning": "Print a path relative to DIR (GNU)."
+      },
+      {
+        "flag": "-s",
+        "meaning": "Do not expand symbolic links (GNU)."
+      }
+    ],
+    "syntax": "realpath [options] path",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "nl",
+    "title": "nl — number lines",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-b a",
+        "meaning": "Number all body lines, including blank lines."
+      },
+      {
+        "flag": "-b t",
+        "meaning": "Number only nonempty body lines (default)."
+      },
+      {
+        "flag": "-w N",
+        "meaning": "Minimum number-field width."
+      },
+      {
+        "flag": "-s TEXT",
+        "meaning": "Separator between line number and content."
+      },
+      {
+        "flag": "-v N",
+        "meaning": "Starting line number."
+      }
+    ],
+    "syntax": "nl [options] file",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "tac",
+    "title": "tac — reverse record order",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-s STRING",
+        "meaning": "Use a custom record separator."
+      },
+      {
+        "flag": "-b",
+        "meaning": "Attach the separator before its record rather than after."
+      },
+      {
+        "flag": "-r",
+        "meaning": "Interpret the separator as a regular expression (GNU)."
+      }
+    ],
+    "syntax": "tac [options] [file ...]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "paste",
+    "title": "paste — combine columns",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-d LIST",
+        "meaning": "Use these delimiters instead of a tab; cycle through the list."
+      },
+      {
+        "flag": "-s",
+        "meaning": "Join lines serially within each input file."
+      },
+      {
+        "flag": "-",
+        "meaning": "Read from stdin at this operand position."
+      }
+    ],
+    "syntax": "paste [-d delimiters] [-s] file ...",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "join",
+    "title": "join — match sorted records",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-t CHAR",
+        "meaning": "Use a field delimiter instead of whitespace."
+      },
+      {
+        "flag": "-1 N / -2 N",
+        "meaning": "Use field N as the key in file 1 / file 2."
+      },
+      {
+        "flag": "-a 1 / -a 2",
+        "meaning": "Also include unmatched records from that file."
+      },
+      {
+        "flag": "-v 1 / -v 2",
+        "meaning": "Print only unmatched records from that file."
+      }
+    ],
+    "syntax": "join [options] file1 file2",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "comm",
+    "title": "comm — compare sorted sets of lines",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-1",
+        "meaning": "Suppress lines unique to file 1."
+      },
+      {
+        "flag": "-2",
+        "meaning": "Suppress lines unique to file 2."
+      },
+      {
+        "flag": "-3",
+        "meaning": "Suppress common lines."
+      },
+      {
+        "flag": "--check-order",
+        "meaning": "GNU: report input that is not correctly sorted."
+      }
+    ],
+    "syntax": "comm [options] sorted1 sorted2",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "expand",
+    "title": "expand & unexpand — tabs and spaces",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-t N",
+        "meaning": "Use tab stops every N columns."
+      },
+      {
+        "flag": "expand -i",
+        "meaning": "Convert only leading tabs."
+      },
+      {
+        "flag": "unexpand -a",
+        "meaning": "Convert eligible whitespace throughout each line, not only leading whitespace."
+      }
+    ],
+    "syntax": "expand [-t stops] file | unexpand [-a] [-t stops]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "fold",
+    "title": "fold — wrap long text",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-w N",
+        "meaning": "Maximum output width (default 80)."
+      },
+      {
+        "flag": "-s",
+        "meaning": "Prefer breaking at spaces."
+      },
+      {
+        "flag": "-b",
+        "meaning": "Count bytes rather than display columns."
+      }
+    ],
+    "syntax": "fold [-s] [-w width] file",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "split",
+    "title": "split — divide a large file",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-l N",
+        "meaning": "Put at most N lines in each output file."
+      },
+      {
+        "flag": "-b SIZE",
+        "meaning": "Split by byte size; may cut a record in the middle."
+      },
+      {
+        "flag": "-d",
+        "meaning": "GNU: use numeric rather than alphabetic suffixes."
+      },
+      {
+        "flag": "-a N",
+        "meaning": "Suffix length."
+      }
+    ],
+    "syntax": "split [options] input [prefix]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "seq",
+    "title": "seq — generate number sequences",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-s TEXT",
+        "meaning": "Separate values with TEXT rather than newline."
+      },
+      {
+        "flag": "-w",
+        "meaning": "Pad numbers to equal width with leading zeroes."
+      },
+      {
+        "flag": "-f FORMAT",
+        "meaning": "Use a printf-style floating-point format."
+      }
+    ],
+    "syntax": "seq [options] [first [increment]] last",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "shuf",
+    "title": "shuf — shuffle and sample",
+    "group": "Paths & text utilities",
+    "flags": [
+      {
+        "flag": "-n N",
+        "meaning": "Output at most N records."
+      },
+      {
+        "flag": "-i LOW-HIGH",
+        "meaning": "Generate a permutation of an inclusive integer range."
+      },
+      {
+        "flag": "-e",
+        "meaning": "Treat remaining arguments as the input items."
+      },
+      {
+        "flag": "-r",
+        "meaning": "Sample with replacement; combine with -n to bound output."
+      }
+    ],
+    "syntax": "shuf [options] [file]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "timeout",
+    "title": "timeout — bound command duration",
+    "group": "Process monitoring",
+    "flags": [
+      {
+        "flag": "DURATION",
+        "meaning": "Number with optional s, m, h or d suffix; seconds by default."
+      },
+      {
+        "flag": "-s SIGNAL",
+        "meaning": "Choose the initial signal instead of TERM."
+      },
+      {
+        "flag": "-k DURATION",
+        "meaning": "Send KILL if the command survives that long after the initial signal."
+      },
+      {
+        "flag": "--preserve-status",
+        "meaning": "Use the command status even when timing out."
+      }
+    ],
+    "syntax": "timeout [options] duration command [args]",
+    "source": [
+      "GNU Coreutils manual",
+      "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+    ]
+  },
+  {
+    "id": "watch",
+    "title": "watch — repeat a status command",
+    "group": "Process monitoring",
+    "flags": [
+      {
+        "flag": "-n SECONDS",
+        "meaning": "Refresh interval, subject to implementation minimum."
+      },
+      {
+        "flag": "-d",
+        "meaning": "Highlight changes between refreshes."
+      },
+      {
+        "flag": "-t",
+        "meaning": "Hide the heading."
+      },
+      {
+        "flag": "-x",
+        "meaning": "Execute directly without passing through a shell (procps)."
+      }
+    ],
+    "syntax": "watch [options] command",
+    "source": [
+      "procps-ng documentation",
+      "https://gitlab.com/procps-ng/procps"
+    ]
+  },
+  {
+    "id": "history",
+    "title": "history — recall previous commands",
+    "group": "Shell productivity",
+    "flags": [
+      {
+        "flag": "history N",
+        "meaning": "Show the last N recorded entries."
+      },
+      {
+        "flag": "-a",
+        "meaning": "Append this session’s new history entries to the history file."
+      },
+      {
+        "flag": "-n",
+        "meaning": "Read newly appended entries from the history file."
+      },
+      {
+        "flag": "-d OFFSET",
+        "meaning": "Delete a specific history entry; does not remove copies in other sessions/logs."
+      },
+      {
+        "flag": "Ctrl+R",
+        "meaning": "Interactive reverse search through command history."
+      }
+    ],
+    "syntax": "history [count]",
+    "source": [
+      "Bash reference manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "alias",
+    "title": "alias & unalias — short command names",
+    "group": "Shell productivity",
+    "flags": [
+      {
+        "flag": "alias NAME",
+        "meaning": "Print the definition of one alias."
+      },
+      {
+        "flag": "alias",
+        "meaning": "List defined aliases when no arguments are supplied."
+      },
+      {
+        "flag": "unalias NAME",
+        "meaning": "Remove one alias from the current shell."
+      },
+      {
+        "flag": "shopt -s expand_aliases",
+        "meaning": "Enable Bash alias expansion in a noninteractive shell when needed."
+      }
+    ],
+    "syntax": "alias name='replacement' | unalias name",
+    "source": [
+      "Bash reference manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "type",
+    "title": "type — understand command resolution",
+    "group": "Shell productivity",
+    "flags": [
+      {
+        "flag": "-a",
+        "meaning": "Show all matching resolutions."
+      },
+      {
+        "flag": "-t",
+        "meaning": "Print a concise type word such as builtin, function, alias or file."
+      },
+      {
+        "flag": "-P",
+        "meaning": "Force a PATH search for an executable file (Bash)."
+      }
+    ],
+    "syntax": "type [options] name",
+    "source": [
+      "Bash reference manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "read",
+    "title": "read — accept input safely",
+    "group": "Shell productivity",
+    "flags": [
+      {
+        "flag": "-r",
+        "meaning": "Do not interpret backslash escapes or line continuation."
+      },
+      {
+        "flag": "-p PROMPT",
+        "meaning": "Bash: display a prompt on a terminal."
+      },
+      {
+        "flag": "-s",
+        "meaning": "Bash: do not echo terminal input, commonly for secrets."
+      },
+      {
+        "flag": "-t SECONDS",
+        "meaning": "Bash: bound how long to wait for suitable input."
+      },
+      {
+        "flag": "IFS=",
+        "meaning": "Disable field splitting for this read invocation."
+      }
+    ],
+    "syntax": "IFS= read -r name",
+    "source": [
+      "Bash reference manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "getopts",
+    "title": "getopts — parse script options",
+    "group": "Shell scripting",
+    "flags": [
+      {
+        "flag": "a:",
+        "meaning": "Option a requires a value; the colon follows the option letter."
+      },
+      {
+        "flag": "OPTARG",
+        "meaning": "Receives the current option argument when one is required."
+      },
+      {
+        "flag": "OPTIND",
+        "meaning": "Index of the next positional argument; initialize to 1 before a new parse."
+      },
+      {
+        "flag": "Leading :",
+        "meaning": "Enable silent error reporting so the script handles errors explicitly."
+      }
+    ],
+    "syntax": "getopts optstring variable",
+    "source": [
+      "Bash reference manual",
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "rsync",
+    "title": "rsync — synchronize copies",
+    "group": "Archives & transfer",
+    "flags": [
+      {
+        "flag": "-a",
+        "meaning": "Archive mode: recursive plus selected metadata; does not include ACLs, xattrs or hard links by itself."
+      },
+      {
+        "flag": "-n / --dry-run",
+        "meaning": "Show planned actions without making changes."
+      },
+      {
+        "flag": "-v / -i",
+        "meaning": "Verbose / itemized change reporting."
+      },
+      {
+        "flag": "--exclude=PATTERN",
+        "meaning": "Skip matching paths."
+      },
+      {
+        "flag": "--delete",
+        "meaning": "Remove extra destination files; preview carefully before using."
+      },
+      {
+        "flag": "source/",
+        "meaning": "A trailing slash means copy the directory contents rather than the directory itself."
+      }
+    ],
+    "syntax": "rsync [options] source destination",
+    "source": [
+      "rsync manual",
+      "https://download.samba.org/pub/rsync/rsync.1"
+    ]
+  },
+  {
+    "id": "zip",
+    "title": "zip & unzip — portable archives",
+    "group": "Archives & transfer",
+    "flags": [
+      {
+        "flag": "zip -r",
+        "meaning": "Recursively include directories."
+      },
+      {
+        "flag": "zip -q",
+        "meaning": "Suppress normal progress messages."
+      },
+      {
+        "flag": "unzip -l",
+        "meaning": "List archive members and sizes."
+      },
+      {
+        "flag": "unzip -p",
+        "meaning": "Print selected member bytes to stdout."
+      },
+      {
+        "flag": "unzip -d DIR",
+        "meaning": "Extract into a chosen directory."
+      },
+      {
+        "flag": "unzip -t",
+        "meaning": "Check archive member integrity without writing extracted files."
+      }
+    ],
+    "syntax": "zip [options] archive.zip files | unzip [options] archive.zip",
+    "source": [
+      "Info-ZIP documentation",
+      "https://infozip.sourceforge.net/"
+    ]
+  },
+  {
+    "id": "dig",
+    "title": "dig — query DNS records",
+    "group": "Network & services",
+    "flags": [
+      {
+        "flag": "A / AAAA",
+        "meaning": "Query IPv4 / IPv6 address records."
+      },
+      {
+        "flag": "MX / TXT / NS",
+        "meaning": "Query mail exchangers / text / name servers."
+      },
+      {
+        "flag": "+short",
+        "meaning": "Print a concise answer rather than full diagnostics."
+      },
+      {
+        "flag": "+noall +answer",
+        "meaning": "Suppress sections then enable only the answer section."
+      },
+      {
+        "flag": "+time=N +tries=N",
+        "meaning": "Limit per-attempt waiting and number of attempts."
+      }
+    ],
+    "syntax": "dig [@server] name [type] [options]",
+    "source": [
+      "BIND dig manual",
+      "https://bind9.readthedocs.io/en/latest/manpages.html#dig-dns-lookup-utility"
+    ]
+  },
+  {
+    "id": "lsof",
+    "title": "lsof — find open files and sockets",
+    "group": "Process monitoring",
+    "flags": [
+      {
+        "flag": "-p PID",
+        "meaning": "Select a process by PID."
+      },
+      {
+        "flag": "-i :PORT",
+        "meaning": "Select network files using a port."
+      },
+      {
+        "flag": "-nP",
+        "meaning": "Avoid hostname and service-name lookups."
+      },
+      {
+        "flag": "-a",
+        "meaning": "AND selections that would otherwise often be combined with OR."
+      },
+      {
+        "flag": "+L1",
+        "meaning": "Select open files with link count less than 1, often deleted-but-open files."
+      }
+    ],
+    "syntax": "lsof [options] [path]",
+    "source": [
+      "lsof documentation",
+      "https://lsof.readthedocs.io/en/stable/"
+    ]
+  },
+  {
+    "id": "free",
+    "title": "free — inspect Linux memory",
+    "group": "Process monitoring",
+    "flags": [
+      {
+        "flag": "-h",
+        "meaning": "Human-readable size units."
+      },
+      {
+        "flag": "-m",
+        "meaning": "Show mebibytes."
+      },
+      {
+        "flag": "-s SECONDS",
+        "meaning": "Repeat at a chosen interval."
+      },
+      {
+        "flag": "-c COUNT",
+        "meaning": "Limit the number of reports when repeating."
+      },
+      {
+        "flag": "-w",
+        "meaning": "Show buffers and cache separately in wider output."
+      }
+    ],
+    "syntax": "free [options]",
+    "source": [
+      "procps-ng documentation",
+      "https://gitlab.com/procps-ng/procps"
+    ]
+  },
+  {
+    "id": "top",
+    "title": "top — inspect activity live",
+    "group": "Process monitoring",
+    "flags": [
+      {
+        "flag": "-b",
+        "meaning": "Batch mode suitable for captured text output (Linux procps)."
+      },
+      {
+        "flag": "-n N",
+        "meaning": "Stop after N updates."
+      },
+      {
+        "flag": "-d SECONDS",
+        "meaning": "Set the update interval."
+      },
+      {
+        "flag": "-p PID",
+        "meaning": "Monitor a selected process."
+      },
+      {
+        "flag": "P / M / q",
+        "meaning": "Interactive keys: CPU sort / memory sort / quit."
+      }
+    ],
+    "syntax": "top [options]",
+    "source": [
+      "procps-ng documentation",
+      "https://gitlab.com/procps-ng/procps"
+    ]
+  },
+  {
+    "id": "systemctl",
+    "title": "systemctl — inspect services",
+    "group": "Network & services",
+    "flags": [
+      {
+        "flag": "status UNIT",
+        "meaning": "Show runtime state and a recent log excerpt."
+      },
+      {
+        "flag": "is-active UNIT",
+        "meaning": "Report active state; exit status reflects the result."
+      },
+      {
+        "flag": "list-units --type=service",
+        "meaning": "List loaded service units."
+      },
+      {
+        "flag": "--user",
+        "meaning": "Use the current user’s service manager."
+      },
+      {
+        "flag": "--no-pager",
+        "meaning": "Print directly instead of launching a pager."
+      },
+      {
+        "flag": "start / stop / restart / enable",
+        "meaning": "Change state or boot activation; may need authorization and are not used in these read-only examples."
+      }
+    ],
+    "syntax": "systemctl [options] command [unit]",
+    "source": [
+      "systemd manuals",
+      "https://www.freedesktop.org/software/systemd/man/latest/"
+    ]
+  },
+  {
+    "id": "journalctl",
+    "title": "journalctl — query service logs",
+    "group": "Network & services",
+    "flags": [
+      {
+        "flag": "-u UNIT",
+        "meaning": "Filter entries associated with a unit."
+      },
+      {
+        "flag": "-b",
+        "meaning": "Restrict to the current boot; -b -1 selects the previous boot if retained."
+      },
+      {
+        "flag": "-n N",
+        "meaning": "Show the most recent N entries."
+      },
+      {
+        "flag": "-f",
+        "meaning": "Follow new entries until interrupted."
+      },
+      {
+        "flag": "--since TIME",
+        "meaning": "Include entries from the given time onward."
+      },
+      {
+        "flag": "-p warning",
+        "meaning": "Include warning and more severe priorities."
+      },
+      {
+        "flag": "--no-pager",
+        "meaning": "Write output directly."
+      }
+    ],
+    "syntax": "journalctl [options]",
+    "source": [
+      "systemd manuals",
+      "https://www.freedesktop.org/software/systemd/man/latest/"
+    ]
+  }
+]

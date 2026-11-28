@@ -33,4 +33,10 @@ body.code-guide h1{font:normal 38px/1.25 Georgia,serif}
 .project-code,.project-output{max-width:100%;overflow:auto;padding:18px;line-height:1.7}
 .project-copy-status{font-size:14px}
 #project-choice{display:block;width:100%;max-width:100%;margin:12px 0 30px;padding:12px;font:16px 'Segoe UI',sans-serif;background:transparent;border:1px solid #dcded5}
+.unix-situation{border-top:1px solid var(--line,#dcded5);margin:32px 0;padding:24px 0}
+.unix-situation h3{font-size:23px}.unix-situation h4{font-size:18px;margin-top:24px}
+.unix-situation li{margin:12px 0;overflow-wrap:anywhere}
+.unix-situation summary{cursor:pointer;font-size:16px;font-weight:600}
+.situation-code,.situation-output{max-width:100%;overflow:auto;padding:18px;line-height:1.7}
+.situation-verification{font-size:14px;color:var(--muted,#64665e)}
 @media(max-width:600px){.library-home main{padding:32px 20px}.subject-list a{grid-template-columns:28px 1fr 18px;gap:12px;padding:22px 0}.subject-list h2{font-size:23px}body.library-reader main{padding:26px 20px!important}body.library-reader .library-heading h1{font-size:30px}}

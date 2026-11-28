@@ -1,0 +1,502 @@
+[
+  {
+    "id": "shell",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "125eafc8a52cb306a24c0f5c5f924042b3e78caf20fb013bf9707e3c8df412ed"
+  },
+  {
+    "id": "help",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "d858b485bac0c7f2643f62c572edaca2504ad6eb4a834087dfaf1cec58a83d94"
+  },
+  {
+    "id": "pwd",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "52218c97b8d4b0412154809739e805640d4e4b015dbdc8b807ce38b28ea5a181"
+  },
+  {
+    "id": "cd",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "ea2ffbb64249067493ca55a246c53dda299865ef41f430f69dce28b3f71084fc"
+  },
+  {
+    "id": "ls",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "36d3a7434b8f9c448d06e8d66c8074c135113c67af143226958eaebd4636c041"
+  },
+  {
+    "id": "mkdir",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "36a6c9bfcd0c6e49172a3be6818a35eca2457f6704ba20ac54261150e6faddb5"
+  },
+  {
+    "id": "touch",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "41804266ce6efd566d78c0a4a62abad355392237dca36b40b9e216cdcc262e48"
+  },
+  {
+    "id": "cp",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "e441cbc98712c916bd9ebea52c032e6783e9679520c21010fc2a4dba73b4e572"
+  },
+  {
+    "id": "mv",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "950313f9b2fd58e9eb2f1596cadfedcf667413e6a0142798e0f2cabec59d44c9"
+  },
+  {
+    "id": "rm",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "8ebdf2161a31189b606dde2be0b1212d8a9e43756c7d78338a0909d9d4632b13"
+  },
+  {
+    "id": "ln",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: ln",
+    "codeHash": "d7c22269448e6a7a47d6753e10973b06d2cb9b54f3f00a9b2f562f8011229703"
+  },
+  {
+    "id": "cat",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "47b993c1883b3c07830a6be5c34b89a32932af8ea8eb8ddecf343056be4204ff"
+  },
+  {
+    "id": "less",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "55af68ce7a7257d3bcb71e9b1a9ca4cd8c5455bf0356c61d3e4acd216926bb13"
+  },
+  {
+    "id": "head-tail",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: seq",
+    "codeHash": "5da05baecddc442bb69f9173561828488631f4114547d3793f5548f3317ddbc6"
+  },
+  {
+    "id": "wc",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "098fb6aa739ba826f26f935370a4b8b198f1cab0407eb64c832061836a683bae"
+  },
+  {
+    "id": "file-stat",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "52484dea1498775be60fe1208d9bb8dc9ce1767a5765e1e56adedced7eae45e9"
+  },
+  {
+    "id": "grep",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "c2e9143c4e6b82454dac8c667aedeba1cb68da8cdacaf7ad9f0693a013738a70"
+  },
+  {
+    "id": "regex",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "fb84d319968d2af4e125cfb53d8a1224269e6eab2a9d8c4d5da72bf10de01bd5"
+  },
+  {
+    "id": "find",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "37d69008009b94c10ef54fce6a318f4a4e7fab3b201e18d33ed5f52cc98fdbac"
+  },
+  {
+    "id": "sort",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "f760629278910ba31b24fc454e1cbd53e128259498cacaf94e70c3f0d40e3ef7"
+  },
+  {
+    "id": "uniq",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "b605e49e0b356f7108d31dadc6a380255acfe596fdb269e8f2240b77bf164987"
+  },
+  {
+    "id": "cut",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "f60aa97e09886e9b81908b51445c90c699a50669b40a3c2b38af0328d3309d69"
+  },
+  {
+    "id": "tr",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "2fb4d9e081e4f330d1ca6116860c810071c91f2aef4f9cd0d972d6659cee871c"
+  },
+  {
+    "id": "sed",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "e67098f7d85f798884df75eb46ca89d87f09f39320463845fd130a4c3d9b838d"
+  },
+  {
+    "id": "awk",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "9c488e3ca2f84ebe4b5f49145964490f05ca503aedafe10e1b1f6dd6456ad61c"
+  },
+  {
+    "id": "xargs",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "a7f5053c8f9f6b7fdebe28c1ef71cc45d5524dd9fb7628ec67c763ce938367c0"
+  },
+  {
+    "id": "diff",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "f8faba04dba2cf48081f0e0e5966997293e2b33d5a5aa26bbdd5360b738aaf2c"
+  },
+  {
+    "id": "printf",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "9f70cc25e4431bc73566088d3bc8a142c2da6c6beea9c97c15f1a9f1a8195359"
+  },
+  {
+    "id": "quoting",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "687a2e001dbf3e881a5b03a8eabc4f95ac0e57ee89fccec7ebb9087223184068"
+  },
+  {
+    "id": "globs",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "9947c868419b07c4a3b7dd4b5b560c957a3da90666fa752733997372129c4541"
+  },
+  {
+    "id": "redirect",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "f5c1c997062134e9ddb130496676f1b3c95c95dd458bb2e65553ee306625eefe"
+  },
+  {
+    "id": "pipes",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: tee",
+    "codeHash": "e90dd5362be6bd218a3da36c2cae7fd3e57cdc6f625eb2b0b32e57e7adaa057d"
+  },
+  {
+    "id": "status",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "4b4afe4e8e606d9644a0a3f291bd0210820c306df72c11b83991ae96199b51c9"
+  },
+  {
+    "id": "env",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: bash",
+    "codeHash": "26945d67739cd4f60038bc1acd99e3c00914281fae6e27572d51f6b104e006b0"
+  },
+  {
+    "id": "chmod",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: chmod",
+    "codeHash": "80cd0686fa8c98d55234fc8915c01614dc4311f3dde4813c34489a5ca4b2bcd4"
+  },
+  {
+    "id": "identity",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "e3a48cdde15ed26ec6d6612581186e73cd1a5a889c2356ff68aad4f85479ffcf"
+  },
+  {
+    "id": "umask",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: stat",
+    "codeHash": "2f2838a8510e3f6d9bbe8a1497641edb7ca58881b7f4ae4328284509a46261b6"
+  },
+  {
+    "id": "ps",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "c76f7fb9f7d157f396483debbea5dada956da6327781a19252476eecf4eb4f9e"
+  },
+  {
+    "id": "jobs",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "c81911abf964afc74f4b3ca8f608b0a880d5b502787dbe24af288022747ff6f7"
+  },
+  {
+    "id": "kill",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "3b7294b2fea63a599cdbf374b28a5fa850c86ad88be5e92492dd0df258e7889c"
+  },
+  {
+    "id": "system",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "7b8d5697498bd20f78fdcbf0b43b5db45d4fb63ee2eeb7a6d95d37caf3d5563e"
+  },
+  {
+    "id": "disk",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "c8fe02e093086426abd16f1370d1ef67c9afe8825abaa53363ee24970178f4ba"
+  },
+  {
+    "id": "tar",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: tar",
+    "codeHash": "09be2dfb44b8e8a9f1a56b99a8a281af15fbaa2cb3d7715fcbb3d462f3a7f148"
+  },
+  {
+    "id": "gzip",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: gzip",
+    "codeHash": "8d14aa18134c3460a68d75bf10786c0cf8a5560af6b590ce697151ca46f9f7bc"
+  },
+  {
+    "id": "curl",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: curl",
+    "codeHash": "176687c456e2da47ee4d4f0a4a7b2260a3d69fbbda71538f2d62777427d76cfa"
+  },
+  {
+    "id": "ssh",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "1d321de1c3627c4247f4f4c817e32dfed1a5e64efa5dfcf37d9699121527d891"
+  },
+  {
+    "id": "network",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "aa82b1961d635d04685f8e8534298632519db61b1c92bc6c9ea5291a1b03a7e5"
+  },
+  {
+    "id": "loops",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "4d6ca02a69b2427f4791c5ba6425b1ded13a732c11d9e4599e407a8fa8fcde34"
+  },
+  {
+    "id": "conditions",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "0e428b7c92983c820e03062def393e293ccd4885c2e5a89fca81558085edef75"
+  },
+  {
+    "id": "functions",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "11a7877a48316383557c9a2267cccd426694d4d1959e4639c879f7f2d9d3015f"
+  },
+  {
+    "id": "scripts",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: bash",
+    "codeHash": "00c4d968b86468d11dcce45780900b29febf68e79b1e15bdb77803dcadae8dfb"
+  },
+  {
+    "id": "temp",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "befbe3d7beb16b97c2436fd132d0f133eedccb59f7e52613b2071b57ea28727b"
+  },
+  {
+    "id": "basename",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "e4c12f11679b6f684d9b94f3b81c948dca5a67439871daa28cf01e11b052de00"
+  },
+  {
+    "id": "dirname",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "b75279100505f49b209aeb012b845e5aa95ab3e8e218ab142d9a26238a1d39b3"
+  },
+  {
+    "id": "realpath",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: realpath",
+    "codeHash": "efb7a015b87bbdb41f3382c3cc0350b3b210db0655dc2a0c97d337551daf3f9e"
+  },
+  {
+    "id": "nl",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "59fb0d5ae5cdced9b54a878c72f676a65eb95081479041d98ba72cfebda97fa5"
+  },
+  {
+    "id": "tac",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: tac",
+    "codeHash": "8041df6316af86f459894dbba379064c704ba5ab88450619f3977db3151bdfc4"
+  },
+  {
+    "id": "paste",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: paste",
+    "codeHash": "2965dc05bc27543f752a1fe5c5d1a097bfee9aa412f9d6c460f5f88fe0264e5e"
+  },
+  {
+    "id": "join",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: join",
+    "codeHash": "b5fd54236355532a4afc7e369eb29c65f3856eb162612fb2c39385e137f8798b"
+  },
+  {
+    "id": "comm",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "caa929f1a8e47417cf7643d8e82ae7a9cca9e955a2b482b8abacba24bd69ea4c"
+  },
+  {
+    "id": "expand",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: expand",
+    "codeHash": "f3cace8a537993442aebf2b0fcadbb1959a1c219a81aa7f59af674d7015efee9"
+  },
+  {
+    "id": "fold",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "73e28119d2adeff99209a1d837d28059df6c1a108ad273b175ff20b2bef1578c"
+  },
+  {
+    "id": "split",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: split",
+    "codeHash": "9a93185cd4dff1b3446d26dc79f2fa562189c2f8e310a2b05e579e3114dde488"
+  },
+  {
+    "id": "seq",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: seq",
+    "codeHash": "27a19cb61c13ac5e26fec8b77c4476da492ef2fc0123c68e74012e6fc06954ed"
+  },
+  {
+    "id": "shuf",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "b1b3cdf5f34be2ef56e2b2bc62bd8ea004e4314681c918111a452b8546720598"
+  },
+  {
+    "id": "timeout",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: timeout",
+    "codeHash": "287b03b42beca06477499f2e2b94d47a1ae160682a9e6a59282b27fc2afa9958"
+  },
+  {
+    "id": "watch",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "8a8e1d6b45037e22e8bd69218945487324d9e7b3b565ed89fc6323aa94a6fe38"
+  },
+  {
+    "id": "history",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "e98026706e25e163e05535000f5699d4dd67c740db92c560f7a506dd83d6db1e"
+  },
+  {
+    "id": "alias",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "04e44e41a25a8c8b81fe16f580ee9fa9db031862c50bd87659a0b0411415a9b8"
+  },
+  {
+    "id": "type",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "fe649b81bbd79f7c39741a5b85fdcafcd740ef28c8ea3f6b48b282ca34ee14d5"
+  },
+  {
+    "id": "read",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "a6965e0a4781be78b141b165e73b3078c432898c0bcc6b833b06f292e5bde9ba"
+  },
+  {
+    "id": "getopts",
+    "syntax": true,
+    "execution": "matched",
+    "codeHash": "e1d6d24035dabea96c613a9140361850d46fb609cb3c306e37e8d05073477780"
+  },
+  {
+    "id": "rsync",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: rsync",
+    "codeHash": "9b42dc672e9000a3efbfbcad68f84e7dd9e1980574bd11249aea452c6e441536"
+  },
+  {
+    "id": "zip",
+    "syntax": true,
+    "execution": "unavailable dependency",
+    "reason": "Required command missing: zip",
+    "codeHash": "34eba849ffbc0b1998dfbf18f247d017b46afe510f5d923325763c76fa9d3a37"
+  },
+  {
+    "id": "dig",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "ba8493af302a57e88c75aef3a9977a874c4774a393172f2a050fac38236e1c23"
+  },
+  {
+    "id": "lsof",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "05f90c649ec65e69d95e3bc308080120ac746cd0787defd48bc1da994cc71529"
+  },
+  {
+    "id": "free",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "bef49b3ac45ade74cf056b9d9545c1be191fa466d0ee70427cfe549a856e2e99"
+  },
+  {
+    "id": "top",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "8296783545034b14c13bb577310a646d63786c82b2f9734b7ab00853d8002db7"
+  },
+  {
+    "id": "systemctl",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "993c68193006e59b234a54eb1722e9637ecb4bca5350397787247bd9b54b3d17"
+  },
+  {
+    "id": "journalctl",
+    "syntax": true,
+    "execution": "variable/interactive/system case; not run",
+    "codeHash": "198907dfb858b3e6bdd16f73b62ffe3c84ce1f9aa26e56f5d7a0ac7e9f3afcb2"
+  }
+]
