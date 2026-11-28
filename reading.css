@@ -21,3 +21,37 @@ body.code-guide{margin:0;font:17px/1.8 Segoe UI,Arial,sans-serif;background:#f5f
 @media print{.reading-start,.copy-code,.code-guide header,.code-guide #guide-index{display:none}.code-guide main{max-width:none;padding:0}.code-guide .panel{break-inside:auto}.code-guide pre{white-space:pre-wrap;overflow-wrap:anywhere;background:white;color:black}}
 
 body[data-lab=python] .hero,body[data-lab=dsa] .hero,body[data-lab=unix] main>.hero{display:none!important}.reading-start summary{cursor:pointer;font-size:14px}.reading-start details{margin:8px 0 0}.reading-start h2{font-size:18px!important}
+
+/* A quiet, consistent notebook layout across the five learning apps. */
+body[data-lab]{font-family:Segoe UI,Arial,sans-serif}
+body[data-lab] .brand-mark,body[data-lab] .brand-icon,body[data-lab] .brand small,
+body[data-lab] .local-badge,body[data-lab] .repo-link,body[data-lab] .github,
+body[data-lab] .mode-hint,body[data-lab=python] #learnView>.section-heading{display:none!important}
+body[data-lab] .brand{font-size:20px;letter-spacing:0}
+body[data-lab] .panel,body[data-lab] .lesson-section,body[data-lab] .module,
+body[data-lab] .workspace,body[data-lab] .detail-card,body[data-lab] .simple-guide{
+ box-shadow:none!important;border-radius:5px!important;background-image:none!important
+}
+body[data-lab] .module-grid{grid-template-columns:1fr;gap:12px}
+body[data-lab] .module{padding:18px 22px}
+body[data-lab] .module h2{font-size:20px}
+body[data-lab] h1{font-size:30px;letter-spacing:-.4px}
+body[data-lab] .eyebrow,body[data-lab] .mini-title{letter-spacing:.3px}
+body[data-lab] .lesson-section{padding:22px;border-width:0 0 1px;border-radius:0!important}
+body[data-lab] .lesson-header{padding-bottom:16px}
+body[data-lab] .toolbar,body[data-lab] .mode-tabs{margin-bottom:18px}
+body[data-lab] .mode-tabs button,body[data-lab] .modes button{border-radius:4px;box-shadow:none}
+body[data-lab] .reading-start{display:flex;align-items:center;flex-wrap:wrap;gap:10px 20px;padding:12px 0;margin:0 0 18px;border:0;border-bottom:1px solid var(--line,#52617b);border-radius:0;background:transparent}
+body[data-lab] .reading-start h2,body[data-lab] .reading-start p{margin:0!important;font-size:14px!important}
+body[data-lab] .reading-start h2{display:none}
+body[data-lab] .reading-start details{margin:0;font-size:14px}
+body[data-lab] .reading-start nav{padding:10px 0}
+body[data-lab] .reading-start summary{font-weight:400}
+body[data-lab] .result,body[data-lab] .formula{border-radius:3px}
+body[data-lab] main{max-width:1120px}
+body[data-lab=dashboard] .labs{grid-template-columns:1fr;max-width:900px}
+body[data-lab=dashboard] .lab{padding:20px;border-radius:5px}
+body[data-lab=dashboard] .lab h2{margin:0 0 8px;font-size:22px}
+body[data-lab=dashboard] .lab .tags{display:none}
+body[data-lab=dashboard] .open{margin-top:10px;padding-top:10px}
+@media(max-width:700px){body[data-lab] .lesson-section{padding:18px 0}body[data-lab] .reading-start{gap:8px 16px}body[data-lab] h1{font-size:26px}}
