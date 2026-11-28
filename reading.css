@@ -160,3 +160,26 @@ body[data-lab=dashboard] .category{color:var(--muted)}
 body[data-lab=dashboard] .lab::before,body[data-lab=dashboard] .lab::after{display:none}
 body.code-guide{background:white}
 html[data-theme=light] body[data-lab=dsa] .stage{background:#101827;color:#edf2ff}
+
+/* One column, one topic chooser, one optional tools menu. */
+body.simple-reader>.sidebar,body.simple-reader #sidebar,body.simple-reader #lessonSidebar,
+body.simple-reader>header,body.simple-reader .topbar,body.simple-reader .top,
+body.simple-reader #sidebarToggle,body.simple-reader .sidebar-toggle,
+body.simple-reader .reading-start,body.simple-reader .cheat-sheet-entry,
+body.simple-reader .toolbar,body.simple-reader .mode-bar,
+body.simple-reader #menu{display:none!important}
+body.simple-reader .shell,body.simple-reader .layout{display:block!important;margin:0!important;max-width:none}
+body.simple-reader main,body.simple-reader main.main{margin:0 auto!important;width:100%;max-width:900px!important;padding:24px!important}
+body.simple-reader .simple-navigation{margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:16px}
+body.simple-reader .simple-navigation h1{font-size:26px;margin:0 0 12px;line-height:1.4}
+body.simple-reader .simple-navigation>nav{display:flex;flex-wrap:wrap;gap:24px;margin:0 0 18px}
+body.simple-reader .simple-navigation>p{font-size:15px;color:var(--muted);margin:0 0 16px}
+body.simple-reader .simple-navigation label{display:block;font-size:15px;margin:12px 0 5px;font-weight:600}
+body.simple-reader .simple-navigation>select,body.simple-reader .simple-navigation>input{display:block;width:100%;max-width:100%;padding:10px;border:1px solid var(--line);background:var(--panel);color:var(--text,var(--ink));font:inherit}
+body.simple-reader .simple-options{margin:16px 0 0}
+body.simple-reader .simple-options summary{font-size:15px;font-weight:400}
+body.simple-reader .simple-options-content{padding:16px 0;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+body.simple-reader .simple-options-content>nav{display:flex;gap:16px;flex-wrap:wrap}
+body.simple-reader .simple-options-content .reading-foundations{flex-basis:100%}
+body.simple-reader .simple-options-content label{margin:0}
+@media(max-width:700px){body.simple-reader main,body.simple-reader main.main{padding:18px!important}.simple-navigation select{font-size:16px!important}}

@@ -104,3 +104,38 @@
     if (guide && workspace) workspace.before(guide);
   }
 })();
+
+// A single navigation model shared by all five labs.
+(() => {
+  const lab=document.body.dataset.lab;
+  const names={python:'Python Lab',dsa:'DSA Lab',unix:'Unix Lab',ml:'ML Lab',statistics:'Statistics Lab'};
+  if(!names[lab]) return;
+  const main=document.querySelector('main');
+  const index=document.querySelector(lab==='python'?'#lessonNav':lab==='dsa'?'#nav':'#lessonList');
+  if(!main||!index) return;
+  document.body.classList.add('simple-reader');
+  const header=document.createElement('section');header.className='simple-navigation';
+  header.innerHTML=`<h1>${names[lab]}</h1><nav aria-label="Lab navigation"><a href="../index.html">All Labs</a><a href="cheat-sheet.html">Cheat Sheet</a><a href="worked-examples.html">Examples</a></nav><p>Choose a topic below. Read the explanation, then follow the examples.</p><label for="simple-topic">Choose a topic</label><select id="simple-topic"></select><details class="simple-options"><summary>More options</summary><div class="simple-options-content"></div></details>`;
+  main.prepend(header);
+  const options=header.querySelector('.simple-options-content');
+  const search=document.querySelector(lab==='dsa'?'#lessonSearch':'#search');
+  if(search){const label=document.createElement('label');label.htmlFor=search.id;label.textContent='Search topics';header.querySelector('#simple-topic').before(label,search);}
+  for(const selector of ['.mode-tabs','.modes','.toolbar nav','#theme','.reading-foundations']){
+    const element=document.querySelector(selector);if(element) options.append(element);
+  }
+  for(const id of ['topicFilter','group','category','filter']){
+    const element=document.getElementById(id);if(!element)continue;
+    const label=document.createElement('label');label.htmlFor=id;label.textContent=id==='filter'||id==='topicFilter'?'Show lessons':'Topic group';options.append(label,element);
+  }
+  const select=header.querySelector('#simple-topic');select.before(header.querySelector('label[for="simple-topic"]'));let entries=[];
+  function update(){
+    entries=[...index.querySelectorAll('a[href],button[data-lesson]')].filter(e=>!e.hidden&&e.style.display!=='none');
+    const old=select.value;select.replaceChildren(new Option('Select a topic…',''));
+    entries.forEach((element,i)=>{const text=(element.title||element.textContent).replace(/\s+/g,' ').trim();const option=new Option(text,String(i));select.add(option);if(element.matches('[aria-current="page"],.active'))option.selected=true;});
+    if(select.value===''&&old!==''&&entries[Number(old)]?.matches('[aria-current="page"],.active')) select.value=old;
+  }
+  select.addEventListener('change',()=>{if(select.value==='')return;const element=entries[Number(select.value)];if(!element)return;element.click();header.querySelector('details').open=false;});
+  new MutationObserver(update).observe(index,{childList:true,subtree:true,attributes:true,attributeFilter:['class','aria-current','style','hidden']});update();
+  if(!location.hash&&lab==='ml')location.hash='lesson/notation';
+  if(!location.hash&&lab==='statistics')location.hash='topic/population';
+})();
