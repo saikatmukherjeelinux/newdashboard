@@ -71,6 +71,9 @@ body[data-lab] .simple-guide{margin-top:0;padding-top:10px}
 body[data-lab] .pulse{animation:none!important}
 
 /* Textbook presentation: content is the page, rather than cards inside cards. */
+.cheat-sheet-entry{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;margin:0 0 12px;padding:10px 0}
+.cheat-sheet-entry a{display:inline-block;padding:9px 16px;border:1px solid currentColor;border-radius:4px;color:var(--cyan,var(--accent,#9be6d6));font-size:16px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.cheat-sheet-entry span{font-size:14px;color:var(--muted,#b0bdd4)}
 body[data-lab] .lesson-panel,body[data-lab] #lesson,
 body[data-lab] .worked-example,body[data-lab] .simplest-summary,
 body[data-lab] .lesson-section,body[data-lab] .simple-guide,
