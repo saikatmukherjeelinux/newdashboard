@@ -118,3 +118,45 @@ body[data-lab] .result,body[data-lab] .takeaway{
 body.code-guide .panel{background:transparent;border:0;border-top:1px solid #c4cedc;border-radius:0;padding:22px 0}
 body[data-lab=dashboard] .lab{background:transparent;border:0;border-bottom:1px solid var(--line,#52617b);border-radius:0;padding:22px 0}
 @media(max-width:700px){body[data-lab] .lesson-header h2{font-size:25px}body[data-lab] main{padding-left:18px;padding-right:18px}}
+
+/* Plain documentation: white paper, one link color and native-looking controls. */
+html:not([data-theme=dark]) body[data-lab],body[data-lab=dashboard]{
+ --bg:#fff;--side:#f8f8f8;--panel:#fff;--panel2:#f6f6f6;--raised:#f1f3f5;
+ --text:#202124;--ink:#202124;--muted:#50555b;--line:#d6d9dd;
+ --cyan:#1556a0;--accent:#1556a0;--purple:#1556a0;--violet:#1556a0;
+ --green:#25623c;--amber:#805400;--code:#f3f4f6;--shadow:none;
+ color-scheme:light;background:#fff!important;color:#202124
+}
+body[data-lab] .sidebar,body[data-lab] #sidebar{background:var(--side,var(--bg));box-shadow:none}
+body[data-lab] .topbar,body[data-lab] header,body[data-lab] .top{background:var(--bg);box-shadow:none}
+body[data-lab] .brand{padding-bottom:16px;font-weight:600;letter-spacing:0}
+body[data-lab] .gradient{background:none;color:var(--text,var(--ink));-webkit-text-fill-color:currentColor}
+body[data-lab] button,body[data-lab] select,body[data-lab] input:not([type=range]){
+ border-radius:3px!important;box-shadow:none!important
+}
+body[data-lab] button:hover{transform:none}
+body[data-lab] button.primary,body[data-lab] .primary{
+ background:var(--raised,var(--panel2));color:var(--text,var(--ink));border:1px solid var(--line)
+}
+body[data-lab] .eyebrow,body[data-lab] .mini-title,body[data-lab] .side-heading,body[data-lab] .side-label{
+ text-transform:none;letter-spacing:0;font-family:inherit;font-weight:500
+}
+body[data-lab] .breadcrumb,body[data-lab] .side-progress small,body[data-lab] .side-note{display:none}
+body[data-lab] .panel,body[data-lab] .module,body[data-lab] .lesson-section{border-radius:0!important;box-shadow:none!important}
+body[data-lab] .panel{background:transparent}
+body[data-lab] .cheat-sheet-entry{margin-bottom:0;padding:4px 0}
+body[data-lab] .cheat-sheet-entry a{border:0;padding:4px 0;font-weight:600}
+body[data-lab] .cheat-sheet-entry span{display:none}
+body[data-lab] .reading-start{border:0;margin:0 0 8px;padding:4px 0}
+body[data-lab] .lesson-section{padding-top:16px;padding-bottom:16px;margin:12px 0}
+body[data-lab] .module{padding:14px 0}
+body[data-lab] .module li{padding:2px 0}
+body[data-lab] .result{padding:12px 16px}
+body[data-lab] .sidebar nav button{color:var(--text,var(--ink));border-radius:0;background:transparent}
+body[data-lab] .sidebar nav button.active{background:var(--raised,var(--panel2));border-color:var(--line);color:var(--cyan)}
+body[data-lab=dashboard] .intro p,body[data-lab=dashboard] .lab p,
+body[data-lab=dashboard] .lab h2,body[data-lab=dashboard] .open{color:var(--text)}
+body[data-lab=dashboard] .category{color:var(--muted)}
+body[data-lab=dashboard] .lab::before,body[data-lab=dashboard] .lab::after{display:none}
+body.code-guide{background:white}
+html[data-theme=light] body[data-lab=dsa] .stage{background:#101827;color:#edf2ff}

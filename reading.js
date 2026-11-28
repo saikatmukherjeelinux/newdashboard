@@ -1,5 +1,18 @@
 (()=>{const name=document.body.dataset.lab;if(!name||name==='dashboard')return;const main=document.querySelector('main');if(!main||document.querySelector('.reading-start'))return;const labs=[['python','python-motion-lab','Python'],['dsa','dsa-motion-lab','DSA'],['unix','unix-motion-lab','Unix'],['ml','ml-motion-lab','ML'],['statistics','statistics-lab','Statistics']];const section=document.createElement('section');section.className='reading-start';section.setAttribute('aria-label','Study shortcuts');section.innerHTML='<h2>Worked examples</h2><p><a href="cheat-sheet.html">Cheat Sheet</a></p><p><a href="worked-examples.html">Code examples &amp; outputs</a></p><details><summary>Other labs</summary><nav aria-label="Learning labs"><a href="../index.html">Dashboard</a>'+labs.filter(l=>l[0]!==name).map(l=>`<a href="../${l[1]}/index.html">${l[2]} Lab</a>`).join('')+'</nav></details>';const entry=main.querySelector(".cheat-sheet-entry");if(entry){section.querySelector('a[href="cheat-sheet.html"]')?.closest("p").remove();entry.after(section);}else{main.prepend(section);}})();
 // Supporting explanations stay available without pushing the selected lesson down.
+// Start the simplified layout in light mode once; subsequent theme choices persist.
+(() => {
+  const lab = document.body.dataset.lab;
+  const key = 'plain-reading-theme-v1-' + lab;
+  let initialized = false;
+  try { initialized = localStorage.getItem(key) === '1'; } catch {}
+  if (!initialized) {
+    const theme = document.querySelector('#theme');
+    if (document.documentElement.dataset.theme === 'dark' && theme) theme.click();
+    else if (!theme) document.documentElement.dataset.theme = 'light';
+    try { localStorage.setItem(key, '1'); } catch {}
+  }
+})();
 (() => {
   const lab = document.body.dataset.lab;
   const foundations = {
