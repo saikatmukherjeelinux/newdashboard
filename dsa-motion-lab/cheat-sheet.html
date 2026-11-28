@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DSA Cheat Sheet</title><link rel="stylesheet" href="../reading.css"><style>.cheat-table{width:100%;border-collapse:collapse;margin:20px 0}.cheat-table th,.cheat-table td{text-align:left;vertical-align:top;padding:14px 12px;border-bottom:1px solid #c4cedc;overflow-wrap:anywhere}.cheat-table th{min-width:140px}.cheat-table code{white-space:pre-wrap}.cheat-table caption{text-align:left;font-weight:600;margin-bottom:12px}@media(max-width:700px){.cheat-table thead{display:none}.cheat-table tr,.cheat-table td,.cheat-table th{display:block;min-width:0}.cheat-table td{border:0;padding-top:4px}.cheat-table tr{border-bottom:1px solid #c4cedc;padding:12px 0}.cheat-table th{border:0}}</style></head><body class="code-guide"><a class="skip" href="#main">Skip to cheat sheet</a><header><a href="index.html">← DSA Lab</a><a href="../index.html">All labs</a><a href="worked-examples.html">Detailed examples</a></header><main id="main"><h1>DSA Cheat Sheet</h1><p>A quick reminder of what to write, what it means, and what to watch for. Use the full lessons when a concept is new.</p><p>Python examples; complexity describes growth in operations or memory, not elapsed seconds.</p><nav aria-label="Cheat sheet sections"><a href="#reference">Quick reference</a> · <a href="#examples">Code and output</a></nav><section id="reference"><h2>Quick reference</h2><table class="cheat-table"><caption>18 essential reminders</caption><thead><tr><th>Topic</th><th>Syntax or formula</th><th>Meaning and limitations</th></tr></thead><tbody><tr><th scope="row">Big O</th><td><code>O(1), O(log n), O(n), O(n log n), O(n²)</code></td><td>Describe how work grows with input size n. State whether you mean average or worst case.</td></tr><tr><th scope="row">List indexing</th><td><code>items[i]</code></td><td>Python list indexing is O(1); searching an unsorted list takes O(n) in the worst case.</td></tr><tr><th scope="row">Stack</th><td><code>stack.append(x); stack.pop()</code></td><td>Last in, first out. Check for an empty stack before popping. List append/pop at the end are amortized O(1).</td></tr><tr><th scope="row">Queue</th><td><code>deque.append(x); deque.popleft()</code></td><td>First in, first out. Use collections.deque to remove from the front in O(1).</td></tr><tr><th scope="row">Hash lookup</th><td><code>key in mapping</code></td><td>Dictionary/set lookup is O(1) on average, not an unconditional worst-case guarantee.</td></tr><tr><th scope="row">Linear search</th><td><code>Check each item until a match</code></td><td>Works without sorted input. Decide whether the answer should be a value, index or all matching indices.</td></tr><tr><th scope="row">Binary search</th><td><code>mid = (lo + hi) // 2</code></td><td>Requires sorted data and a consistent comparison. Halve the search interval; O(log n) comparisons.</td></tr><tr><th scope="row">Two pointers</th><td><code>Move left and right according to a condition</code></td><td>Often useful on sorted arrays. Sorting first changes both the cost and original positions.</td></tr><tr><th scope="row">Sliding window</th><td><code>Expand right; shrink left when invalid</code></td><td>Maintain a condition over a contiguous range. Some sum-based methods require nonnegative values.</td></tr><tr><th scope="row">Prefix sums</th><td><code>sum of [l, r) = prefix[r] - prefix[l]</code></td><td>Build n+1 prefix values starting with zero. Range sum queries then take O(1).</td></tr><tr><th scope="row">BFS</th><td><code>Queue + visited set</code></td><td>Visits a graph by distance in edges. Finds shortest paths in unweighted graphs; O(V+E) with adjacency lists.</td></tr><tr><th scope="row">DFS</th><td><code>Stack or recursion + visited set</code></td><td>Explores a branch before backtracking. A visited set prevents cycles from looping forever.</td></tr><tr><th scope="row">Dijkstra</th><td><code>Priority queue of tentative distances</code></td><td>Finds shortest paths with nonnegative edge weights. Negative weights invalidate the standard method.</td></tr><tr><th scope="row">Merge sort</th><td><code>Split → sort halves → merge</code></td><td>O(n log n) time. A typical array implementation needs O(n) extra storage.</td></tr><tr><th scope="row">Quick sort</th><td><code>Partition around a pivot</code></td><td>Typically O(n log n), but O(n²) in the worst case. Pivot selection matters.</td></tr><tr><th scope="row">Dynamic programming</th><td><code>State → recurrence → base cases → order</code></td><td>Reuse answers to overlapping subproblems. Define what each table entry means before coding.</td></tr><tr><th scope="row">Recursion</th><td><code>Base case + smaller problem</code></td><td>Each recursive call needs stack space. Deep recursion can exceed Python’s recursion limit.</td></tr><tr><th scope="row">Edge cases</th><td><code>Empty, one item, duplicates, missing target</code></td><td>Trace these cases before relying on a visualization. Confirm whether input may be modified.</td></tr></tbody></table></section><section id="examples"><h2>Small examples with output</h2><p>These examples are also explained step by step in the <a href="worked-examples.html">worked-example guide</a>.</p><section class="panel"><h3>Linear search: inspect one item at a time</h3><p>Linear search works without sorted input. It returns the first matching position, or a clearly specified missing marker.</p><button class="copy-code" data-code="code-1">Copy code</button><pre><code id="code-1">def find_first(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1
+
+print(find_first([8, 3, 7, 3], 3))
+print(find_first([8, 3, 7, 3], 9))</code></pre><h4>Expected output</h4><pre class="expected-output"><code>1
+-1</code></pre><p>Document the missing marker so callers do not accidentally use -1 as a valid Python list index.</p><a href="worked-examples.html#example-1">Read the worked-example guide</a></section><section class="panel"><h3>Binary search: halve a sorted search range</h3><p>Binary search needs sorted data. It compares with the middle and discards the half that cannot contain the target.</p><button class="copy-code" data-code="code-2">Copy code</button><pre><code id="code-2">def binary_search(values, target):
+    low, high = 0, len(values) - 1
+    while low &lt;= high:
+        mid = (low + high) // 2
+        if values[mid] == target:
+            return mid
+        if values[mid] &lt; target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+print(binary_search([2, 4, 6, 8, 10], 8))
+print(binary_search([], 8))</code></pre><h4>Expected output</h4><pre class="expected-output"><code>3
+-1</code></pre><p>Never apply this version to an unsorted list and trust the answer.</p><a href="worked-examples.html#example-2">Read the worked-example guide</a></section><section class="panel"><h3>Use a stack to check brackets</h3><p>A stack remembers the most recent unmatched opening bracket. The next closing bracket must match it.</p><button class="copy-code" data-code="code-3">Copy code</button><pre><code id="code-3">def balanced(text):
+    stack = []
+    matching = {&#x27;)&#x27;: &#x27;(&#x27;, &#x27;]&#x27;: &#x27;[&#x27;, &#x27;}&#x27;: &#x27;{&#x27;}
+    for char in text:
+        if char in &#x27;([{&#x27;:
+            stack.append(char)
+        elif char in matching:
+            if not stack or stack.pop() != matching[char]:
+                return False
+    return not stack
+
+print(balanced(&quot;([])&quot;))
+print(balanced(&quot;([)]&quot;))</code></pre><h4>Expected output</h4><pre class="expected-output"><code>True
+False</code></pre><p>The stack structure mirrors nested matching. Time and worst-case space are O(n).</p><a href="worked-examples.html#example-3">Read the worked-example guide</a></section><section class="panel"><h3>Breadth-first search with a queue</h3><p>BFS explores an unweighted graph in layers. A queue processes earlier discoveries before later ones.</p><button class="copy-code" data-code="code-4">Copy code</button><pre><code id="code-4">from collections import deque
+graph = {&quot;A&quot;: [&quot;B&quot;, &quot;C&quot;], &quot;B&quot;: [&quot;D&quot;], &quot;C&quot;: [&quot;D&quot;], &quot;D&quot;: []}
+queue = deque([&quot;A&quot;])
+seen = {&quot;A&quot;}
+order = []
+while queue:
+    node = queue.popleft()
+    order.append(node)
+    for neighbor in graph[node]:
+        if neighbor not in seen:
+            seen.add(neighbor)
+            queue.append(neighbor)
+print(order)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>[&#x27;A&#x27;, &#x27;B&#x27;, &#x27;C&#x27;, &#x27;D&#x27;]</code></pre><p>BFS finds shortest edge-count paths in unweighted graphs, not arbitrary weighted shortest paths.</p><a href="worked-examples.html#example-4">Read the worked-example guide</a></section><section class="panel"><h3>Merge two already-sorted lists</h3><p>Keep a pointer into each list. Repeatedly take the smaller next value, then append any remaining tail.</p><button class="copy-code" data-code="code-5">Copy code</button><pre><code id="code-5">def merge(left, right):
+    result = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:
+            result.append(left[i]); i += 1
+        else:
+            result.append(right[j]); j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+print(merge([1, 4, 7], [2, 4, 8]))</code></pre><h4>Expected output</h4><pre class="expected-output"><code>[1, 2, 4, 4, 7, 8]</code></pre><p>This merges sorted inputs; it does not sort arbitrary unsorted inputs.</p><a href="worked-examples.html#example-5">Read the worked-example guide</a></section><section class="panel"><h3>Two-sum with remembered values</h3><p>Remember earlier values so that each new value can ask whether its complement has appeared.</p><button class="copy-code" data-code="code-6">Copy code</button><pre><code id="code-6">def two_sum(values, target):
+    seen = {}
+    for index, value in enumerate(values):
+        other = target - value
+        if other in seen:
+            return (seen[other], index)
+        seen[value] = index
+    return None
+
+print(two_sum([2, 7, 11, 15], 9))
+print(two_sum([3, 3], 6))</code></pre><h4>Expected output</h4><pre class="expected-output"><code>(0, 1)
+(0, 1)</code></pre><p>Return indices or values deliberately: callers need to know which interpretation they receive.</p><a href="worked-examples.html#example-6">Read the worked-example guide</a></section><section class="panel"><h3>Dynamic programming: reuse earlier answers</h3><p>The number of ways to climb n steps using steps of size 1 or 2 can be built from the two smaller answers.</p><button class="copy-code" data-code="code-7">Copy code</button><pre><code id="code-7">def ways(n):
+    if n &lt; 0:
+        raise ValueError(&quot;n must be nonnegative&quot;)
+    previous, current = 1, 1
+    for _ in range(2, n + 1):
+        previous, current = current, previous + current
+    return current
+
+print(ways(4))
+print(ways(0))</code></pre><h4>Expected output</h4><pre class="expected-output"><code>5
+1</code></pre><p>A recurrence plus base cases makes repeated subproblems explicit.</p><a href="worked-examples.html#example-7">Read the worked-example guide</a></section><section class="panel"><h3>Prefix sums answer range questions quickly</h3><p>Precompute totals before each position. A range total is the difference between two prefix totals.</p><button class="copy-code" data-code="code-8">Copy code</button><pre><code id="code-8">values = [3, 1, 4, 2]
+prefix = [0]
+for value in values:
+    prefix.append(prefix[-1] + value)
+
+def range_sum(start, stop):
+    return prefix[stop] - prefix[start]
+
+print(prefix)
+print(range_sum(1, 3))</code></pre><h4>Expected output</h4><pre class="expected-output"><code>[0, 3, 4, 8, 10]
+5</code></pre><p>If the underlying values change, this stored prefix array must be updated or rebuilt.</p><a href="worked-examples.html#example-8">Read the worked-example guide</a></section></section><p><a href="#main">Back to top</a> · <a href="index.html">Return to DSA Lab</a></p></main><p id="copy-status" role="status" aria-live="polite"></p><script src="../study-copy.js"></script></body></html>

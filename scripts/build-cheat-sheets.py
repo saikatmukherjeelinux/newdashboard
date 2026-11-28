@@ -1,0 +1,115 @@
+"""Generate static quick references; code examples share the verified guide source."""
+from pathlib import Path
+from html import escape as h
+import json
+
+ROOT = Path(__file__).resolve().parents[1]
+EXAMPLES = json.loads((ROOT / 'scripts/study-examples.json').read_text(encoding='utf-8'))
+SHEETS = {
+ 'python-motion-lab': ('Python', 'Python 3; runnable examples use only the standard library.', [
+ ('Names and values', 'x = 3', 'Assign a value to a name. Use == to compare values; = assigns.'),
+ ('Numbers', '7 / 2 → 3.5; 7 // 2 → 3; 7 % 2 → 1', '/ divides, // rounds the quotient down, and % returns the remainder. ** raises a power.'),
+ ('Text', '"hello".upper() → "HELLO"', 'Strings are immutable: a text operation returns a new string.'),
+ ('Convert types', 'int("12") → 12; str(12) → "12"', 'Invalid input such as int("cat") raises ValueError.'),
+ ('Format output', 'f"Total: {total}"', 'An f-string inserts the value of an expression inside braces.'),
+ ('Lists', 'a = [10, 20, 30]; a[0] → 10', 'Positions start at zero; a[-1] selects the last item. Empty lists have no last item.'),
+ ('Slicing', '[10, 20, 30][0:2] → [10, 20]', 'The start is included and the stop is excluded. A list slice makes a shallow copy.'),
+ ('Dictionaries', '{"a": 2}.get("b", 0) → 0', 'Keys map to values. get supplies a fallback for a missing key.'),
+ ('Sets', 'len({1, 1, 2}) → 2', 'Sets keep unique hashable values. Do not depend on their display order.'),
+ ('Conditions', 'if score >= 50:', 'Indent the statements that belong to the condition; use elif and else for alternatives.'),
+ ('Loops', 'for i in range(3):', 'range(3) supplies 0, 1, 2. break leaves the loop; continue skips to its next iteration.'),
+ ('Comprehensions', '[x*x for x in range(3)] → [0, 1, 4]', 'Build a collection by transforming values; add if to filter them.'),
+ ('Functions', 'def double(x): return x * 2', 'return sends a result to the caller. print only displays it.'),
+ ('Exceptions', 'try: ... except ValueError: ...', 'Catch the specific failure you can handle. Do not silently ignore every exception.'),
+ ('Files', 'with open("notes.txt", encoding="utf-8") as f:', 'The with block closes the file after use. Mode w replaces existing file contents.'),
+ ('Copies', 'b = a.copy()', 'Assignment shares the same list; copy makes a new outer list but still shares nested objects.'),
+ ('Sorting', 'sorted([3, 1, 2]) → [1, 2, 3]', 'sorted returns a new list. list.sort changes the list in place and returns None.'),
+ ('Truth values', 'bool([]) → False', 'Empty collections, zero, None and False are false in a condition; "False" is nonempty text and is true.')]),
+ 'dsa-motion-lab': ('DSA', 'Python examples; complexity describes growth in operations or memory, not elapsed seconds.', [
+ ('Big O', 'O(1), O(log n), O(n), O(n log n), O(n²)', 'Describe how work grows with input size n. State whether you mean average or worst case.'),
+ ('List indexing', 'items[i]', 'Python list indexing is O(1); searching an unsorted list takes O(n) in the worst case.'),
+ ('Stack', 'stack.append(x); stack.pop()', 'Last in, first out. Check for an empty stack before popping. List append/pop at the end are amortized O(1).'),
+ ('Queue', 'deque.append(x); deque.popleft()', 'First in, first out. Use collections.deque to remove from the front in O(1).'),
+ ('Hash lookup', 'key in mapping', 'Dictionary/set lookup is O(1) on average, not an unconditional worst-case guarantee.'),
+ ('Linear search', 'Check each item until a match', 'Works without sorted input. Decide whether the answer should be a value, index or all matching indices.'),
+ ('Binary search', 'mid = (lo + hi) // 2', 'Requires sorted data and a consistent comparison. Halve the search interval; O(log n) comparisons.'),
+ ('Two pointers', 'Move left and right according to a condition', 'Often useful on sorted arrays. Sorting first changes both the cost and original positions.'),
+ ('Sliding window', 'Expand right; shrink left when invalid', 'Maintain a condition over a contiguous range. Some sum-based methods require nonnegative values.'),
+ ('Prefix sums', 'sum of [l, r) = prefix[r] - prefix[l]', 'Build n+1 prefix values starting with zero. Range sum queries then take O(1).'),
+ ('BFS', 'Queue + visited set', 'Visits a graph by distance in edges. Finds shortest paths in unweighted graphs; O(V+E) with adjacency lists.'),
+ ('DFS', 'Stack or recursion + visited set', 'Explores a branch before backtracking. A visited set prevents cycles from looping forever.'),
+ ('Dijkstra', 'Priority queue of tentative distances', 'Finds shortest paths with nonnegative edge weights. Negative weights invalidate the standard method.'),
+ ('Merge sort', 'Split → sort halves → merge', 'O(n log n) time. A typical array implementation needs O(n) extra storage.'),
+ ('Quick sort', 'Partition around a pivot', 'Typically O(n log n), but O(n²) in the worst case. Pivot selection matters.'),
+ ('Dynamic programming', 'State → recurrence → base cases → order', 'Reuse answers to overlapping subproblems. Define what each table entry means before coding.'),
+ ('Recursion', 'Base case + smaller problem', 'Each recursive call needs stack space. Deep recursion can exceed Python’s recursion limit.'),
+ ('Edge cases', 'Empty, one item, duplicates, missing target', 'Trace these cases before relying on a visualization. Confirm whether input may be modified.')]),
+ 'unix-motion-lab': ('Unix', 'Bash with GNU tools is the baseline. macOS/BSD flags can differ. Shell examples are authored, not executed on this Windows host.', [
+ ('Current directory', 'pwd', 'Print the current directory. Paths beginning with / are absolute; other paths are relative.'),
+ ('Navigate', 'cd ..; cd ~', '.. means parent directory; ~ means your home. cd is a shell built-in.'),
+ ('List files', 'ls -lah', '-l: long listing; -a: include dotfiles; -h: human-readable sizes in long output.'),
+ ('Create directory', 'mkdir -p practice/input', '-p creates missing parent directories and accepts an existing directory.'),
+ ('Copy and move', 'cp -i source destination; mv -i old new', '-i asks before overwriting. cp copies; mv moves or renames. Use cp -R for directories.'),
+ ('Remove a file', 'rm -i -- filename', '-i asks for confirmation; -- ends option parsing. Removal normally bypasses a desktop recycle bin.'),
+ ('Inspect text', 'head -n 5 file; tail -n 5 file', '-n 5 selects five lines. tail -f follows appended data; Ctrl+C stops it.'),
+ ('Find text', 'grep -n -F "error" file', '-n adds line numbers; -F treats the pattern literally. -i ignores case; -v keeps nonmatching lines.'),
+ ('Sort', 'sort -n file', '-n compares numbers; -r reverses order; -u removes equal sorted lines.'),
+ ('Count duplicates', 'sort file | uniq -c', 'uniq groups adjacent equal lines; -c adds counts. Sorting brings equal lines together.'),
+ ('Count lines', 'wc -l file', '-l counts newline characters; -w counts words; -c counts bytes (not necessarily characters).'),
+ ('Choose fields', 'cut -d, -f2 file', '-d sets a one-character delimiter; -f selects fields starting at 1. This is not a full CSV parser for quoted commas.'),
+ ('Replace text', "sed 's/old/new/g' file", 's substitutes; g replaces every match on each line. Output goes to the terminal; the file is unchanged without in-place editing.'),
+ ('Calculate fields', "awk '{total += $2} END {print total}' file", '$2 is the second whitespace-separated field. END runs after the input is read.'),
+ ('Find paths', "find . -type f -name '*.txt'", '. is the search root; -type f selects regular files; -name matches the quoted filename pattern.'),
+ ('Permissions', 'chmod u+x script.sh', 'u means owner; +x adds execute permission. Execution also depends on directory access and the script interpreter.'),
+ ('Streams', 'command > out.txt; command >> out.txt', '> creates or truncates output; >> appends. 2> redirects errors. A pipe | connects standard output to the next command’s input.'),
+ ('Exit status', 'command; printf "%s\\n" "$?"', '$? is the preceding command’s exit status: zero usually means success. grep uses 1 for no match and 2 for an error.'),
+ ('Processes', 'ps -ef; kill -TERM PID', 'ps -e selects all processes; -f uses full format. TERM requests termination; substitute an actual PID you are authorized to stop.'),
+ ('Help', 'man grep; grep --help', 'man opens the manual (q quits). --help is common in GNU tools but is not universal.')]),
+ 'ml-motion-lab': ('ML', 'Compact mathematical reminders. Symbols are explained in each row; use the full lessons for worked derivations.', [
+ ('Feature and target', 'x = input; y = known answer', 'A model predicts a target from features. Training uses known answers to adjust parameters.'),
+ ('Linear model', 'prediction = w·x + b', 'w is a weight vector; x is a feature vector; b is the bias. For one feature, w·x is ordinary multiplication.'),
+ ('Dot product', '[1, 2] · [3, 4] = 1×3 + 2×4 = 11', 'Multiply matching coordinates and sum them. Both vectors must have the same number of coordinates.'),
+ ('Matrix shapes', '(n × d) @ (d × k) → (n × k)', 'The inner dimensions must agree. @ denotes matrix multiplication; * may mean elementwise multiplication.'),
+ ('Squared length', '||[3, 4]||² = 3² + 4² = 25', 'The Euclidean length is the square root, 5. Length and squared length are different quantities.'),
+ ('Derivative', 'd(x²)/dx = 2x', 'A derivative measures local rate of change. At x=3, the slope is 6, not the function value 9.'),
+ ('Chain rule', 'd f(g(x))/dx = f′(g(x)) × g′(x)', 'Multiply local derivatives through a composition. Backpropagation applies this rule to model computations.'),
+ ('Gradient step', 'w_new = w_old - learning_rate × gradient', 'Move against the gradient to reduce loss locally. A large learning rate can overshoot.'),
+ ('Mean squared error', 'MSE = sum((prediction - target)²) / n', 'n is the number of examples. Larger errors receive more weight because of squaring.'),
+ ('Probability', '0 ≤ P(A) ≤ 1', 'Probabilities for mutually exclusive, exhaustive outcomes sum to 1.'),
+ ('Conditional probability', 'P(A|B) = P(A and B) / P(B)', 'Restrict attention to cases where B holds; requires P(B)>0.'),
+ ('Bayes rule', 'P(A|B) = P(B|A)P(A) / P(B)', 'Reverse a conditional probability using the base rate. P(A|B) and P(B|A) are not interchangeable.'),
+ ('Sigmoid', '1 / (1 + exp(-z))', 'Maps a real score z to (0,1). A probability-like output is not automatically well calibrated.'),
+ ('Stable softmax', 'exp(z_i - m) / sum_j exp(z_j - m)', 'm is the largest score. Subtracting it avoids overflow while preserving probabilities.'),
+ ('Standardize', 'z = (x - training_mean) / training_SD', 'Fit scaling on training data only. Handle zero standard deviation explicitly.'),
+ ('Precision and recall', 'precision = TP/(TP+FP); recall = TP/(TP+FN)', 'TP: true positives; FP: false positives; FN: false negatives. A zero denominator requires an explicit convention.'),
+ ('Regularization', 'objective = data_loss + λ × penalty', 'λ controls the penalty strength. Choose it using validation data, not the held-out test set.'),
+ ('Data splits', 'Train → validation → test', 'Train fits parameters, validation guides choices, and test estimates final held-out performance. Avoid information leakage.')]),
+ 'statistics-lab': ('Statistics', 'Use formulas together with their assumptions, units and sampling context.', [
+ ('Population and sample', 'Population = target group; sample = observed subset', 'A large sample can still be biased if its collection method excludes relevant cases.'),
+ ('Mean', 'mean = sum(x) / n', 'n is the number of observations. The mean reacts to extreme values and retains the original measurement unit.'),
+ ('Median', 'Sort; select the middle value', 'With an even count, average the two middle values. The median is less sensitive to extreme values than the mean.'),
+ ('Weighted mean', 'sum(weight × value) / sum(weights)', 'Weights must represent the intended contribution. The denominator must be nonzero.'),
+ ('Range and IQR', 'range = max - min; IQR = Q3 - Q1', 'IQR spans the middle 50%. Software can use different sample quantile conventions.'),
+ ('Variance', 'Population: sum((x-mean)²)/n; sample: divide by n-1', 'Sample variance needs at least two observations. Variance has squared measurement units.'),
+ ('Standard deviation', 'SD = sqrt(variance)', 'Describes spread in the original units; it is not the uncertainty of the sample mean.'),
+ ('Standard error', 'SE(mean) ≈ sample_SD / sqrt(n)', 'This usual estimate assumes independent observations with suitable finite variance. Dependence changes the calculation.'),
+ ('Binomial', 'P(X=k) = C(n,k) p^k (1-p)^(n-k)', 'n independent trials, each with the same success probability p; k counts successes.'),
+ ('Poisson', 'P(X=k) = exp(-λ) λ^k / k!', 'λ is the expected count in the interval. Check whether the event process assumptions fit the application.'),
+ ('Normal scores', 'z = (x - μ) / σ', 'μ is the population mean and σ its SD. A normal model needs justification; standardizing does not make data normal.'),
+ ('Confidence interval', 'estimate ± critical_value × SE', 'The method has repeated-sampling coverage. This is not generally a probability statement about a fixed parameter after observing the data.'),
+ ('Mean t interval', 'sample_mean ± t* × sample_SD / sqrt(n)', 't* uses n-1 degrees of freedom for the one-sample setting. Independence and distributional conditions matter.'),
+ ('p-value', 'P(result at least as extreme | null model)', 'It is not the probability that the null is true, nor the chance that the result is important.'),
+ ('Paired comparison', 'difference_i = after_i - before_i', 'Analyze within-pair differences. Do not treat repeated measurements on the same unit as independent groups.'),
+ ('Correlation', '-1 ≤ Pearson r ≤ 1', 'Measures linear association when defined. Zero does not rule out nonlinear dependence; association does not prove causation.'),
+ ('Regression residual', 'residual = observed - predicted', 'Inspect residual patterns and influential observations. Prediction intervals differ from confidence intervals for a mean response.'),
+ ('Bootstrap', 'Resample observed units with replacement', 'Respect the sampling structure: independent rows, clusters or time blocks as appropriate. Resampling cannot fix biased collection.'),
+ ('Multiple tests', 'More tests → more chances of false positives', 'Choose an appropriate family-wise or false-discovery control method; do not select only favorable results.'),
+ ('Interpretation', 'Effect size + uncertainty + context', 'Statistical significance does not guarantee practical importance, representative sampling or a causal conclusion.')])
+}
+
+for folder, (name, note, rows) in SHEETS.items():
+    entries = ''.join(f'<tr><th scope="row">{h(topic)}</th><td><code>{h(syntax)}</code></td><td>{h(meaning)}</td></tr>' for topic, syntax, meaning in rows)
+    examples = ''.join(f'''<section class="panel"><h3>{h(e['title'])}</h3><p>{h(e['idea'])}</p><button class="copy-code" data-code="code-{i}">Copy code</button><pre><code id="code-{i}">{h(e['code'].strip())}</code></pre><h4>Expected output</h4><pre class="expected-output"><code>{h(e['output'].rstrip())}</code></pre><p>{h(e['lesson'])}</p><a href="worked-examples.html#example-{i}">Read the worked-example guide</a></section>''' for i, e in enumerate(EXAMPLES[folder], 1))
+    page = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{name} Cheat Sheet</title><link rel="stylesheet" href="../reading.css"><style>.cheat-table{{width:100%;border-collapse:collapse;margin:20px 0}}.cheat-table th,.cheat-table td{{text-align:left;vertical-align:top;padding:14px 12px;border-bottom:1px solid #c4cedc;overflow-wrap:anywhere}}.cheat-table th{{min-width:140px}}.cheat-table code{{white-space:pre-wrap}}.cheat-table caption{{text-align:left;font-weight:600;margin-bottom:12px}}@media(max-width:700px){{.cheat-table thead{{display:none}}.cheat-table tr,.cheat-table td,.cheat-table th{{display:block;min-width:0}}.cheat-table td{{border:0;padding-top:4px}}.cheat-table tr{{border-bottom:1px solid #c4cedc;padding:12px 0}}.cheat-table th{{border:0}}}}</style></head><body class="code-guide"><a class="skip" href="#main">Skip to cheat sheet</a><header><a href="index.html">← {name} Lab</a><a href="../index.html">All labs</a><a href="worked-examples.html">Detailed examples</a></header><main id="main"><h1>{name} Cheat Sheet</h1><p>A quick reminder of what to write, what it means, and what to watch for. Use the full lessons when a concept is new.</p><p>{h(note)}</p><nav aria-label="Cheat sheet sections"><a href="#reference">Quick reference</a> · <a href="#examples">Code and output</a></nav><section id="reference"><h2>Quick reference</h2><table class="cheat-table"><caption>{len(rows)} essential reminders</caption><thead><tr><th>Topic</th><th>Syntax or formula</th><th>Meaning and limitations</th></tr></thead><tbody>{entries}</tbody></table></section><section id="examples"><h2>Small examples with output</h2><p>These examples are also explained step by step in the <a href="worked-examples.html">worked-example guide</a>.</p>{examples}</section><p><a href="#main">Back to top</a> · <a href="index.html">Return to {name} Lab</a></p></main><p id="copy-status" role="status" aria-live="polite"></p><script src="../study-copy.js"></script></body></html>'''
+    (ROOT / folder / 'cheat-sheet.html').write_text(page, encoding='utf-8')
+print(f'Built {len(SHEETS)} cheat sheets with {sum(len(v[2]) for v in SHEETS.values())} reference entries and 40 code examples.')

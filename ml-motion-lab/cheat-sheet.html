@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ML Cheat Sheet</title><link rel="stylesheet" href="../reading.css"><style>.cheat-table{width:100%;border-collapse:collapse;margin:20px 0}.cheat-table th,.cheat-table td{text-align:left;vertical-align:top;padding:14px 12px;border-bottom:1px solid #c4cedc;overflow-wrap:anywhere}.cheat-table th{min-width:140px}.cheat-table code{white-space:pre-wrap}.cheat-table caption{text-align:left;font-weight:600;margin-bottom:12px}@media(max-width:700px){.cheat-table thead{display:none}.cheat-table tr,.cheat-table td,.cheat-table th{display:block;min-width:0}.cheat-table td{border:0;padding-top:4px}.cheat-table tr{border-bottom:1px solid #c4cedc;padding:12px 0}.cheat-table th{border:0}}</style></head><body class="code-guide"><a class="skip" href="#main">Skip to cheat sheet</a><header><a href="index.html">← ML Lab</a><a href="../index.html">All labs</a><a href="worked-examples.html">Detailed examples</a></header><main id="main"><h1>ML Cheat Sheet</h1><p>A quick reminder of what to write, what it means, and what to watch for. Use the full lessons when a concept is new.</p><p>Compact mathematical reminders. Symbols are explained in each row; use the full lessons for worked derivations.</p><nav aria-label="Cheat sheet sections"><a href="#reference">Quick reference</a> · <a href="#examples">Code and output</a></nav><section id="reference"><h2>Quick reference</h2><table class="cheat-table"><caption>18 essential reminders</caption><thead><tr><th>Topic</th><th>Syntax or formula</th><th>Meaning and limitations</th></tr></thead><tbody><tr><th scope="row">Feature and target</th><td><code>x = input; y = known answer</code></td><td>A model predicts a target from features. Training uses known answers to adjust parameters.</td></tr><tr><th scope="row">Linear model</th><td><code>prediction = w·x + b</code></td><td>w is a weight vector; x is a feature vector; b is the bias. For one feature, w·x is ordinary multiplication.</td></tr><tr><th scope="row">Dot product</th><td><code>[1, 2] · [3, 4] = 1×3 + 2×4 = 11</code></td><td>Multiply matching coordinates and sum them. Both vectors must have the same number of coordinates.</td></tr><tr><th scope="row">Matrix shapes</th><td><code>(n × d) @ (d × k) → (n × k)</code></td><td>The inner dimensions must agree. @ denotes matrix multiplication; * may mean elementwise multiplication.</td></tr><tr><th scope="row">Squared length</th><td><code>||[3, 4]||² = 3² + 4² = 25</code></td><td>The Euclidean length is the square root, 5. Length and squared length are different quantities.</td></tr><tr><th scope="row">Derivative</th><td><code>d(x²)/dx = 2x</code></td><td>A derivative measures local rate of change. At x=3, the slope is 6, not the function value 9.</td></tr><tr><th scope="row">Chain rule</th><td><code>d f(g(x))/dx = f′(g(x)) × g′(x)</code></td><td>Multiply local derivatives through a composition. Backpropagation applies this rule to model computations.</td></tr><tr><th scope="row">Gradient step</th><td><code>w_new = w_old - learning_rate × gradient</code></td><td>Move against the gradient to reduce loss locally. A large learning rate can overshoot.</td></tr><tr><th scope="row">Mean squared error</th><td><code>MSE = sum((prediction - target)²) / n</code></td><td>n is the number of examples. Larger errors receive more weight because of squaring.</td></tr><tr><th scope="row">Probability</th><td><code>0 ≤ P(A) ≤ 1</code></td><td>Probabilities for mutually exclusive, exhaustive outcomes sum to 1.</td></tr><tr><th scope="row">Conditional probability</th><td><code>P(A|B) = P(A and B) / P(B)</code></td><td>Restrict attention to cases where B holds; requires P(B)&gt;0.</td></tr><tr><th scope="row">Bayes rule</th><td><code>P(A|B) = P(B|A)P(A) / P(B)</code></td><td>Reverse a conditional probability using the base rate. P(A|B) and P(B|A) are not interchangeable.</td></tr><tr><th scope="row">Sigmoid</th><td><code>1 / (1 + exp(-z))</code></td><td>Maps a real score z to (0,1). A probability-like output is not automatically well calibrated.</td></tr><tr><th scope="row">Stable softmax</th><td><code>exp(z_i - m) / sum_j exp(z_j - m)</code></td><td>m is the largest score. Subtracting it avoids overflow while preserving probabilities.</td></tr><tr><th scope="row">Standardize</th><td><code>z = (x - training_mean) / training_SD</code></td><td>Fit scaling on training data only. Handle zero standard deviation explicitly.</td></tr><tr><th scope="row">Precision and recall</th><td><code>precision = TP/(TP+FP); recall = TP/(TP+FN)</code></td><td>TP: true positives; FP: false positives; FN: false negatives. A zero denominator requires an explicit convention.</td></tr><tr><th scope="row">Regularization</th><td><code>objective = data_loss + λ × penalty</code></td><td>λ controls the penalty strength. Choose it using validation data, not the held-out test set.</td></tr><tr><th scope="row">Data splits</th><td><code>Train → validation → test</code></td><td>Train fits parameters, validation guides choices, and test estimates final held-out performance. Avoid information leakage.</td></tr></tbody></table></section><section id="examples"><h2>Small examples with output</h2><p>These examples are also explained step by step in the <a href="worked-examples.html">worked-example guide</a>.</p><section class="panel"><h3>Make a numeric prediction and inspect every contribution</h3><p>A weighted sum is the same arithmetic as a shopping bill. Each feature contributes its value times its weight.</p><button class="copy-code" data-code="code-1">Copy code</button><pre><code id="code-1">features = [2, 3]
+weights = [4, -1]
+contributions = [x * w for x, w in zip(features, weights)]
+bias = 1
+prediction = sum(contributions) + bias
+print(contributions)
+print(prediction)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>[8, -3]
+6</code></pre><p>A negative weight reduces a score; its meaning depends on the feature and fitted model.</p><a href="worked-examples.html#example-1">Read the worked-example guide</a></section><section class="panel"><h3>Measure prediction error with MSE</h3><p>Mean squared error turns a list of residuals into one nonnegative summary.</p><button class="copy-code" data-code="code-2">Copy code</button><pre><code id="code-2">actual = [2, 4, 6]
+predicted = [1, 5, 6]
+errors = [p - y for p, y in zip(predicted, actual)]
+squares = [e * e for e in errors]
+print(errors)
+print(squares)
+print(f&quot;MSE={sum(squares) / len(squares):.4f}&quot;)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>[-1, 1, 0]
+[1, 1, 0]
+MSE=0.6667</code></pre><p>MSE emphasizes larger errors and uses squared target units. It is not the only sensible loss.</p><a href="worked-examples.html#example-2">Read the worked-example guide</a></section><section class="panel"><h3>Follow gradient descent for three steps</h3><p>This is a one-parameter training example with a known minimum at w=3.</p><button class="copy-code" data-code="code-3">Copy code</button><pre><code id="code-3">w = 0.0
+rate = 0.1
+for step in range(1, 4):
+    gradient = 2 * (w - 3)
+    w -= rate * gradient
+    loss = (w - 3) ** 2
+    print(f&quot;step={step} w={w:.4f} loss={loss:.4f}&quot;)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>step=1 w=0.6000 loss=5.7600
+step=2 w=1.0800 loss=3.6864
+step=3 w=1.4640 loss=2.3593</code></pre><p>An optimization example is not evidence that every model will find a global minimum.</p><a href="worked-examples.html#example-3">Read the worked-example guide</a></section><section class="panel"><h3>Calculate softmax without enormous exponentials</h3><p>Softmax turns scores into positive values summing to one. Subtracting a shared maximum leaves the probabilities unchanged.</p><button class="copy-code" data-code="code-4">Copy code</button><pre><code id="code-4">from math import exp
+scores = [1000.0, 1001.0]
+largest = max(scores)
+scaled = [exp(x - largest) for x in scores]
+total = sum(scaled)
+probabilities = [x / total for x in scaled]
+print([round(p, 4) for p in probabilities])
+print(f&quot;sum={sum(probabilities):.4f}&quot;)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>[0.2689, 0.7311]
+sum=1.0000</code></pre><p>A numerically stable formula can be algebraically equivalent to an unstable one.</p><a href="worked-examples.html#example-4">Read the worked-example guide</a></section><section class="panel"><h3>Compute a Bayes update with counts</h3><p>Fictional item flags illustrate why a useful detector can still produce many false alarms.</p><button class="copy-code" data-code="code-5">Copy code</button><pre><code id="code-5">faulty_and_flagged = 8
+good_and_flagged = 18
+flagged = faulty_and_flagged + good_and_flagged
+posterior = faulty_and_flagged / flagged
+print(f&quot;Flagged: {flagged}&quot;)
+print(f&quot;Faulty among flagged: {posterior:.2%}&quot;)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>Flagged: 26
+Faulty among flagged: 30.77%</code></pre><p>This is the probability of a fault given a flag, not the probability of a flag given a fault.</p><a href="worked-examples.html#example-5">Read the worked-example guide</a></section><section class="panel"><h3>Build an attention-weighted mixture</h3><p>Attention mixes value vectors using weights. This example supplies the weights so the mixing step is easy to inspect.</p><button class="copy-code" data-code="code-6">Copy code</button><pre><code id="code-6">weights = [0.25, 0.75]
+values = [[2, 0], [0, 4]]
+result = [
+    sum(weight * value[j] for weight, value in zip(weights, values))
+    for j in range(2)
+]
+print(result)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>[0.5, 3.0]</code></pre><p>The vector output keeps its coordinate dimension while combining information across positions.</p><a href="worked-examples.html#example-6">Read the worked-example guide</a></section><section class="panel"><h3>Standardize using training information only</h3><p>Preprocessing is part of the fitted procedure. Use the training mean and scale for later examples.</p><button class="copy-code" data-code="code-7">Copy code</button><pre><code id="code-7">from statistics import mean, pstdev
+train = [2, 4, 6]
+center = mean(train)
+scale = pstdev(train)
+new_value = 8
+z = (new_value - center) / scale
+print(f&quot;mean={center:.1f} scale={scale:.4f}&quot;)
+print(f&quot;new z={z:.4f}&quot;)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>mean=4.0 scale=1.6330
+new z=2.4495</code></pre><p>Including held-out data in fitted preprocessing can leak information into evaluation.</p><a href="worked-examples.html#example-7">Read the worked-example guide</a></section><section class="panel"><h3>Check a tiny classifier beyond accuracy</h3><p>Counts of true and false positives answer different questions from overall accuracy.</p><button class="copy-code" data-code="code-8">Copy code</button><pre><code id="code-8">tp, fp, fn, tn = 30, 10, 20, 40
+precision = tp / (tp + fp)
+recall = tp / (tp + fn)
+accuracy = (tp + tn) / (tp + fp + fn + tn)
+print(f&quot;precision={precision:.2f}&quot;)
+print(f&quot;recall={recall:.2f}&quot;)
+print(f&quot;accuracy={accuracy:.2f}&quot;)</code></pre><h4>Expected output</h4><pre class="expected-output"><code>precision=0.75
+recall=0.60
+accuracy=0.70</code></pre><p>Choose metrics that match the consequences of mistakes, not only the largest-looking score.</p><a href="worked-examples.html#example-8">Read the worked-example guide</a></section></section><p><a href="#main">Back to top</a> · <a href="index.html">Return to ML Lab</a></p></main><p id="copy-status" role="status" aria-live="polite"></p><script src="../study-copy.js"></script></body></html>
