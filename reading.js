@@ -62,6 +62,29 @@
   details.className = 'reading-foundations';
   details.innerHTML = `<summary>${item.title}</summary>${item.paragraphs.map(p=>`<p>${escape(p)}</p>`).join('')}<h3>Example</h3><pre><code>${escape(item.code)}</code></pre><h3>Expected output</h3><pre><code>${escape(item.output)}</code></pre><h3>Why this result matters</h3><p>${escape(item.explanation)}</p>`;
   shortcuts.after(details);
+  // Keep completion and practice actions after the explanation, not before it.
+  if (lab === 'python') {
+    const body = document.querySelector('#lessonBody');
+    const tools = document.querySelector('.lesson-tools');
+    if (body && tools) body.after(tools);
+  }
+  // Route renderers replace the article; move its existing buttons without
+  // recreating them so their handlers and saved progress continue to work.
+  if (lab === 'ml' || lab === 'statistics') {
+    const view = document.querySelector('#view');
+    const reorder = () => {
+      const article = view?.querySelector('article');
+      const actions = article?.querySelector('.lesson-header .actions');
+      if (actions) {
+        const next = article.querySelector('.lesson-bottom');
+        if (next) next.before(actions); else article.append(actions);
+      }
+    };
+    if (view) {
+      new MutationObserver(reorder).observe(view, {childList:true, subtree:true});
+      reorder();
+    }
+  }
   if (lab === 'dsa') {
     const guide = document.querySelector('#simpleGuide');
     const workspace = document.querySelector('.workspace');

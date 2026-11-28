@@ -69,3 +69,49 @@ body[data-lab] .reading-foundations p,body[data-lab] .reading-foundations li{fon
 body[data-lab] .reading-foundations pre{padding:16px;background:var(--code,var(--panel,#141e30));border:1px solid var(--line,#52617b)}
 body[data-lab] .simple-guide{margin-top:0;padding-top:10px}
 body[data-lab] .pulse{animation:none!important}
+
+/* Textbook presentation: content is the page, rather than cards inside cards. */
+body[data-lab] .lesson-panel,body[data-lab] #lesson,
+body[data-lab] .worked-example,body[data-lab] .simplest-summary,
+body[data-lab] .lesson-section,body[data-lab] .simple-guide,
+body[data-lab] .guide-example,body[data-lab] .detail-card,
+body[data-lab] .code-section,body[data-lab] .workspace{
+ background:transparent!important;border:0!important;border-radius:0!important;
+ box-shadow:none!important;padding-left:0!important;padding-right:0!important
+}
+body[data-lab] .worked-example,body[data-lab] .simplest-summary{
+ border-top:1px solid var(--line,#52617b)!important;padding-top:24px!important
+}
+body[data-lab] .lesson-meta,body[data-lab] .notes-label,
+body[data-lab] .examples-heading>.pill,body[data-lab] .lesson-jumps>span,
+body[data-lab] .brand-accent{display:none!important}
+body[data-lab] .lesson-header{margin-bottom:16px}
+body[data-lab] .lesson-header h2{font-size:27px;line-height:1.4}
+body[data-lab] .lesson-tools{margin-top:28px;border-top:1px solid var(--line,#52617b);padding-top:16px}
+body[data-lab] .notes-label+ .prose{padding-top:0}
+body[data-lab] .prose p,body[data-lab] .prose li{color:var(--text,var(--ink,#edf2ff))}
+body[data-lab] .example-block-label,body[data-lab] .example-block-label small{
+ font:13px/1.6 Segoe UI,Arial,sans-serif;letter-spacing:0
+}
+body[data-lab] .prose h3,body[data-lab] .prose h4{font-size:20px;line-height:1.5}
+body[data-lab] .example-explanation h5{font-size:17px}
+body[data-lab] .lesson-jumps{gap:16px;padding:0 0 14px}
+body[data-lab] .lesson-jumps button{
+ padding:3px 0;background:transparent;border:0;text-decoration:underline;text-underline-offset:4px
+}
+body[data-lab] .mode-tabs button,body[data-lab] .modes button{
+ background:transparent!important;border:0;border-bottom:2px solid transparent;border-radius:0;padding:8px 10px
+}
+body[data-lab] .mode-tabs button.active,body[data-lab] .mode-tabs button[aria-selected=true],
+body[data-lab] .modes button[aria-pressed=true]{border-bottom-color:var(--cyan,var(--accent,#9be6d6));font-weight:700}
+body[data-lab] .mode-tabs small,body[data-lab] #quizTab>span{display:none}
+body[data-lab=ml]>header nav,body[data-lab=statistics]>header nav,
+body[data-lab=unix]>header nav{display:none}
+body[data-lab] .reading-start{padding:8px 0;margin-bottom:10px}
+body[data-lab] .reading-foundations{margin-bottom:12px;padding-bottom:8px}
+body[data-lab] .result,body[data-lab] .takeaway{
+ background:transparent;border-radius:0;border-left:2px solid var(--line,#52617b)
+}
+body.code-guide .panel{background:transparent;border:0;border-top:1px solid #c4cedc;border-radius:0;padding:22px 0}
+body[data-lab=dashboard] .lab{background:transparent;border:0;border-bottom:1px solid var(--line,#52617b);border-radius:0;padding:22px 0}
+@media(max-width:700px){body[data-lab] .lesson-header h2{font-size:25px}body[data-lab] main{padding-left:18px;padding-right:18px}}
