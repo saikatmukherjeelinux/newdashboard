@@ -55,3 +55,17 @@ body[data-lab=dashboard] .lab h2{margin:0 0 8px;font-size:22px}
 body[data-lab=dashboard] .lab .tags{display:none}
 body[data-lab=dashboard] .open{margin-top:10px;padding-top:10px}
 @media(max-width:700px){body[data-lab] .lesson-section{padding:18px 0}body[data-lab] .reading-start{gap:8px 16px}body[data-lab] h1{font-size:26px}}
+
+/* Lesson content takes priority over promotional and ornamental surfaces. */
+body[data-lab=ml] #view>.hero,body[data-lab=statistics] #view>.hero{display:none!important}
+body[data-lab] .module,body[data-lab] .lesson-section,body[data-lab] .simple-guide,
+body[data-lab] .detail-card{background:transparent!important;box-shadow:none!important}
+body[data-lab] .module{border:0;border-bottom:1px solid var(--line,#52617b);padding:18px 0}
+body[data-lab] .topic-description{font-size:16px;line-height:1.75;color:var(--muted);margin:5px 0 18px;max-width:75ch}
+body[data-lab] .lesson-section h2,body[data-lab] .simple-guide h2{font-size:22px}
+body[data-lab] .reading-foundations{margin:0 0 20px;border-bottom:1px solid var(--line,#52617b);padding-bottom:12px}
+body[data-lab] .reading-foundations summary{font-size:15px;font-weight:500}
+body[data-lab] .reading-foundations p,body[data-lab] .reading-foundations li{font-size:16px;max-width:75ch}
+body[data-lab] .reading-foundations pre{padding:16px;background:var(--code,var(--panel,#141e30));border:1px solid var(--line,#52617b)}
+body[data-lab] .simple-guide{margin-top:0;padding-top:10px}
+body[data-lab] .pulse{animation:none!important}
