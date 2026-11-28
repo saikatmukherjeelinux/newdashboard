@@ -25,4 +25,12 @@ body.library-reader .lesson-tools{display:none}
 body.library-reader footer{font-size:12px}
 body.code-guide header{border-bottom:1px solid var(--rule)}body.code-guide header a{color:var(--link)}
 body.code-guide h1{font:normal 38px/1.25 Georgia,serif}
+.section-project{margin:32px 0;border-top:1px solid var(--line,#dcded5);padding:20px 0}
+.section-project summary{font-size:17px;font-weight:600;cursor:pointer}
+.section-project-content{padding-top:20px}
+.section-project-content li,#project-view li{margin:14px 0;white-space:pre-line}
+.project-section{font-size:14px;color:var(--muted,#64665e)}
+.project-code,.project-output{max-width:100%;overflow:auto;padding:18px;line-height:1.7}
+.project-copy-status{font-size:14px}
+#project-choice{display:block;width:100%;max-width:100%;margin:12px 0 30px;padding:12px;font:16px 'Segoe UI',sans-serif;background:transparent;border:1px solid #dcded5}
 @media(max-width:600px){.library-home main{padding:32px 20px}.subject-list a{grid-template-columns:28px 1fr 18px;gap:12px;padding:22px 0}.subject-list h2{font-size:23px}body.library-reader main{padding:26px 20px!important}body.library-reader .library-heading h1{font-size:30px}}

@@ -16,7 +16,7 @@
    entries=[...index.querySelectorAll('a[href],button[data-lesson]')];
    select.replaceChildren(new Option('Choose what to open…',''));
    const resources=group('Resources');
-   for(const [text,value] of [['All subjects','../index.html'],['Cheat Sheet','cheat-sheet.html'],['Worked examples','worked-examples.html']])resources.append(new Option(text,'url:'+value));
+   for(const [text,value] of [['All subjects','../index.html'],['Cheat Sheet','cheat-sheet.html'],['Worked examples','worked-examples.html'],['Complete section programs','section-projects.html']])resources.append(new Option(text,'url:'+value));
    const topics=group('Lessons');
    entries.forEach((e,i)=>{const option=new Option((e.title||e.textContent).replace(/\s+/g,' ').trim(),'lesson:'+i);topics.append(option);if(e.matches('[aria-current="page"],.active'))option.selected=true;});
    if(tools.length){const practice=group('Practice and reference');tools.forEach((e,i)=>{const text=e.textContent.replace(/[◈⌘◎▤]/g,'').replace(/\s+/g,' ').trim();if(!/worked code examples/i.test(text))practice.append(new Option(text,'tool:'+i));});}

@@ -1,0 +1,1567 @@
+window.SECTION_PROJECTS = {
+  "dsa-motion-lab": [
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Sorting",
+      "title": "Bubble Sort — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "def bubble_sort(arr):\n    a = arr.copy()\n    for end in range(len(a) - 1, 0, -1):\n        swapped = False\n        for i in range(end):\n            if a[i] > a[i + 1]:\n                a[i], a[i + 1] = a[i + 1], a[i]\n                swapped = True\n        if not swapped:\n            break\n    return a\n\n# Run independent scenarios and compare with known answers.\n\nresult = bubble_sort([4, 1, 3, 1])\nprint('mixed' + \":\", result)\nassert result == [1, 1, 3, 4], \"Unexpected result for mixed\"\n\nresult = bubble_sort([])\nprint('empty' + \":\", result)\nassert result == [], \"Unexpected result for empty\"\n\nresult = bubble_sort([-1, 2, -3])\nprint('negative' + \":\", result)\nassert result == [-3, -1, 2], \"Unexpected result for negative\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Bubble Sort.",
+        "EXPLAINED SIMPLY\nBubble Sort, one step at a time\n\nImagine moving the heaviest book to the end of a shelf by swapping neighboring books.\n\nLook at two numbers next to each other.\nIf the left number is bigger, swap them.\nContinue to the end. The largest number is now in its final place.\nRepeat for the remaining numbers. Stop when a whole pass makes no swaps.\nA tiny example\n\n[3, 1, 2] → swap 3 and 1 → [1, 3, 2] → swap 3 and 2 → [1, 2, 3]. The next pass makes no swaps.\n\nWhen would I use it?\n\nGood for learning comparisons and swaps, or very small lists. Usually too slow for large lists.\n\nWhat to watch in this animation\n\nOrange marks the current comparison or swap. Green marks positions already settled.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Time: O(n²) average/worst, O(n) best with early exit. Extra space: O(1). Stable. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "mixed: [1, 1, 3, 4]\nempty: []\nnegative: [-3, -1, 2]\nAll scenario checks passed",
+      "language": "python",
+      "id": "sorting",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Searching",
+      "title": "Linear Search — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "def linear_search(arr, target):\n    for i, value in enumerate(arr):\n        if value == target:\n            return i\n    return -1\n\n# Run independent scenarios and compare with known answers.\n\nresult = linear_search([4,7,2],7)\nprint('present' + \":\", result)\nassert result == 1, \"Unexpected result for present\"\n\nresult = linear_search([4,7,2],9)\nprint('absent' + \":\", result)\nassert result == -1, \"Unexpected result for absent\"\n\nresult = linear_search([],7)\nprint('empty' + \":\", result)\nassert result == -1, \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Linear Search.",
+        "EXPLAINED SIMPLY\nLinear Search, one step at a time\n\nFind a number the way you search for a name on an unsorted list: check one entry at a time.\n\nStart at index 0, the first position.\nCompare the current number with your target.\nIf they match, return that index and stop.\nOtherwise move right. If you reach the end, return −1 to mean not found.\nA tiny example\n\nFind 5 in [8, 3, 5]: check 8, then 3, then 5. The result is index 2 because counting starts at 0.\n\nWhen would I use it?\n\nWorks on unsorted data and is simple for short lists. It returns the first match.\n\nWhat to watch in this animation\n\nEnter a target to try both successful and unsuccessful searches. With an empty target, the lesson picks a value from the list.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Time: O(n) worst, O(1) best. Extra space: O(1). The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "present: 1\nabsent: -1\nempty: -1\nAll scenario checks passed",
+      "language": "python",
+      "id": "searching",
+      "lines": 21,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Linear Structures",
+      "title": "Stack · LIFO — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import deque\n\nclass WorkQueue:\n    def __init__(self):\n        self.pending = deque()\n        self.finished = []\n\n    def add(self, item):\n        self.pending.append(item)\n\n    def process_next(self):\n        if not self.pending:\n            return None\n        item = self.pending.popleft()\n        self.finished.append(item)\n        return item\n\nqueue = WorkQueue()\nfor task in [\"read\", \"validate\", \"report\"]:\n    queue.add(task)\nwhile queue.pending:\n    print(\"Processed:\", queue.process_next())\nassert queue.finished == [\"read\", \"validate\", \"report\"]\nassert queue.process_next() is None\nprint(\"Undo order:\")\nwhile queue.finished:\n    print(queue.finished.pop())\nassert queue.finished == []",
+      "steps": [
+        "Read the input and result contract: Stack · LIFO.",
+        "EXPLAINED SIMPLY\nStack · LIFO, one step at a time\n\nA stack is like a pile of plates: the last plate added is the first one removed.\n\nPush means add an item to the top.\nPeek means look at the top without removing it.\nPop means remove the top item.\nOnly pop or peek when the stack is not empty.\nA tiny example\n\nPush 8, then 3, then 5 → [8, 3, 5]. Pop removes 5, leaving [8, 3].\n\nWhen would I use it?\n\nUseful for undo history, matching brackets, and remembering unfinished work.\n\nWhat to watch in this animation\n\nThis demo uses up to the first eight input values. The rightmost node is the top. It pushes the values, then pops once.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Push/pop: O(1) amortized for Python lists. Peek: O(1). Space: O(n). The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "Processed: read\nProcessed: validate\nProcessed: report\nUndo order:\nreport\nvalidate\nread",
+      "language": "python",
+      "id": "linear-structures",
+      "lines": 28,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Graphs",
+      "title": "Breadth-First Search — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import deque\n\ngraph = {'A': ['B','C'], 'B': ['D','E'],\n         'C': ['F'], 'D': [], 'E': ['F'], 'F': []}\n\ndef bfs(start):\n    q = deque([start])\n    seen = {start}\n    order = []\n    while q:\n        node = q.popleft()\n        order.append(node)\n        for neighbor in graph[node]:\n            if neighbor not in seen:\n                seen.add(neighbor)\n                q.append(neighbor)\n    return order\n\n# Run independent scenarios and compare with known answers.\n\nresult = bfs('A')\nprint('from A' + \":\", result)\nassert result[0] == \"A\"\nassert len(result) == len(set(result))\nassert set(result) == set(graph)\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Breadth-First Search.",
+        "EXPLAINED SIMPLY\nBreadth-First Search, one step at a time\n\nExplore nearby places before faraway places, like a ripple spreading out from a stone dropped in water.\n\nPut the starting node in a queue and mark it discovered.\nRemove the front node and visit it.\nAdd each undiscovered neighbor to the back of the queue. Mark it discovered immediately to avoid adding it twice.\nRepeat until the queue is empty.\nA tiny example\n\nIn this graph, start at A → visit B and C → then D, E, and F. The visit order is A, B, C, D, E, F.\n\nWhen would I use it?\n\nFinds the fewest-edge route from a starting node in an unweighted graph. Store each node’s parent if you also want to reconstruct the route.\n\nWhat to watch in this animation\n\nThe graph is a fixed example. Its connections follow the adjacency lists shown in the Python code; the drawing omits arrowheads. The status shows queue changes.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Time: O(V + E), space: O(V), using adjacency lists. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "from A: ['A', 'B', 'C', 'D', 'E', 'F']\nAll scenario checks passed",
+      "language": "python",
+      "id": "graphs",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Trees",
+      "title": "Binary Search Tree — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "class Node:\n    def __init__(self, value):\n        self.value = value\n        self.left = self.right = None\n\ndef insert(root, value):\n    if root is None:\n        return Node(value)\n    if value < root.value:\n        root.left = insert(root.left, value)\n    elif value > root.value:\n        root.right = insert(root.right, value)\n    return root\n\ndef inorder(root):\n    if root:\n        yield from inorder(root.left)\n        yield root.value\n        yield from inorder(root.right)\n\nroot = None\nfor x in [8, 3, 10, 1, 6, 14]:\n    root = insert(root, x)\n\n# Run independent scenarios and compare with known answers.\n\nresult = list(inorder(None))\nprint('empty' + \":\", result)\nassert result == [], \"Unexpected result for empty\"\n\nresult = list(inorder(insert(None, 4)))\nprint('single' + \":\", result)\nassert result == [4], \"Unexpected result for single\"\n\nresult = list(inorder(root))\nprint('existing' + \":\", result)\nassert result == sorted(result)\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Binary Search Tree.",
+        "EXPLAINED SIMPLY\nBinary Search Tree, one step at a time\n\nA binary search tree is a branching number guide: smaller numbers go left and larger numbers go right.\n\nThe first inserted value becomes the root.\nCompare each new value with the current node.\nGo left if smaller, right if larger, and repeat until you find an empty spot.\nTo read values in order, visit the left subtree, the node itself, then the right subtree.\nA tiny example\n\nInsert 8, 3, 10, 6: 8 is the root; 3 goes left; 10 goes right; 6 goes right of 3. An in-order walk gives 3, 6, 8, 10.\n\nWhen would I use it?\n\nUseful for ordered storage and searching. A balanced tree is fast; a long, one-sided tree can be as slow as scanning a list.\n\nWhat to watch in this animation\n\nThe demo inserts up to seven distinct values. Duplicate values are ignored. The final frame shows the completed tree; it does not animate the in-order walk.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Average search/insert: O(log n) for balanced trees; worst O(n) if skewed. h is tree height. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "empty: []\nsingle: [4]\nexisting: [1, 3, 6, 8, 10, 14]\nAll scenario checks passed",
+      "language": "python",
+      "id": "trees",
+      "lines": 39,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Array Patterns",
+      "title": "Prefix Sums — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "def prefix_sums(items):\n    result = []\n    total = 0\n    for value in items:\n        total += value\n        result.append(total)\n    return result\n\n# Run independent scenarios and compare with known answers.\n\nresult = prefix_sums([2,3,4])\nprint('normal' + \":\", result)\nassert result == [2, 5, 9], \"Unexpected result for normal\"\n\nresult = prefix_sums([])\nprint('empty' + \":\", result)\nassert result == [], \"Unexpected result for empty\"\n\nresult = prefix_sums([2,-3,4])\nprint('negative' + \":\", result)\nassert result == [2, -1, 3], \"Unexpected result for negative\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Prefix Sums.",
+        "EXPLAINED SIMPLY\nPrefix Sums, one step at a time\n\nKeep a running total, like adding each new purchase to your shopping bill.\n\nStart the total at zero.\nAdd the next number to the total.\nSave that total at the same index in a new list.\nFor a range from l to r, subtract the total before l from the total at r. If l is 0, just use the total at r.\nA tiny example\n\n[2, 4, 1, 3] → running totals [2, 6, 7, 10]. Sum at indices 1 through 3 is 10 − 2 = 8, which equals 4 + 1 + 3.\n\nWhen would I use it?\n\nUseful when you need many range-sum answers for a list whose values stay fixed.\n\nWhat to watch in this animation\n\nEach processed bar becomes a running total. Unprocessed bars still show the original input values.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Build: O(n), storage: O(n). Range sum [l, r]: prefix[r] minus prefix[l − 1]. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "normal: [2, 5, 9]\nempty: []\nnegative: [2, -1, 3]\nAll scenario checks passed",
+      "language": "python",
+      "id": "array-patterns",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Dynamic Programming",
+      "title": "Maximum Subarray — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "def maximum_subarray(items):\n    if not items:\n        raise ValueError(\"Expected at least one number\")\n    current = best = items[0]\n    for value in items[1:]:\n        current = max(value, current + value)\n        best = max(best, current)\n    return best\n\n# Run independent scenarios and compare with known answers.\n\nresult = maximum_subarray([-2,3,-1,4,-5])\nprint('mixed' + \":\", result)\nassert result == 6, \"Unexpected result for mixed\"\n\nresult = maximum_subarray([-5,-2,-8])\nprint('negative' + \":\", result)\nassert result == -2, \"Unexpected result for negative\"\n\nresult = maximum_subarray([4])\nprint('single' + \":\", result)\nassert result == 4, \"Unexpected result for single\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Maximum Subarray.",
+        "EXPLAINED SIMPLY\nMaximum Subarray, one step at a time\n\nFind the best total from a continuous stretch of numbers. At each number, decide whether to extend your stretch or start fresh.\n\nStart with the first number as both the current sum and the best sum.\nFor each next value, compare that value alone with the current sum plus that value. Keep the larger choice.\nUpdate the best sum if the current sum beats it.\nContinue to the end. The selected stretch must contain at least one number.\nA tiny example\n\n[-2, 3, -1, 4, -5]: restart at 3, extend to 2, then to 6. The best stretch is [3, -1, 4], with sum 6.\n\nWhen would I use it?\n\nUseful for finding the most profitable continuous period or strongest continuous signal. If every number is negative, the answer is the largest single number.\n\nWhat to watch in this animation\n\nThe status compares the sum ending here with the best sum seen. Green marks the best stretch so far; the array itself stays unchanged.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Time: O(n); extra space: O(1). Handles all-negative arrays. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "mixed: 6\nnegative: -2\nsingle: 4\nAll scenario checks passed",
+      "language": "python",
+      "id": "dynamic-programming",
+      "lines": 24,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Advanced Graphs",
+      "title": "Dijkstra · Shortest Paths — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "def dijkstra(graph, start):\n    vertices = set(graph) | {start}\n    for edges in graph.values():\n        for neighbor, weight in edges:\n            if weight < 0:\n                raise ValueError(\"Dijkstra requires nonnegative weights\")\n            vertices.add(neighbor)\n    distance = dict.fromkeys(vertices, float('inf'))\n    distance[start] = 0\n    remaining = set(vertices)\n    while remaining:\n        node = min(remaining, key=distance.get)\n        if distance[node] == float('inf'):\n            break\n        remaining.remove(node)\n        for neighbor, weight in graph.get(node, []):\n            distance[neighbor] = min(distance[neighbor], distance[node] + weight)\n    return distance\n\n# Run independent scenarios and compare with known answers.\n\nresult = dijkstra({'A':[('B',5),('C',1)],'C':[('B',2)]},'A')\nprint('weighted' + \":\", result)\nassert result == {'A': 0, 'C': 1, 'B': 3}, \"Unexpected result for weighted\"\n\nresult = dijkstra({'A':[]},'A')\nprint('single' + \":\", result)\nassert result == {'A': 0}, \"Unexpected result for single\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Dijkstra · Shortest Paths.",
+        "EXPLAINED SIMPLY\nDijkstra · Shortest Paths, one step at a time\n\nImagine finding the cheapest travel costs from your home. Always finish the cheapest unfinished destination next.\n\nGive A distance 0 and all other vertices distance infinity.\nChoose the unfinished vertex with the smallest distance. Its distance is final because edge weights are nonnegative.\nFor each neighbor, compare its current distance with the cost of going through this vertex. Keep the cheaper route.\nRepeat until no reachable unfinished vertices remain.\nA tiny example\n\nA→B costs 4, A→C costs 2, and C→B costs 1. Going through C costs 3, so B improves from 4 to 3.\n\nWhen would I use it?\n\nRoad routing and other shortest-path problems with nonnegative edge weights. Negative weights require a different algorithm.\n\nWhat to watch in this animation\n\nThe fixed undirected graph shows edge weights. The table records the best distances from A; green vertices have final distances.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. This demo scans vertices: O(V² + E) time, O(V) working space. A priority queue implementation can improve sparse-graph performance. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "weighted: {'B': 3, 'A': 0, 'C': 1}\nsingle: {'A': 0}\nAll scenario checks passed",
+      "language": "python",
+      "id": "advanced-graphs",
+      "lines": 30,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Advanced DP",
+      "title": "Longest Increasing Subsequence — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "def longest_increasing_subsequence(items):\n    if not items:\n        return []\n    lengths, previous = [1] * len(items), [-1] * len(items)\n    for i in range(len(items)):\n        for j in range(i):\n            if items[j] < items[i] and lengths[j] + 1 > lengths[i]:\n                lengths[i] = lengths[j] + 1\n                previous[i] = j\n    index = max(range(len(items)), key=lambda i: lengths[i])\n    result = []\n    while index != -1:\n        result.append(items[index])\n        index = previous[index]\n    return result[::-1]\n\n# Run independent scenarios and compare with known answers.\n\nresult = longest_increasing_subsequence([1,2,3])\nprint('increasing' + \":\", result)\nassert result == [1, 2, 3], \"Unexpected result for increasing\"\n\nresult = longest_increasing_subsequence([2,2,2])\nprint('duplicates' + \":\", result)\nassert result == [2], \"Unexpected result for duplicates\"\n\nresult = longest_increasing_subsequence([])\nprint('empty' + \":\", result)\nassert result == [], \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Longest Increasing Subsequence.",
+        "EXPLAINED SIMPLY\nLongest Increasing Subsequence, one step at a time\n\nPick numbers from left to right so each chosen number is bigger than the last. You may skip numbers, but cannot reorder them.\n\nGive every index a starting length of 1: a single number is already an increasing subsequence.\nFor each index i, inspect earlier indices j.\nIf value[j] is smaller than value[i], try extending the best subsequence ending at j. Keep the longest option and remember its previous index.\nFind the largest length and follow previous indices backward to recover one answer.\nA tiny example\n\nIn [3, 1, 2, 5, 4], one longest increasing subsequence is [1, 2, 5], with length 3. [1, 2, 4] is equally valid.\n\nWhen would I use it?\n\nFinding ordered trends when skipped values are allowed. Unlike maximum subarray, the chosen positions need not be next to each other.\n\nWhat to watch in this animation\n\nThe table gives the longest length ending at each index. Highlighted input cells in the final frame show one valid longest subsequence.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Time: O(n²), space: O(n) for lengths and parent pointers. Equal values do not extend a strictly increasing sequence. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "increasing: [1, 2, 3]\nduplicates: [2]\nempty: []\nAll scenario checks passed",
+      "language": "python",
+      "id": "advanced-dp",
+      "lines": 31,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "String Algorithms",
+      "title": "KMP · Pattern Matching — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "def kmp_search(text, pattern):\n    if not pattern:\n        return 0\n    lps = [0] * len(pattern)\n    length, i = 0, 1\n    while i < len(pattern):\n        if pattern[i] == pattern[length]:\n            length += 1\n            lps[i] = length\n            i += 1\n        elif length:\n            length = lps[length - 1]\n        else:\n            i += 1\n    i = j = 0\n    while i < len(text):\n        if text[i] == pattern[j]:\n            i += 1\n            j += 1\n            if j == len(pattern):\n                return i - j\n        elif j:\n            j = lps[j - 1]\n        else:\n            i += 1\n    return -1\n\n# Run independent scenarios and compare with known answers.\n\nresult = kmp_search('AAAA','AA')\nprint('overlap' + \":\", result)\nassert result == 0, \"Unexpected result for overlap\"\n\nresult = kmp_search('ABC','Z')\nprint('absent' + \":\", result)\nassert result == -1, \"Unexpected result for absent\"\n\nresult = kmp_search('ABC','ABC')\nprint('whole' + \":\", result)\nassert result == 0, \"Unexpected result for whole\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: KMP · Pattern Matching.",
+        "EXPLAINED SIMPLY\nKMP · Pattern Matching, one step at a time\n\nWhen a partial match fails, reuse what you already know instead of starting the whole comparison again.\n\nBuild an LPS table for the pattern: each entry stores the longest proper prefix that is also a suffix of the pattern ending there. Proper means shorter than the whole part.\nCompare the text and pattern from left to right. On a match, move both positions forward.\nOn a mismatch after some matches, set the pattern position to the previous LPS value. Keep the text position unchanged.\nIf the whole pattern matches, return its starting index. If the text ends first, return −1.\nA tiny example\n\nFor pattern ABAB, the LPS table is [0, 0, 1, 2]. In text ABACABAB, a mismatch after ABA falls back to a known prefix, and the full pattern is found at index 4.\n\nWhen would I use it?\n\nSearching text efficiently, especially when repeated prefixes cause naive matching to redo comparisons.\n\nWhat to watch in this animation\n\nUse the Text and Pattern controls. Matching is case-sensitive. Indices count Unicode code points; spaces are meaningful. The LPS table is built before text scanning.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Time: O(n + m), space: O(m) for the prefix table. This demo returns the first match, or −1. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "overlap: 0\nabsent: -1\nwhole: 0\nAll scenario checks passed",
+      "language": "python",
+      "id": "string-algorithms",
+      "lines": 42,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "String Matching",
+      "title": "Z Algorithm · Pattern Search — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\n\ndef z_search(text, pattern):\n    \"\"\"Linear-time pattern search with a separator that cannot be a character.\"\"\"\n    if not pattern:\n        return list(range(len(text) + 1))\n    sequence = list(pattern) + [None] + list(text)\n    z = [0] * len(sequence)\n    left = right = 0\n    for i in range(1, len(sequence)):\n        if i <= right:\n            z[i] = min(right - i + 1, z[i - left])\n        while i + z[i] < len(sequence) and sequence[z[i]] == sequence[i + z[i]]:\n            z[i] += 1\n        if i + z[i] - 1 > right:\n            left, right = i, i + z[i] - 1\n    offset = len(pattern) + 1\n    return [i - offset for i in range(offset, len(sequence)) if z[i] >= len(pattern)]\n\n# Run independent scenarios and compare with known answers.\n\nresult = z_search('AAAA','AA')\nprint('overlap' + \":\", result)\nassert result == [0, 1, 2], \"Unexpected result for overlap\"\n\nresult = z_search('ABC','Z')\nprint('absent' + \":\", result)\nassert result == [], \"Unexpected result for absent\"\n\nresult = z_search('ABC','ABC')\nprint('whole' + \":\", result)\nassert result == [0], \"Unexpected result for whole\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Z Algorithm · Pattern Search.",
+        "EXPLAINED SIMPLY\nZ Algorithm · Pattern Search, one step at a time\n\nMeasure how much of the beginning repeats at every position. Put the pattern first so those measurements reveal matches.\n\nJoin pattern, a unique separator, and text. The separator cannot match any character.\nKeep a reusable interval, called the Z box, where characters already match the beginning.\nUse the box to avoid rechecking known matches, then extend it when needed.\nAny text position whose Z value reaches the pattern length is a match.\nA tiny example\n\nText ABABABA and pattern ABA have matches at indices [0, 2, 4]. Overlapping matches count.\n\nWhen would I use it?\n\nFind every occurrence of one pattern, or identify repeated prefixes.\n\nWhat to watch in this animation\n\nThe separator is an internal token, so even text containing ⟂ is safe. Z[0] is defined as 0 here.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n + m) algorithm time. n = text length; m = second-input length. For dictionary lessons, S = total word characters and p = prefix length. The separator is an internal token, so even text containing ⟂ is safe. Z[0] is defined as 0 here. Animation snapshots add storage and rendering work beyond algorithm-only complexity. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "overlap: [0, 1, 2]\nabsent: []\nwhole: [0]\nAll scenario checks passed",
+      "language": "python",
+      "id": "string-matching",
+      "lines": 34,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "String Indexes",
+      "title": "Trie · Prefix Autocomplete — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\n\ndef trie_autocomplete(prefix, words):\n    \"\"\"Collect dictionary words under a prefix; sorted suggestions add cost.\"\"\"\n    root = {}\n    terminal = None  # Cannot collide with any character key.\n    for word in words:\n        if not word:\n            continue\n        node = root\n        for char in word:\n            node = node.setdefault(char, {})\n        node[terminal] = word\n    node = root\n    for char in prefix:\n        if char not in node:\n            return []\n        node = node[char]\n    result = []\n    def collect(current):\n        if terminal in current:\n            result.append(current[terminal])\n        for char, child in current.items():\n            if char is not terminal:\n                collect(child)\n    collect(node)\n    return sorted(result)\n\n# Run independent scenarios and compare with known answers.\n\nresult = trie_autocomplete('ca',['car','cat','dog'])\nprint('prefix' + \":\", result)\nassert result == ['car', 'cat'], \"Unexpected result for prefix\"\n\nresult = trie_autocomplete('z',['car','cat'])\nprint('absent' + \":\", result)\nassert result == [], \"Unexpected result for absent\"\n\nresult = trie_autocomplete('dog',['dog'])\nprint('single' + \":\", result)\nassert result == ['dog'], \"Unexpected result for single\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Trie · Prefix Autocomplete.",
+        "EXPLAINED SIMPLY\nTrie · Prefix Autocomplete, one step at a time\n\nStore words as paths of characters. A shared beginning is stored once, so you can jump straight to a prefix’s suggestions.\n\nInsert each word one character at a time, reusing existing branches.\nMark the end of each full word.\nFollow the characters of the requested prefix.\nWalk below that node and collect complete words.\nA tiny example\n\nPrefix ca in [car, card, care, cat, dog] returns car, card, care, cat.\n\nWhen would I use it?\n\nAutocomplete and prefix lookup over a dictionary.\n\nWhat to watch in this animation\n\nText is the prefix here. An empty prefix returns all words. Duplicate words are removed. The demo sorts suggestions, adding O(k log k) string comparisons for k results; storing displayed prefixes also adds trace overhead.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(S + p + output) algorithm time. n = text length; m = second-input length. For dictionary lessons, S = total word characters and p = prefix length. Text is the prefix here. An empty prefix returns all words. Duplicate words are removed. The demo sorts suggestions, adding O(k log k) string comparisons for k results; storing displayed prefixes also adds trace overhead. Animation snapshots add storage and rendering work beyond algorithm-only complexity. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "prefix: ['car', 'cat']\nabsent: []\nsingle: ['dog']\nAll scenario checks passed",
+      "language": "python",
+      "id": "string-indexes",
+      "lines": 43,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Palindrome Algorithms",
+      "title": "Manacher · Longest Palindrome — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\n\ndef manacher(text):\n    \"\"\"Longest continuous palindrome in O(n) time and space.\"\"\"\n    n = len(text)\n    best_start = best_length = 0\n    for parity in (1, 0):\n        radii = [0] * n\n        left, right = 0, -1\n        for i in range(n):\n            radius = parity if i > right else min(radii[left + right - i + (0 if parity else 1)], right - i + 1)\n            while i + radius < n and i - radius - (0 if parity else 1) >= 0 and text[i + radius] == text[i - radius - (0 if parity else 1)]:\n                radius += 1\n            radii[i] = radius\n            length, start = 2 * radius - parity, i - radius + parity\n            if length > best_length:\n                best_start, best_length = start, length\n            if i + radius - 1 > right:\n                left, right = start, i + radius - 1\n    return text[best_start:best_start + best_length]\n\n# Run independent scenarios and compare with known answers.\n\nresult = manacher('cbbd')\nprint('even' + \":\", result)\nassert result == 'bb', \"Unexpected result for even\"\n\nresult = manacher('racecar')\nprint('whole' + \":\", result)\nassert result == 'racecar', \"Unexpected result for whole\"\n\nresult = manacher('')\nprint('empty' + \":\", result)\nassert result == '', \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Manacher · Longest Palindrome.",
+        "EXPLAINED SIMPLY\nManacher · Longest Palindrome, one step at a time\n\nA palindrome reads the same in both directions. Reuse mirror information inside a known palindrome instead of expanding every center from scratch.\n\nProcess odd-length and even-length centers separately.\nIf a center lies inside the current palindrome, borrow the safe radius from its mirror.\nExpand only beyond the portion already known to match.\nKeep the rightmost palindrome boundary and the longest answer seen.\nA tiny example\n\nbabad contains bab and aba, each length 3. This lesson returns bab. cbbd returns bb.\n\nWhen would I use it?\n\nFinding the longest continuous palindrome in linear time.\n\nWhat to watch in this animation\n\nOdd radii include the center. Even radii use a center immediately before an index. Algorithm storage is O(n); snapshots add overhead.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n) algorithm time. n = text length; m = second-input length. For dictionary lessons, S = total word characters and p = prefix length. Odd radii include the center. Even radii use a center immediately before an index. Algorithm storage is O(n); snapshots add overhead. Animation snapshots add storage and rendering work beyond algorithm-only complexity. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "even: bb\nwhole: racecar\nempty: \nAll scenario checks passed",
+      "language": "python",
+      "id": "palindrome-algorithms",
+      "lines": 36,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "String Dynamic Programming",
+      "title": "Longest Common Subsequence — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\n\ndef _lcs_table(first, second):\n    table = [[0] * (len(second) + 1) for _ in range(len(first) + 1)]\n    for i, char in enumerate(first, 1):\n        for j, other in enumerate(second, 1):\n            table[i][j] = table[i - 1][j - 1] + 1 if char == other else max(table[i - 1][j], table[i][j - 1])\n    return table\n\ndef longest_common_subsequence(first, second):\n    \"\"\"One LCS; ties prefer consuming from the first string.\"\"\"\n    table = _lcs_table(first, second)\n    i, j, result = len(first), len(second), []\n    while i and j:\n        if first[i - 1] == second[j - 1]:\n            result.append(first[i - 1])\n            i, j = i - 1, j - 1\n        elif table[i - 1][j] >= table[i][j - 1]:\n            i -= 1\n        else:\n            j -= 1\n    return ''.join(reversed(result))\n\n# Run independent scenarios and compare with known answers.\n\nresult = longest_common_subsequence('ABC','AC')\nprint('subsequence' + \":\", result)\nassert result == 'AC', \"Unexpected result for subsequence\"\n\nresult = longest_common_subsequence('ABC','XYZ')\nprint('disjoint' + \":\", result)\nassert result == '', \"Unexpected result for disjoint\"\n\nresult = longest_common_subsequence('','ABC')\nprint('empty' + \":\", result)\nassert result == '', \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Longest Common Subsequence.",
+        "EXPLAINED SIMPLY\nLongest Common Subsequence, one step at a time\n\nFind a sequence of characters appearing in both strings in the same order. You may skip characters.\n\nCreate a table for every pair of prefix lengths, including empty prefixes.\nIf the last characters match, extend the diagonal answer by one.\nOtherwise keep the larger answer from removing one character from either prefix.\nWalk backward through the table to recover one longest subsequence.\nA tiny example\n\nABC and AC have common subsequence AC of length 2. The B is skipped.\n\nWhen would I use it?\n\nComparing revisions and measuring ordered similarity.\n\nWhat to watch in this animation\n\nRows are text prefixes; columns are second-string prefixes. This full-table version uses O(nm) space. Ties can produce different valid answers.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(nm) algorithm time. n = text length; m = second-input length. For dictionary lessons, S = total word characters and p = prefix length. Rows are text prefixes; columns are second-string prefixes. This full-table version uses O(nm) space. Ties can produce different valid answers. Animation snapshots add storage and rendering work beyond algorithm-only complexity. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "subsequence: AC\ndisjoint: \nempty: \nAll scenario checks passed",
+      "language": "python",
+      "id": "string-dynamic-programming",
+      "lines": 38,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "String Sliding Windows",
+      "title": "Minimum Window Substring — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\n\ndef minimum_window(text, required):\n    \"\"\"Shortest substring covering all required counts, or empty if impossible.\"\"\"\n    if not required:\n        return ''\n    need, counts = Counter(required), Counter()\n    missing, left, best_start, best_length = len(required), 0, 0, float('inf')\n    for right, char in enumerate(text):\n        counts[char] += 1\n        if counts[char] <= need[char]:\n            missing -= 1\n        while missing == 0:\n            if right - left + 1 < best_length:\n                best_start, best_length = left, right - left + 1\n            old = text[left]\n            if counts[old] <= need[old]:\n                missing += 1\n            counts[old] -= 1\n            left += 1\n    return '' if best_length == float('inf') else text[best_start:best_start + best_length]\n\n# Run independent scenarios and compare with known answers.\n\nresult = minimum_window('ADOBECODEBANC','ABC')\nprint('classic' + \":\", result)\nassert result == 'BANC', \"Unexpected result for classic\"\n\nresult = minimum_window('ABC','Z')\nprint('absent' + \":\", result)\nassert result == '', \"Unexpected result for absent\"\n\nresult = minimum_window('AABC','AA')\nprint('repeated' + \":\", result)\nassert result == 'AA', \"Unexpected result for repeated\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Minimum Window Substring.",
+        "EXPLAINED SIMPLY\nMinimum Window Substring, one step at a time\n\nFind the smallest continuous window containing all requested characters, including duplicate requirements.\n\nCount how many of each required character you need.\nExpand the right end and update counts until every requirement is met.\nRecord the window, then move its left end right while it remains valid.\nContinue expanding and shrinking, remembering the shortest valid window.\nA tiny example\n\nFor ADOBECODEBANC and ABC, the smallest valid window is BANC.\n\nWhen would I use it?\n\nFinding a compact text span containing a required multiset of characters.\n\nWhat to watch in this animation\n\nThe order of required characters does not matter, but their counts do. An impossible requirement or empty requirement returns an empty string. Each boundary moves only forward; auxiliary counts use O(n + m) space here.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n + m) algorithm time. n = text length; m = second-input length. For dictionary lessons, S = total word characters and p = prefix length. The order of required characters does not matter, but their counts do. An impossible requirement or empty requirement returns an empty string. Each boundary moves only forward; auxiliary counts use O(n + m) space here. Animation snapshots add storage and rendering work beyond algorithm-only complexity. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "classic: BANC\nabsent: \nrepeated: AA\nAll scenario checks passed",
+      "language": "python",
+      "id": "string-sliding-windows",
+      "lines": 37,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Hashing",
+      "title": "Two Sum · Complement Hash Map — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef two_sum(nums, target):\n    seen = {}\n    for i, value in enumerate(nums):\n        if target - value in seen:\n            return [seen[target - value], i]\n        seen.setdefault(value, i)\n    return []\n\n# Run independent scenarios and compare with known answers.\n\nresult = two_sum([2,7,11,15],9)\nprint('pair' + \":\", result)\nassert result == [0, 1], \"Unexpected result for pair\"\n\nresult = two_sum([3,3],6)\nprint('duplicate' + \":\", result)\nassert result == [0, 1], \"Unexpected result for duplicate\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Two Sum · Complement Hash Map.",
+        "EXPLAINED SIMPLY\nTwo Sum · Complement Hash Map, one step at a time\n\nRemember earlier values so each new number can ask whether its missing partner has already appeared.\n\nCompute target minus the current value.\nLook for that complement among earlier indices.\nIf found, return the two different indices. Otherwise remember this value.\nReturn an empty list if no pair exists.\nA tiny example\n\nFor [2,7,11,15] and target 9, 2 needs 7; at index 1, earlier 2 completes the pair [0,1].\n\nWhen would I use it?\n\nPair lookup and replacing a quadratic nested scan.\n\nWhat to watch in this animation\n\nnums: up to 20 integers in −100…100; target: −200…200. Returns the first discovered valid index pair. Map space O(n).",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n) expected. nums: up to 20 integers in −100…100; target: −200…200. Returns the first discovered valid index pair. Map space O(n). Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "pair: [0, 1]\nduplicate: [0, 1]\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-hashing",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Two Pointers",
+      "title": "Three Sum · Unique Triplets — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef three_sum(nums):\n    values, result = sorted(nums), []\n    for i in range(len(values) - 2):\n        if i and values[i] == values[i - 1]:\n            continue\n        left, right = i + 1, len(values) - 1\n        while left < right:\n            total = values[i] + values[left] + values[right]\n            if total == 0:\n                result.append([values[i], values[left], values[right]])\n                left, right = left + 1, right - 1\n                while left < right and values[left] == values[left - 1]:\n                    left += 1\n                while left < right and values[right] == values[right + 1]:\n                    right -= 1\n            elif total < 0:\n                left += 1\n            else:\n                right -= 1\n    return result\n\n# Run independent scenarios and compare with known answers.\n\nresult = three_sum([-1,0,1,2,-1,-4])\nprint('triples' + \":\", result)\nassert result == [[-1, -1, 2], [-1, 0, 1]], \"Unexpected result for triples\"\n\nresult = three_sum([1,2,3])\nprint('none' + \":\", result)\nassert result == [], \"Unexpected result for none\"\n\nresult = three_sum([0,0,0,0])\nprint('zeros' + \":\", result)\nassert result == [[0, 0, 0]], \"Unexpected result for zeros\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Three Sum · Unique Triplets.",
+        "EXPLAINED SIMPLY\nThree Sum · Unique Triplets, one step at a time\n\nSort the values, fix one number, and move two pointers to find the remaining pair summing to its opposite.\n\nSort a copy of the input.\nFix each distinct first value and place pointers at the ends of the remaining suffix.\nMove left rightward if the sum is too small; move right leftward if too large.\nRecord zero-sum triples and skip equal pointer values so each value triple appears once.\nA tiny example\n\n[-1,0,1,2,-1,-4] gives [-1,-1,2] and [-1,0,1]. These are value triples, not original indices.\n\nWhen would I use it?\n\nFinding all distinct zero-sum triples.\n\nWhat to watch in this animation\n\nnums: up to 20 integers. Target is fixed at 0. Sorting a copy uses O(n) storage in this demo, plus output.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n²). nums: up to 20 integers. Target is fixed at 0. Sorting a copy uses O(n) storage in this demo, plus output. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "triples: [[-1, -1, 2], [-1, 0, 1]]\nnone: []\nzeros: [[0, 0, 0]]\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-two-pointers",
+      "lines": 40,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Arrays",
+      "title": "Product Except Self · Prefix/Suffix — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef product_except_self(nums):\n    result, prefix, suffix = [1] * len(nums), 1, 1\n    for i, value in enumerate(nums):\n        result[i] = prefix\n        prefix *= value\n    for i in range(len(nums) - 1, -1, -1):\n        result[i] *= suffix\n        suffix *= nums[i]\n    return result\n\n# Run independent scenarios and compare with known answers.\n\nresult = product_except_self([1,2,3,4])\nprint('normal' + \":\", result)\nassert result == [24, 12, 8, 6], \"Unexpected result for normal\"\n\nresult = product_except_self([0,2,3])\nprint('one zero' + \":\", result)\nassert result == [6, 0, 0], \"Unexpected result for one zero\"\n\nresult = product_except_self([0,0,3])\nprint('two zeros' + \":\", result)\nassert result == [0, 0, 0], \"Unexpected result for two zeros\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Product Except Self · Prefix/Suffix.",
+        "EXPLAINED SIMPLY\nProduct Except Self · Prefix/Suffix, one step at a time\n\nAt each position, multiply everything before it by everything after it, without dividing.\n\nWalk left to right, storing the product strictly before each index.\nWalk right to left with a running product strictly after each index.\nMultiply the two contributions at that index.\nKeep zeros as ordinary factors; division is never needed.\nA tiny example\n\n[1,2,3,4] produces [24,12,8,6]. With [2,0,4], the result is [0,8,0].\n\nWhen would I use it?\n\nComputing per-position aggregates while excluding the current element.\n\nWhat to watch in this animation\n\nnums: up to 20 integers. Exact-safe-integer overflow is rejected; reduce magnitudes if needed. O(1) running state beyond O(n) output, excluding copied input and traces.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n). nums: up to 20 integers. Exact-safe-integer overflow is rejected; reduce magnitudes if needed. O(1) running state beyond O(n) output, excluding copied input and traces. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "normal: [24, 12, 8, 6]\none zero: [6, 0, 0]\ntwo zeros: [0, 0, 0]\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-arrays",
+      "lines": 29,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Binary Search",
+      "title": "Search Rotated Sorted Array — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef rotated_search(nums, target):\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        middle = (left + right) // 2\n        if nums[middle] == target:\n            return middle\n        if nums[left] <= nums[middle]:\n            if nums[left] <= target < nums[middle]:\n                right = middle - 1\n            else:\n                left = middle + 1\n        elif nums[middle] < target <= nums[right]:\n            left = middle + 1\n        else:\n            right = middle - 1\n    return -1\n\n# Run independent scenarios and compare with known answers.\n\nresult = rotated_search([4,5,6,7,0,1,2],0)\nprint('present' + \":\", result)\nassert result == 4, \"Unexpected result for present\"\n\nresult = rotated_search([4,5,6,7,0,1,2],3)\nprint('absent' + \":\", result)\nassert result == -1, \"Unexpected result for absent\"\n\nresult = rotated_search([1],1)\nprint('single' + \":\", result)\nassert result == 0, \"Unexpected result for single\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Search Rotated Sorted Array.",
+        "EXPLAINED SIMPLY\nSearch Rotated Sorted Array, one step at a time\n\nA rotation breaks global order, but at least one half around the middle is still sorted.\n\nCompare the middle value with the target.\nDetermine which half is sorted by comparing its endpoints.\nKeep the sorted half only if its value range contains the target; otherwise choose the other half.\nReturn its original rotated-array index or −1.\nA tiny example\n\nIn [4,5,6,7,0,1,2], target 0 is at index 4. The array is not sorted again before searching.\n\nWhen would I use it?\n\nSearching a sorted sequence after a cyclic rotation.\n\nWhat to watch in this animation\n\nnums must be a rotation of distinct increasing integers; up to 20. Search is O(log n); the demo’s upfront validation scans O(n). O(1) search space.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(log n) search. nums must be a rotation of distinct increasing integers; up to 20. Search is O(log n); the demo’s upfront validation scans O(n). O(1) search space. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "present: 4\nabsent: -1\nsingle: 0\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-binary-search",
+      "lines": 36,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Intervals",
+      "title": "Merge Overlapping Intervals — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef merge_intervals(intervals):\n    merged = []\n    for start, end in sorted(intervals):\n        if merged and start <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], end)\n        else:\n            merged.append([start, end])\n    return merged\n\n# Run independent scenarios and compare with known answers.\n\nresult = merge_intervals([[1,3],[2,6],[8,10]])\nprint('overlap' + \":\", result)\nassert result == [[1, 6], [8, 10]], \"Unexpected result for overlap\"\n\nresult = merge_intervals([[1,2],[2,3]])\nprint('touching' + \":\", result)\nassert result == [[1, 3]], \"Unexpected result for touching\"\n\nresult = merge_intervals([])\nprint('empty' + \":\", result)\nassert result == [], \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Merge Overlapping Intervals.",
+        "EXPLAINED SIMPLY\nMerge Overlapping Intervals, one step at a time\n\nAfter sorting by start, only the last merged interval can overlap the next one.\n\nSort intervals by start, then end.\nIf the next start is no greater than the current merged end, extend the end to their maximum.\nOtherwise begin a new merged interval.\nKeep the growing list of disjoint intervals.\nA tiny example\n\n[[1,3],[2,6],[8,10]] merges into [[1,6],[8,10]]. Touching endpoints also merge.\n\nWhen would I use it?\n\nConsolidating occupied ranges and simplifying later interval queries.\n\nWhat to watch in this animation\n\nintervals: up to 16 [start,end] pairs with integer endpoints −100…100 and start < end. Uses closed/touching merge semantics. O(n) output/copy storage.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n log n). intervals: up to 16 [start,end] pairs with integer endpoints −100…100 and start < end. Uses closed/touching merge semantics. O(n) output/copy storage. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "overlap: [[1, 6], [8, 10]]\ntouching: [[1, 3]]\nempty: []\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-intervals",
+      "lines": 28,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Heaps",
+      "title": "Meeting Rooms II · End-Time Heap — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef meeting_rooms(intervals):\n    active, best = [], 0\n    for start, end in sorted(intervals):\n        while active and active[0] <= start:\n            heapq.heappop(active)\n        heapq.heappush(active, end)\n        best = max(best, len(active))\n    return best\n\n# Run independent scenarios and compare with known answers.\n\nresult = meeting_rooms([[0,30],[5,10],[15,20]])\nprint('overlap' + \":\", result)\nassert result == 2, \"Unexpected result for overlap\"\n\nresult = meeting_rooms([[0,5],[5,10]])\nprint('reuse' + \":\", result)\nassert result == 1, \"Unexpected result for reuse\"\n\nresult = meeting_rooms([])\nprint('empty' + \":\", result)\nassert result == 0, \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Meeting Rooms II · End-Time Heap.",
+        "EXPLAINED SIMPLY\nMeeting Rooms II · End-Time Heap, one step at a time\n\nReuse a room as soon as its earliest-ending meeting finishes; peak simultaneous meetings determine room demand.\n\nSort meetings by start time.\nRemove every active end time no later than the next start.\nAdd the new meeting end to a min heap.\nRecord the largest number of active meetings.\nA tiny example\n\n[[0,30],[5,10],[15,20]] needs 2 rooms. A meeting ending at 10 can share a room with one starting at 10.\n\nWhen would I use it?\n\nResource allocation and maximum overlap in time intervals.\n\nWhat to watch in this animation\n\nUses half-open [start,end) meetings, unlike the touching-merge lesson. At most 16 intervals, start < end. O(n) heap storage.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n log n). Uses half-open [start,end) meetings, unlike the touching-merge lesson. At most 16 intervals, start < end. O(n) heap storage. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "overlap: 2\nreuse: 1\nempty: 0\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-heaps",
+      "lines": 28,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Selection",
+      "title": "Kth Largest · Three-Way Quickselect — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef kth_largest(nums, k):\n    if not 1 <= k <= len(nums):\n        raise ValueError('k must be from 1 through len(nums)')\n    values, target = list(nums), len(nums) - k\n    left, right = 0, len(values) - 1\n    while left <= right:\n        pivot = values[(left + right) // 2]\n        low, current, high = left, left, right\n        while current <= high:\n            if values[current] < pivot:\n                values[low], values[current] = values[current], values[low]\n                low, current = low + 1, current + 1\n            elif values[current] > pivot:\n                values[current], values[high] = values[high], values[current]\n                high -= 1\n            else:\n                current += 1\n        if target < low:\n            right = low - 1\n        elif target > high:\n            left = high + 1\n        else:\n            return values[target]\n\n# Run independent scenarios and compare with known answers.\n\nresult = kth_largest([3,1,4,2],2)\nprint('second' + \":\", result)\nassert result == 3, \"Unexpected result for second\"\n\nresult = kth_largest([5,5,1],2)\nprint('duplicates' + \":\", result)\nassert result == 5, \"Unexpected result for duplicates\"\n\nresult = kth_largest([7],1)\nprint('single' + \":\", result)\nassert result == 7, \"Unexpected result for single\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Kth Largest · Three-Way Quickselect.",
+        "EXPLAINED SIMPLY\nKth Largest · Three-Way Quickselect, one step at a time\n\nPartition around a pivot and continue only in the region containing sorted index n−k.\n\nChoose the midpoint value as a deterministic pivot.\nPartition into values less than, equal to, and greater than the pivot.\nDiscard the regions that cannot contain index n−k.\nIf the index lies in the equal region, return its value.\nA tiny example\n\nFor [3,2,1,5,6,4] and k=2, the second largest value is 5. Duplicate values count as separate positions.\n\nWhen would I use it?\n\nSelection without fully sorting every region.\n\nWhat to watch in this animation\n\n1 ≤ k ≤ nums.length. Midpoint pivots are deterministic: balanced partitions give O(n), but worst-case time is O(n²). O(1) iterative core state beyond the copied array.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n²) worst. 1 ≤ k ≤ nums.length. Midpoint pivots are deterministic: balanced partitions give O(n), but worst-case time is O(n²). O(1) iterative core state beyond the copied array. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "second: 3\nduplicates: 5\nsingle: 7\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-selection",
+      "lines": 43,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Monotonic Structures",
+      "title": "Next Greater Element · Monotonic Stack — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef next_greater(nums):\n    stack, result = [], [-1] * len(nums)\n    for i, value in enumerate(nums):\n        while stack and nums[stack[-1]] < value:\n            result[stack.pop()] = value\n        stack.append(i)\n    return result\n\n# Run independent scenarios and compare with known answers.\n\nresult = next_greater([2,1,2,4,3])\nprint('mixed' + \":\", result)\nassert result == [4, 2, 4, -1, -1], \"Unexpected result for mixed\"\n\nresult = next_greater([3,2,1])\nprint('decreasing' + \":\", result)\nassert result == [-1, -1, -1], \"Unexpected result for decreasing\"\n\nresult = next_greater([])\nprint('empty' + \":\", result)\nassert result == [], \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Next Greater Element · Monotonic Stack.",
+        "EXPLAINED SIMPLY\nNext Greater Element · Monotonic Stack, one step at a time\n\nKeep unresolved indices on a stack until a larger value arrives to answer them.\n\nScan values from left to right.\nPop every pending index with a strictly smaller value and assign the current value to it.\nPush the current index as unresolved.\nIndices left on the stack have no greater value to their right.\nA tiny example\n\n[2,1,2,4,3] produces [4,2,4,-1,-1]. Equal 2s do not answer one another.\n\nWhen would I use it?\n\nNext-greater relationships and amortized stack analysis.\n\nWhat to watch in this animation\n\nReturns values, not indices; −1 denotes absence and can also be a valid answer value. O(n) stack and output space.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n). Returns values, not indices; −1 denotes absence and can also be a valid answer value. O(n) stack and output space. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "mixed: [4, 2, 4, -1, -1]\ndecreasing: [-1, -1, -1]\nempty: []\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-monotonic-structures",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Greedy",
+      "title": "Jump Game · Reachable Frontier — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef jump_game(nums):\n    frontier = 0\n    for i, jump in enumerate(nums):\n        if i > frontier:\n            return False\n        frontier = max(frontier, i + jump)\n        if frontier >= len(nums) - 1:\n            return True\n    return False\n\n# Run independent scenarios and compare with known answers.\n\nresult = jump_game([2,3,1,1,4])\nprint('reachable' + \":\", result)\nassert result == True, \"Unexpected result for reachable\"\n\nresult = jump_game([3,2,1,0,4])\nprint('blocked' + \":\", result)\nassert result == False, \"Unexpected result for blocked\"\n\nresult = jump_game([0])\nprint('single' + \":\", result)\nassert result == True, \"Unexpected result for single\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Jump Game · Reachable Frontier.",
+        "EXPLAINED SIMPLY\nJump Game · Reachable Frontier, one step at a time\n\nTrack the farthest reachable index instead of trying every jump sequence.\n\nStart with frontier 0.\nIf the next index lies beyond the frontier, it cannot be reached.\nOtherwise extend the frontier with index plus its jump allowance.\nSucceed as soon as the final index is covered.\nA tiny example\n\n[2,3,1,1,4] is reachable; [3,2,1,0,4] is blocked by the zero at index 3.\n\nWhen would I use it?\n\nReplacing exponential reachability exploration with a greedy invariant.\n\nWhat to watch in this animation\n\nnums: nonnegative maximum forward jump lengths. You may jump fewer steps. Empty input returns false; a single reachable starting cell returns true. O(1) state.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n). nums: nonnegative maximum forward jump lengths. You may jump fewer steps. Empty input returns false; a single reachable starting cell returns true. O(1) state. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "reachable: True\nblocked: False\nsingle: True\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-greedy",
+      "lines": 29,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Dynamic Programming",
+      "title": "House Robber · Rolling DP — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef house_robber(nums):\n    previous_two = previous_one = 0\n    for value in nums:\n        previous_two, previous_one = previous_one, max(previous_one, previous_two + value)\n    return previous_one\n\n# Run independent scenarios and compare with known answers.\n\nresult = house_robber([2,7,9,3,1])\nprint('normal' + \":\", result)\nassert result == 12, \"Unexpected result for normal\"\n\nresult = house_robber([5])\nprint('single' + \":\", result)\nassert result == 5, \"Unexpected result for single\"\n\nresult = house_robber([])\nprint('empty' + \":\", result)\nassert result == 0, \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: House Robber · Rolling DP.",
+        "EXPLAINED SIMPLY\nHouse Robber · Rolling DP, one step at a time\n\nAt each house, either skip it or take it together with the best reward ending before its neighbor.\n\nStart with reward 0 for empty prefixes.\nCompare previous best with best two houses back plus this house’s value.\nKeep the better option and roll the two states forward.\nReturn the best reward; choosing no house is allowed.\nA tiny example\n\n[2,7,9,3,1] yields 12 by taking values 2,9,1. Adjacent houses cannot both be selected.\n\nWhen would I use it?\n\nSelection problems with local incompatibility constraints.\n\nWhat to watch in this animation\n\nnums: up to 20 integer rewards, including negatives. Empty or all-negative inputs can yield 0. O(1) core working space; the trace displays prefix results.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(n). nums: up to 20 integer rewards, including negatives. Empty or all-negative inputs can yield 0. O(1) core working space; the trace displays prefix results. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "normal: 12\nsingle: 5\nempty: 0\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-dynamic-programming",
+      "lines": 25,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Backtracking",
+      "title": "Subsets · Backtracking — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef subsets(nums):\n    result, path = [], []\n    def visit(start):\n        result.append(path.copy())\n        for i in range(start, len(nums)):\n            path.append(nums[i])\n            visit(i + 1)\n            path.pop()\n    visit(0)\n    return result\n\n# Run independent scenarios and compare with known answers.\n\nresult = len(subsets([1,2]))\nprint('two elements' + \":\", result)\nassert result == 4, \"Unexpected result for two elements\"\n\nresult = len(subsets([1,2,3]))\nprint('three elements' + \":\", result)\nassert result == 8, \"Unexpected result for three elements\"\n\nresult = subsets([])\nprint('empty' + \":\", result)\nassert result == [[]], \"Unexpected result for empty\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Subsets · Backtracking.",
+        "EXPLAINED SIMPLY\nSubsets · Backtracking, one step at a time\n\nBuild every subset by choosing only indices after the last selected one.\n\nRecord the current partial selection as a valid subset.\nChoose each later index in turn.\nRecurse starting after that chosen index.\nUndo the choice before exploring the next branch.\nA tiny example\n\n[1,2] produces [], [1], [1,2], and [2]. The empty subset is included.\n\nWhen would I use it?\n\nGenerating a power set while maintaining increasing chosen indices.\n\nWhat to watch in this animation\n\nnums: at most 10 distinct integers. O(n) recursion/path state, excluding exponential output and snapshots.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. Θ(n × 2ⁿ) output. nums: at most 10 distinct integers. O(n) recursion/path state, excluding exponential output and snapshots. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "two elements: 4\nthree elements: 8\nempty: [[]]\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-backtracking",
+      "lines": 30,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Graphs & Grids",
+      "title": "Number of Islands · Grid BFS — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef number_of_islands(grid):\n    if not grid:\n        return 0\n    rows, columns = len(grid), len(grid[0])\n    seen, count = set(), 0\n    for row in range(rows):\n        for column in range(columns):\n            if grid[row][column] != 1 or (row, column) in seen:\n                continue\n            count += 1\n            queue = deque([(row, column)])\n            seen.add((row, column))\n            while queue:\n                x, y = queue.popleft()\n                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):\n                    nx, ny = x + dx, y + dy\n                    if 0 <= nx < rows and 0 <= ny < columns and grid[nx][ny] == 1 and (nx, ny) not in seen:\n                        seen.add((nx, ny))\n                        queue.append((nx, ny))\n    return count\n\n# Run independent scenarios and compare with known answers.\n\nresult = number_of_islands([[1,0],[0,1]])\nprint('separate' + \":\", result)\nassert result == 2, \"Unexpected result for separate\"\n\nresult = number_of_islands([[1,1],[1,0]])\nprint('connected' + \":\", result)\nassert result == 1, \"Unexpected result for connected\"\n\nresult = number_of_islands([[0,0],[0,0]])\nprint('water' + \":\", result)\nassert result == 0, \"Unexpected result for water\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Number of Islands · Grid BFS.",
+        "EXPLAINED SIMPLY\nNumber of Islands · Grid BFS, one step at a time\n\nEach unseen land cell starts one island; flood its four-directional neighbors before continuing the scan.\n\nScan every cell.\nOn an undiscovered 1, increment the island count and enqueue it.\nMark land when enqueuing so it cannot enter the queue twice.\nVisit up, down, left, and right until that island is fully labeled.\nA tiny example\n\n[[1,0],[0,1]] has two islands because diagonal contact does not connect them.\n\nWhen would I use it?\n\nConnected components in grids and safe BFS discovery rules.\n\nWhat to watch in this animation\n\nRectangular numeric 0/1 grid, at most 8×8. Empty grids give 0. A copied grid uses labels 2 and above for found islands; original input is preserved. O(rows × columns) space.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O(rows × columns). Rectangular numeric 0/1 grid, at most 8×8. Empty grids give 0. A copied grid uses labels 2 and above for found islands; original input is preserved. O(rows × columns) space. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "separate: 2\nconnected: 1\nwater: 0\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-graphs-grids",
+      "lines": 40,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Interview Range Queries",
+      "title": "Fenwick Tree · Updates & Range Sums — complete scenario runner",
+      "goal": "Use the section’s representative algorithm in a complete program with normal and boundary scenarios.",
+      "code": "from collections import Counter, deque\nimport heapq\n\n\ndef fenwick_ranges(nums, updates, queries):\n    values, tree = list(nums), [0] * (len(nums) + 1)\n    def add(index, delta):\n        i = index + 1\n        while i < len(tree):\n            tree[i] += delta\n            i += i & -i\n    def prefix(end):\n        result = 0\n        while end > 0:\n            result += tree[end]\n            end -= end & -end\n        return result\n    for i, value in enumerate(values):\n        add(i, value)\n    for i, delta in updates:\n        values[i] += delta\n        add(i, delta)\n    return {'array': values, 'sums': [prefix(right + 1) - prefix(left) for left, right in queries]}\n\n# Run independent scenarios and compare with known answers.\n\nresult = fenwick_ranges([2,1,3],[[1,2]],[[0,2],[1,1]])\nprint('updated' + \":\", result)\nassert result == {'array': [2, 3, 3], 'sums': [8, 3]}, \"Unexpected result for updated\"\n\nresult = fenwick_ranges([1,2,3],[],[[0,1]])\nprint('unchanged' + \":\", result)\nassert result == {'array': [1, 2, 3], 'sums': [3]}, \"Unexpected result for unchanged\"\n\nprint(\"All scenario checks passed\")",
+      "steps": [
+        "Read the input and result contract: Fenwick Tree · Updates & Range Sums.",
+        "EXPLAINED SIMPLY\nFenwick Tree · Updates & Range Sums, one step at a time\n\nStore overlapping partial sums so point additions and prefix queries touch only logarithmically many tree entries.\n\nBuild the 1-based tree using point additions.\nFor each [index,delta], add delta to that value and update ancestors with i += i & −i.\nFor a prefix, move backward with i -= i & −i.\nInclusive range [l,r] is prefix(r+1) minus prefix(l).\nA tiny example\n\n[2,1,3,4,5] updated by +2 at index 1 becomes [2,3,3,4,5]. Query sums [0,2] and [1,4] are 8 and 15.\n\nWhen would I use it?\n\nDynamic additive sums when a static prefix array would require costly repairs.\n\nWhat to watch in this animation\n\nAt most 16 values, 8 updates and 8 queries. All updates happen before queries. Public indices are 0-based; tree index 0 is unused. O(n) storage.",
+        "Run the complete implementation before changing it. The final part supplies named scenarios and checks their results.",
+        "Each assert compares a computed answer with an expected answer; a failing assertion stops execution at the first discrepancy."
+      ],
+      "meaning": "The printed scenarios expose what the algorithm returns. O((n + u + q) log n). At most 16 values, 8 updates and 8 queries. All updates happen before queries. Public indices are 0-based; tree index 0 is unused. O(n) storage. Stored animation frames add work and storage beyond the algorithm itself. The checks cover selected cases, not a proof for all inputs.",
+      "variation": "Add another boundary case with an independently calculated expected answer. Explain whether it changes the time or memory requirement.",
+      "output": "updated: {'array': [2, 3, 3], 'sums': [8, 3]}\nunchanged: {'array': [1, 2, 3], 'sums': [3]}\nAll scenario checks passed",
+      "language": "python",
+      "id": "interview-range-queries",
+      "lines": 35,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Regex Foundations",
+      "title": "Find literal terms — complete text processor",
+      "goal": "Apply a trusted pattern with an explicit match mode and check the result.",
+      "code": "import re\n\ndef apply_pattern(text, pattern, mode):\n    expression = re.compile(pattern)\n    if mode == \"validate\":\n        # fullmatch requires the entire string, not just a matching fragment.\n        return expression.fullmatch(text) is not None\n    if mode == \"split\":\n        return expression.split(text)\n    matches = list(expression.finditer(text))\n    if mode == \"groups\":\n        return [match.groups() for match in matches]\n    return [match.group(0) for match in matches]\n\npattern = 'cat'\ntext = 'The cat met another cat.'\nmode = 'matches'\nprint(\"Input:\", repr(text))\nprint(\"Pattern:\", pattern)\nresult = apply_pattern(text, pattern, mode)\nprint(\"Result:\", result)\nassert result == ['cat', 'cat']\nprint(\"Empty-input result:\", apply_pattern(\"\", pattern, mode))\ntry:\n    apply_pattern(text, \"[\", mode)\nexcept re.error:\n    print(\"Invalid pattern rejected\")",
+      "steps": [
+        "Compile the regular expression once before examining the text.",
+        "fullmatch validates the entire input; finditer produces non-overlapping matches; split returns the pieces between delimiters.",
+        "Groups return captured substrings, while group(0) returns the whole match. Positive lookahead checks following text without consuming it.",
+        "The final checks cover the normal input, empty input and a malformed pattern."
+      ],
+      "meaning": "This uses Python re with fictional ASCII input. Date-shaped strings are not necessarily valid calendar dates. These patterns are not a substitute for a complete parser or untrusted-pattern resource limits.",
+      "variation": "Change one input character and predict whether it changes a match, a captured group or the validation result.",
+      "output": "Input: 'The cat met another cat.'\nPattern: cat\nResult: ['cat', 'cat']\nEmpty-input result: []\nInvalid pattern rejected",
+      "language": "python",
+      "id": "regex-foundations",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Regex Quantifiers & Anchors",
+      "title": "Validate short identifiers — complete text processor",
+      "goal": "Apply a trusted pattern with an explicit match mode and check the result.",
+      "code": "import re\n\ndef apply_pattern(text, pattern, mode):\n    expression = re.compile(pattern)\n    if mode == \"validate\":\n        # fullmatch requires the entire string, not just a matching fragment.\n        return expression.fullmatch(text) is not None\n    if mode == \"split\":\n        return expression.split(text)\n    matches = list(expression.finditer(text))\n    if mode == \"groups\":\n        return [match.groups() for match in matches]\n    return [match.group(0) for match in matches]\n\npattern = '[A-Z][A-Z0-9]{2,5}'\ntext = 'AB12'\nmode = 'validate'\nprint(\"Input:\", repr(text))\nprint(\"Pattern:\", pattern)\nresult = apply_pattern(text, pattern, mode)\nprint(\"Result:\", result)\nassert result == True\nprint(\"Empty-input result:\", apply_pattern(\"\", pattern, mode))\ntry:\n    apply_pattern(text, \"[\", mode)\nexcept re.error:\n    print(\"Invalid pattern rejected\")",
+      "steps": [
+        "Compile the regular expression once before examining the text.",
+        "fullmatch validates the entire input; finditer produces non-overlapping matches; split returns the pieces between delimiters.",
+        "Groups return captured substrings, while group(0) returns the whole match. Positive lookahead checks following text without consuming it.",
+        "The final checks cover the normal input, empty input and a malformed pattern."
+      ],
+      "meaning": "This uses Python re with fictional ASCII input. Date-shaped strings are not necessarily valid calendar dates. These patterns are not a substitute for a complete parser or untrusted-pattern resource limits.",
+      "variation": "Change one input character and predict whether it changes a match, a captured group or the validation result.",
+      "output": "Input: 'AB12'\nPattern: [A-Z][A-Z0-9]{2,5}\nResult: True\nEmpty-input result: False\nInvalid pattern rejected",
+      "language": "python",
+      "id": "regex-quantifiers-anchors",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Regex Assertions",
+      "title": "Extract keys before a colon — complete text processor",
+      "goal": "Apply a trusted pattern with an explicit match mode and check the result.",
+      "code": "import re\n\ndef apply_pattern(text, pattern, mode):\n    expression = re.compile(pattern)\n    if mode == \"validate\":\n        # fullmatch requires the entire string, not just a matching fragment.\n        return expression.fullmatch(text) is not None\n    if mode == \"split\":\n        return expression.split(text)\n    matches = list(expression.finditer(text))\n    if mode == \"groups\":\n        return [match.groups() for match in matches]\n    return [match.group(0) for match in matches]\n\npattern = '\\\\b[A-Za-z]+(?=:)'\ntext = 'name: Alex age: 25'\nmode = 'matches'\nprint(\"Input:\", repr(text))\nprint(\"Pattern:\", pattern)\nresult = apply_pattern(text, pattern, mode)\nprint(\"Result:\", result)\nassert result == ['name', 'age']\nprint(\"Empty-input result:\", apply_pattern(\"\", pattern, mode))\ntry:\n    apply_pattern(text, \"[\", mode)\nexcept re.error:\n    print(\"Invalid pattern rejected\")",
+      "steps": [
+        "Compile the regular expression once before examining the text.",
+        "fullmatch validates the entire input; finditer produces non-overlapping matches; split returns the pieces between delimiters.",
+        "Groups return captured substrings, while group(0) returns the whole match. Positive lookahead checks following text without consuming it.",
+        "The final checks cover the normal input, empty input and a malformed pattern."
+      ],
+      "meaning": "This uses Python re with fictional ASCII input. Date-shaped strings are not necessarily valid calendar dates. These patterns are not a substitute for a complete parser or untrusted-pattern resource limits.",
+      "variation": "Change one input character and predict whether it changes a match, a captured group or the validation result.",
+      "output": "Input: 'name: Alex age: 25'\nPattern: \\b[A-Za-z]+(?=:)\nResult: ['name', 'age']\nEmpty-input result: []\nInvalid pattern rejected",
+      "language": "python",
+      "id": "regex-assertions",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Regex Extraction",
+      "title": "Extract date-shaped fields — complete text processor",
+      "goal": "Apply a trusted pattern with an explicit match mode and check the result.",
+      "code": "import re\n\ndef apply_pattern(text, pattern, mode):\n    expression = re.compile(pattern)\n    if mode == \"validate\":\n        # fullmatch requires the entire string, not just a matching fragment.\n        return expression.fullmatch(text) is not None\n    if mode == \"split\":\n        return expression.split(text)\n    matches = list(expression.finditer(text))\n    if mode == \"groups\":\n        return [match.groups() for match in matches]\n    return [match.group(0) for match in matches]\n\npattern = '([0-9]{4})-([0-9]{2})-([0-9]{2})'\ntext = 'Dates: 2025-01-02 and 2026-03-04'\nmode = 'groups'\nprint(\"Input:\", repr(text))\nprint(\"Pattern:\", pattern)\nresult = apply_pattern(text, pattern, mode)\nprint(\"Result:\", result)\nassert result == [('2025', '01', '02'), ('2026', '03', '04')]\nprint(\"Empty-input result:\", apply_pattern(\"\", pattern, mode))\ntry:\n    apply_pattern(text, \"[\", mode)\nexcept re.error:\n    print(\"Invalid pattern rejected\")",
+      "steps": [
+        "Compile the regular expression once before examining the text.",
+        "fullmatch validates the entire input; finditer produces non-overlapping matches; split returns the pieces between delimiters.",
+        "Groups return captured substrings, while group(0) returns the whole match. Positive lookahead checks following text without consuming it.",
+        "The final checks cover the normal input, empty input and a malformed pattern."
+      ],
+      "meaning": "This uses Python re with fictional ASCII input. Date-shaped strings are not necessarily valid calendar dates. These patterns are not a substitute for a complete parser or untrusted-pattern resource limits.",
+      "variation": "Change one input character and predict whether it changes a match, a captured group or the validation result.",
+      "output": "Input: 'Dates: 2025-01-02 and 2026-03-04'\nPattern: ([0-9]{4})-([0-9]{2})-([0-9]{2})\nResult: [('2025', '01', '02'), ('2026', '03', '04')]\nEmpty-input result: []\nInvalid pattern rejected",
+      "language": "python",
+      "id": "regex-extraction",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Regex Validation",
+      "title": "Validate a simple label — complete text processor",
+      "goal": "Apply a trusted pattern with an explicit match mode and check the result.",
+      "code": "import re\n\ndef apply_pattern(text, pattern, mode):\n    expression = re.compile(pattern)\n    if mode == \"validate\":\n        # fullmatch requires the entire string, not just a matching fragment.\n        return expression.fullmatch(text) is not None\n    if mode == \"split\":\n        return expression.split(text)\n    matches = list(expression.finditer(text))\n    if mode == \"groups\":\n        return [match.groups() for match in matches]\n    return [match.group(0) for match in matches]\n\npattern = '[a-z][a-z0-9_]{2,11}'\ntext = 'sample_12'\nmode = 'validate'\nprint(\"Input:\", repr(text))\nprint(\"Pattern:\", pattern)\nresult = apply_pattern(text, pattern, mode)\nprint(\"Result:\", result)\nassert result == True\nprint(\"Empty-input result:\", apply_pattern(\"\", pattern, mode))\ntry:\n    apply_pattern(text, \"[\", mode)\nexcept re.error:\n    print(\"Invalid pattern rejected\")",
+      "steps": [
+        "Compile the regular expression once before examining the text.",
+        "fullmatch validates the entire input; finditer produces non-overlapping matches; split returns the pieces between delimiters.",
+        "Groups return captured substrings, while group(0) returns the whole match. Positive lookahead checks following text without consuming it.",
+        "The final checks cover the normal input, empty input and a malformed pattern."
+      ],
+      "meaning": "This uses Python re with fictional ASCII input. Date-shaped strings are not necessarily valid calendar dates. These patterns are not a substitute for a complete parser or untrusted-pattern resource limits.",
+      "variation": "Change one input character and predict whether it changes a match, a captured group or the validation result.",
+      "output": "Input: 'sample_12'\nPattern: [a-z][a-z0-9_]{2,11}\nResult: True\nEmpty-input result: False\nInvalid pattern rejected",
+      "language": "python",
+      "id": "regex-validation",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "dsa-motion-lab",
+      "section": "Regex Transformations",
+      "title": "Normalize separators — complete text processor",
+      "goal": "Apply a trusted pattern with an explicit match mode and check the result.",
+      "code": "import re\n\ndef apply_pattern(text, pattern, mode):\n    expression = re.compile(pattern)\n    if mode == \"validate\":\n        # fullmatch requires the entire string, not just a matching fragment.\n        return expression.fullmatch(text) is not None\n    if mode == \"split\":\n        return expression.split(text)\n    matches = list(expression.finditer(text))\n    if mode == \"groups\":\n        return [match.groups() for match in matches]\n    return [match.group(0) for match in matches]\n\npattern = '[,;\\\\s]+'\ntext = 'red,green; blue\\tyellow'\nmode = 'split'\nprint(\"Input:\", repr(text))\nprint(\"Pattern:\", pattern)\nresult = apply_pattern(text, pattern, mode)\nprint(\"Result:\", result)\nassert result == ['red', 'green', 'blue', 'yellow']\nprint(\"Empty-input result:\", apply_pattern(\"\", pattern, mode))\ntry:\n    apply_pattern(text, \"[\", mode)\nexcept re.error:\n    print(\"Invalid pattern rejected\")",
+      "steps": [
+        "Compile the regular expression once before examining the text.",
+        "fullmatch validates the entire input; finditer produces non-overlapping matches; split returns the pieces between delimiters.",
+        "Groups return captured substrings, while group(0) returns the whole match. Positive lookahead checks following text without consuming it.",
+        "The final checks cover the normal input, empty input and a malformed pattern."
+      ],
+      "meaning": "This uses Python re with fictional ASCII input. Date-shaped strings are not necessarily valid calendar dates. These patterns are not a substitute for a complete parser or untrusted-pattern resource limits.",
+      "variation": "Change one input character and predict whether it changes a match, a captured group or the validation result.",
+      "output": "Input: 'red,green; blue\\tyellow'\nPattern: [,;\\s]+\nResult: ['red', 'green', 'blue', 'yellow']\nEmpty-input result: ['']\nInvalid pattern rejected",
+      "language": "python",
+      "id": "regex-transformations",
+      "lines": 27,
+      "verified": true
+    }
+  ],
+  "ml-motion-lab": [
+    {
+      "lab": "ml-motion-lab",
+      "section": "01 · Foundations",
+      "title": "Build a prediction and error report",
+      "goal": "Follow features, parameters, predictions and targets through one complete calculation.",
+      "code": "def predict(hours, weight, bias):\n    return weight * hours + bias\n\ndef evaluate(rows, weight, bias):\n    if not rows:\n        raise ValueError(\"need at least one example\")\n    squared_errors = []\n    for hours, target in rows:\n        estimate = predict(hours, weight, bias)\n        error = estimate - target\n        squared_errors.append(error ** 2)\n        print(f\"hours={hours}, target={target}, predicted={estimate}, error={error}\")\n    return sum(squared_errors) / len(squared_errors)\n\ndata = [(1, 3), (2, 5), (3, 8)]\nweight, bias = 2, 1\nmse = evaluate(data, weight, bias)\nprint(f\"MSE: {mse:.4f}\")\nprint(\"New prediction:\", predict(4, weight, bias))\nassert predict(2, weight, bias) == 5\nassert abs(mse - 1 / 3) < 1e-12\ntry:\n    evaluate([], weight, bias)\nexcept ValueError as error:\n    print(\"Empty input:\", error)",
+      "steps": [
+        "Each row contains one feature and its known target.",
+        "weight and bias define a fixed rule; this program evaluates it but does not train it.",
+        "Signed errors show over- or underprediction; squaring prevents cancellation.",
+        "The average squared error summarizes these three rows; a separate call predicts a new input."
+      ],
+      "meaning": "Only the last row is wrong, by -1, so MSE is one third. A new prediction is not a known answer until it is checked against new data.",
+      "variation": "Change the bias to zero and compare every error, not only the final average.",
+      "output": "hours=1, target=3, predicted=3, error=0\nhours=2, target=5, predicted=5, error=0\nhours=3, target=8, predicted=7, error=-1\nMSE: 0.3333\nNew prediction: 9\nEmpty input: need at least one example",
+      "language": "python",
+      "id": "01-foundations",
+      "lines": 25,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "02 · Linear algebra",
+      "title": "Apply a matrix transformation to a batch",
+      "goal": "Implement shape checking and matrix multiplication without external libraries.",
+      "code": "def shape(matrix):\n    if not matrix or not matrix[0]:\n        raise ValueError(\"empty matrix\")\n    width = len(matrix[0])\n    if any(len(row) != width for row in matrix):\n        raise ValueError(\"ragged rows\")\n    return len(matrix), width\n\ndef matmul(left, right):\n    rows, inner = shape(left)\n    other_inner, columns = shape(right)\n    if inner != other_inner:\n        raise ValueError(\"inner dimensions differ\")\n    return [[sum(left[i][k] * right[k][j] for k in range(inner))\n             for j in range(columns)] for i in range(rows)]\n\nfeatures = [[1, 2], [3, 4], [5, 6]]\nweights = [[2, 0], [1, 3]]\nresult = matmul(features, weights)\nprint(\"Input shape:\", shape(features))\nprint(\"Output shape:\", shape(result))\nfor row in result:\n    print(row)\nassert result == [[4, 6], [10, 12], [16, 18]]\nassert matmul([[1, 0], [0, 1]], weights) == weights",
+      "steps": [
+        "shape checks that rows have consistent lengths.",
+        "The feature matrix is 3 by 2; the weights are 2 by 2, so the result is 3 by 2.",
+        "Each output entry is a row-column dot product; the shared inner dimension is summed away.",
+        "The identity-matrix assertion checks that an identity transformation preserves the weights."
+      ],
+      "meaning": "For the first row, the first output is 1×2 + 2×1 = 4; the second is 1×0 + 2×3 = 6.",
+      "variation": "Add a third output column and predict the new matrix shape before computing it.",
+      "output": "Input shape: (3, 2)\nOutput shape: (3, 2)\n[4, 6]\n[10, 12]\n[16, 18]",
+      "language": "python",
+      "id": "02-linear-algebra",
+      "lines": 25,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "03 · Calculus",
+      "title": "Check an analytic gradient with finite differences",
+      "goal": "Compare a derived gradient with a numerical approximation, then take a small descent step.",
+      "code": "def loss(weight, rows):\n    return sum((weight * x - y) ** 2 for x, y in rows) / len(rows)\n\ndef gradient(weight, rows):\n    return 2 * sum((weight * x - y) * x for x, y in rows) / len(rows)\n\ndef numerical_gradient(weight, rows, step):\n    return (loss(weight + step, rows) - loss(weight - step, rows)) / (2 * step)\n\nrows = [(1, 2), (2, 4), (3, 6)]\nweight = 0.5\nanalytic = gradient(weight, rows)\nprint(f\"Analytic gradient: {analytic:.4f}\")\nfor step in [0.1, 0.01, 0.001]:\n    estimate = numerical_gradient(weight, rows, step)\n    print(f\"step={step}: numerical={estimate:.4f}\")\n    assert abs(analytic - estimate) < 1e-8\nbefore = loss(weight, rows)\nnew_weight = weight - 0.05 * analytic\nafter = loss(new_weight, rows)\nprint(f\"Weight: {weight:.4f} -> {new_weight:.4f}\")\nprint(f\"Loss: {before:.4f} -> {after:.4f}\")\nassert after < before",
+      "steps": [
+        "The loss is the mean of squared prediction errors.",
+        "The chain rule contributes both 2×error and the feature x to the derivative.",
+        "Central differences compare nearby loss values on either side of the weight.",
+        "Subtracting a small learning-rate multiple of the gradient reduces this particular loss."
+      ],
+      "meaning": "Finite differences are a debugging approximation, not proof that every derivative is correct. Very small steps suffer floating-point cancellation.",
+      "variation": "Try a learning rate of 1 and inspect whether the loss still decreases; remove the descent assertion only after explaining its failure.",
+      "output": "Analytic gradient: -14.0000\nstep=0.1: numerical=-14.0000\nstep=0.01: numerical=-14.0000\nstep=0.001: numerical=-14.0000\nWeight: 0.5000 -> 1.2000\nLoss: 10.5000 -> 2.9867",
+      "language": "python",
+      "id": "03-calculus",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "04 · Probability",
+      "title": "Compute Bayes probabilities from a frequency table",
+      "goal": "Build the numerator and denominator from fictional counts rather than memorizing a formula.",
+      "code": "table = {\n    \"red\": {\"striped\": 30, \"plain\": 20},\n    \"blue\": {\"striped\": 10, \"plain\": 40},\n}\ntotal = sum(sum(row.values()) for row in table.values())\nred_total = sum(table[\"red\"].values())\nstriped_total = sum(row[\"striped\"] for row in table.values())\n\ndef fraction(numerator, denominator):\n    if denominator == 0:\n        raise ValueError(\"conditioning group is empty\")\n    return numerator / denominator\n\nprior = fraction(red_total, total)\nlikelihood = fraction(table[\"red\"][\"striped\"], red_total)\nevidence = fraction(striped_total, total)\nposterior = likelihood * prior / evidence\ndirect = fraction(table[\"red\"][\"striped\"], striped_total)\nprint(f\"P(red) = {prior:.2f}\")\nprint(f\"P(striped | red) = {likelihood:.2f}\")\nprint(f\"P(striped) = {evidence:.2f}\")\nprint(f\"P(red | striped) = {posterior:.2f}\")\nassert abs(posterior - direct) < 1e-12\nassert abs(posterior - 0.75) < 1e-12",
+      "steps": [
+        "The full table has 100 objects and the red group has 50.",
+        "Among the red objects, 30 of 50 are striped: this is the likelihood.",
+        "Among all objects, 40 are striped: this is the evidence probability.",
+        "Conditioning on striped changes the denominator to 40; 30 of those are red."
+      ],
+      "meaning": "P(striped|red) is 0.60, while P(red|striped) is 0.75. Reversing a conditional probability changes the group you divide by.",
+      "variation": "Double the number of plain blue objects and recalculate both the prior and posterior.",
+      "output": "P(red) = 0.50\nP(striped | red) = 0.60\nP(striped) = 0.40\nP(red | striped) = 0.75",
+      "language": "python",
+      "id": "04-probability",
+      "lines": 24,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "05 · Statistics",
+      "title": "Fit preprocessing using training data only",
+      "goal": "Standardize training and held-out values without leaking test information into fitted statistics.",
+      "code": "from math import sqrt\n\ndef fit_scaler(values):\n    if not values:\n        raise ValueError(\"training values are required\")\n    mean = sum(values) / len(values)\n    variance = sum((x - mean) ** 2 for x in values) / len(values)\n    scale = sqrt(variance)\n    if scale == 0:\n        scale = 1.0  # Explicit convention for a constant training feature.\n    return mean, scale\n\ndef transform(values, fitted):\n    mean, scale = fitted\n    return [(x - mean) / scale for x in values]\n\ntraining = [1, 2, 3]\ntesting = [4, 10]\nfitted = fit_scaler(training)\ntrain_scaled = transform(training, fitted)\ntest_scaled = transform(testing, fitted)\nprint(f\"Training mean: {fitted[0]:.3f}; scale: {fitted[1]:.3f}\")\nprint(\"Train:\", [round(x, 3) for x in train_scaled])\nprint(\"Test:\", [round(x, 3) for x in test_scaled])\nassert abs(sum(train_scaled)) < 1e-12\nassert transform([7, 8], fit_scaler([7, 7])) == [0.0, 1.0]",
+      "steps": [
+        "fit_scaler learns two numbers from training data only.",
+        "The divisor n defines population-style variance for preprocessing, not an unbiased sample-variance estimator.",
+        "transform uses the already learned mean and scale on any later values.",
+        "An explicit scale of one prevents division by zero for a constant feature."
+      ],
+      "meaning": "Test values can lie far beyond the training range. Recomputing the scaler on test data would change the model pipeline and leak information.",
+      "variation": "Add an extreme test value and verify that the training mean and scale stay unchanged.",
+      "output": "Training mean: 2.000; scale: 0.816\nTrain: [-1.225, 0.0, 1.225]\nTest: [2.449, 9.798]",
+      "language": "python",
+      "id": "05-statistics",
+      "lines": 26,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "06 · Information theory",
+      "title": "Compare probability forecasts with cross-entropy",
+      "goal": "Measure how confidently a model assigns probability to the observed class.",
+      "code": "from math import log\n\ndef log_loss(probabilities, labels):\n    if len(probabilities) != len(labels) or not labels:\n        raise ValueError(\"need matching nonempty inputs\")\n    losses = []\n    for distribution, label in zip(probabilities, labels):\n        if any(p <= 0 or p > 1 for p in distribution):\n            raise ValueError(\"this example requires positive probabilities\")\n        if abs(sum(distribution) - 1) > 1e-10:\n            raise ValueError(\"probabilities must sum to one\")\n        losses.append(-log(distribution[label]))\n    return sum(losses) / len(losses)\n\nlabels = [0, 1, 0]\nconfident = [[0.9, 0.1], [0.2, 0.8], [0.8, 0.2]]\nuncertain = [[0.5, 0.5]] * 3\nwrong = [[0.1, 0.9], [0.8, 0.2], [0.2, 0.8]]\nscores = {}\nfor name, predictions in [(\"confident\", confident), (\"uncertain\", uncertain), (\"wrong\", wrong)]:\n    scores[name] = log_loss(predictions, labels)\n    print(f\"{name}: {scores[name]:.4f} nats\")\nassert scores[\"confident\"] < scores[\"uncertain\"] < scores[\"wrong\"]",
+      "steps": [
+        "Each probability vector describes two mutually exclusive classes.",
+        "Indexing by the observed label selects the probability assigned to the correct class.",
+        "Negative natural logarithms penalize small correct-class probabilities strongly.",
+        "Averaging yields cross-entropy for one-hot labels; natural logs measure it in nats."
+      ],
+      "meaning": "Confident correct forecasts have smaller loss. Confident wrong forecasts are much worse than uncertain forecasts, even when the label decision alone hides that difference.",
+      "variation": "Change one correct-class probability to 0.01 and inspect how much it affects the average.",
+      "output": "confident: 0.1839 nats\nuncertain: 0.6931 nats\nwrong: 1.8405 nats",
+      "language": "python",
+      "id": "06-information-theory",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "07 · Optimization",
+      "title": "Train a one-parameter model with gradient descent",
+      "goal": "Run repeated parameter updates and compare the learned value with a known solution.",
+      "code": "def loss(weight, examples):\n    return sum((weight * x - y) ** 2 for x, y in examples) / len(examples)\n\ndef gradient(weight, examples):\n    return 2 * sum(x * (weight * x - y) for x, y in examples) / len(examples)\n\ndef train(examples, rate, iterations):\n    weight = 0.0\n    history = []\n    for step in range(iterations + 1):\n        current_loss = loss(weight, examples)\n        history.append(current_loss)\n        if step in {0, 1, 5, iterations}:\n            print(f\"step={step:2d} weight={weight:.4f} loss={current_loss:.6f}\")\n        if step < iterations:\n            weight -= rate * gradient(weight, examples)\n    return weight, history\n\nrows = [(1, 2), (2, 4), (3, 6)]\nweight, history = train(rows, rate=0.05, iterations=30)\nprint(f\"Prediction at x=4: {weight * 4:.4f}\")\nassert abs(weight - 2) < 1e-6\nassert all(b <= a for a, b in zip(history, history[1:]))",
+      "steps": [
+        "The data were constructed with y=2x, so the exact best weight is known.",
+        "The loop records loss before each update, including the final state.",
+        "The learning rate scales how far each step moves against the gradient.",
+        "Assertions check both the learned solution and decreasing loss for this chosen setting."
+      ],
+      "meaning": "This small convex problem has a simple solution; the same rate and monotonic behavior are not guaranteed for arbitrary neural networks.",
+      "variation": "Add noisy targets, then compare the best weight with 2 instead of expecting exact recovery.",
+      "output": "step= 0 weight=0.0000 loss=18.666667\nstep= 1 weight=0.9333 loss=5.309630\nstep= 5 weight=1.9137 loss=0.034758\nstep=30 weight=2.0000 loss=0.000000\nPrediction at x=4: 8.0000",
+      "language": "python",
+      "id": "07-optimization",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "08 · Mathematics inside models",
+      "title": "Run a tiny neural-network forward pass",
+      "goal": "Trace matrix-like weighted sums, ReLU activations and normalized class scores.",
+      "code": "from math import exp\n\ndef dense(values, weights, biases):\n    if len(weights) != len(biases):\n        raise ValueError(\"one bias is required for each output\")\n    if any(len(row) != len(values) for row in weights):\n        raise ValueError(\"weight dimensions do not match inputs\")\n    return [sum(x * w for x, w in zip(values, row)) + bias\n            for row, bias in zip(weights, biases)]\n\ndef softmax(scores):\n    maximum = max(scores)\n    terms = [exp(score - maximum) for score in scores]\n    return [term / sum(terms) for term in terms]\n\ninputs = [2, -1]\nhidden_raw = dense(inputs, [[1, 1], [-1, 2]], [0, 1])\nhidden = [max(0, value) for value in hidden_raw]\nscores = dense(hidden, [[2, 1], [-1, 1]], [0, 0])\nprobabilities = softmax(scores)\nprint(\"Hidden before ReLU:\", hidden_raw)\nprint(\"Hidden after ReLU:\", hidden)\nprint(\"Class scores:\", scores)\nprint(\"Probabilities:\", [round(p, 4) for p in probabilities])\nprint(\"Predicted class:\", max(range(2), key=probabilities.__getitem__))\nassert hidden == [1, 0]\nassert abs(sum(probabilities) - 1) < 1e-12",
+      "steps": [
+        "Each weight row produces one output unit; its dot product receives a bias.",
+        "ReLU replaces negative values with zero.",
+        "A second dense layer converts hidden activations into two class scores.",
+        "Subtracting the largest score makes softmax more numerically stable without changing the probability ratios."
+      ],
+      "meaning": "This is inference with hand-selected weights, not a trained or validated classifier. The result demonstrates computation, not model accuracy.",
+      "variation": "Change one input and calculate the hidden values by hand before running the program.",
+      "output": "Hidden before ReLU: [1, -3]\nHidden after ReLU: [1, 0]\nClass scores: [2, -1]\nProbabilities: [0.9526, 0.0474]\nPredicted class: 0",
+      "language": "python",
+      "id": "08-mathematics-inside-models",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "09 · Advanced connections",
+      "title": "Group points with a small k-means loop",
+      "goal": "Alternate nearest-center assignments and center updates on fictional two-dimensional points.",
+      "code": "def squared_distance(a, b):\n    return sum((x - y) ** 2 for x, y in zip(a, b))\n\ndef assign(points, centers):\n    return [min(range(len(centers)), key=lambda j: squared_distance(point, centers[j]))\n            for point in points]\n\ndef update(points, labels, centers):\n    updated = []\n    for j, old_center in enumerate(centers):\n        members = [p for p, label in zip(points, labels) if label == j]\n        # Keep the old center if its group is empty.\n        updated.append(tuple(sum(p[d] for p in members) / len(members)\n                             for d in range(2)) if members else old_center)\n    return updated\n\npoints = [(0, 0), (0, 2), (8, 8), (8, 10)]\ncenters = [(0, 0), (8, 8)]\nfor iteration in range(3):\n    labels = assign(points, centers)\n    centers = update(points, labels, centers)\n    print(f\"iteration={iteration + 1}, labels={labels}, centers={centers}\")\ninertia = sum(squared_distance(p, centers[j]) for p, j in zip(points, labels))\nprint(f\"Within-group squared distance: {inertia:.1f}\")\nassert centers == [(0.0, 1.0), (8.0, 9.0)]\nassert inertia == 4",
+      "steps": [
+        "Squared distance measures closeness to each current center.",
+        "Assignment chooses the closest center, with the first center winning ties.",
+        "Update replaces each nonempty center with the coordinate-wise mean of its members.",
+        "The final sum of squared distances is the k-means objective for this assignment."
+      ],
+      "meaning": "The two groups are obvious in this toy dataset. Initialization, scaling and the chosen number of groups can change real results; groups do not automatically represent meaningful categories.",
+      "variation": "Move one point between the groups and try a different pair of starting centers.",
+      "output": "iteration=1, labels=[0, 0, 1, 1], centers=[(0.0, 1.0), (8.0, 9.0)]\niteration=2, labels=[0, 0, 1, 1], centers=[(0.0, 1.0), (8.0, 9.0)]\niteration=3, labels=[0, 0, 1, 1], centers=[(0.0, 1.0), (8.0, 9.0)]\nWithin-group squared distance: 4.0",
+      "language": "python",
+      "id": "09-advanced-connections",
+      "lines": 26,
+      "verified": true
+    },
+    {
+      "lab": "ml-motion-lab",
+      "section": "10 · Generative mathematics",
+      "title": "Calculate a toy attention-weighted representation",
+      "goal": "Turn query-key similarities into weights and combine value vectors.",
+      "code": "from math import exp, sqrt\n\ndef dot(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"vector lengths differ\")\n    return sum(x * y for x, y in zip(a, b))\n\ndef softmax(scores):\n    shifted = [exp(x - max(scores)) for x in scores]\n    total = sum(shifted)\n    return [x / total for x in shifted]\n\nquery = [1.0, 0.0]\nkeys = [[1.0, 0.0], [0.0, 1.0], [-1.0, 0.0]]\nvalues = [[10.0, 0.0], [0.0, 10.0], [2.0, 2.0]]\nscores = [dot(query, key) / sqrt(len(query)) for key in keys]\nweights = softmax(scores)\ncontext = [sum(weight * value[d] for weight, value in zip(weights, values))\n           for d in range(len(values[0]))]\nprint(\"Scaled scores:\", [round(x, 4) for x in scores])\nprint(\"Attention weights:\", [round(x, 4) for x in weights])\nprint(\"Combined value:\", [round(x, 4) for x in context])\nassert abs(sum(weights) - 1) < 1e-12\nassert weights[0] > weights[1] > weights[2]\nassert all(0 <= x <= 10 for x in context)",
+      "steps": [
+        "The query describes what this position is looking for; each key supplies a comparison vector.",
+        "A dot product gives each query-key score; dividing by square-root dimension is the usual scaling.",
+        "Softmax creates nonnegative weights that sum to one.",
+        "The final representation is a weighted average of the value vectors, not of the keys."
+      ],
+      "meaning": "This illustrates one unmasked attention query. It does not train a transformer or generate text; causal masks, learned projections and multiple heads are additional components.",
+      "variation": "Use query [0,1] and predict which key receives the largest weight.",
+      "output": "Scaled scores: [0.7071, 0.0, -0.7071]\nAttention weights: [0.576, 0.284, 0.14]\nCombined value: [6.0398, 3.12]",
+      "language": "python",
+      "id": "10-generative-mathematics",
+      "lines": 25,
+      "verified": true
+    }
+  ],
+  "python-motion-lab": [
+    {
+      "lab": "python-motion-lab",
+      "section": "Concurrency",
+      "title": "Process a batch with worker threads",
+      "goal": "Submit independent tasks, collect their results in order, and handle a failed item without losing the rest.",
+      "code": "from concurrent.futures import ThreadPoolExecutor\n\ndef inspect_item(item):\n    name, quantity = item\n    if quantity < 0:\n        raise ValueError(\"quantity cannot be negative\")\n    return name, quantity * 10\n\ndef process_batch(items):\n    results = []\n    with ThreadPoolExecutor(max_workers=2) as pool:\n        futures = [pool.submit(inspect_item, item) for item in items]\n        # Reading futures in submission order makes this report deterministic.\n        for item, future in zip(items, futures):\n            try:\n                name, value = future.result()\n                results.append((name, value))\n            except ValueError as error:\n                print(f\"Rejected {item[0]}: {error}\")\n    return results\n\nitems = [(\"notebook\", 3), (\"pencil\", -1), (\"folder\", 2)]\nresults = process_batch(items)\nfor name, value in results:\n    print(f\"{name}: {value}\")\nprint(\"Total:\", sum(value for _, value in results))\nassert results == [(\"notebook\", 30), (\"folder\", 20)]\nassert process_batch([]) == []",
+      "steps": [
+        "A task receives one tuple and rejects negative quantities before computing.",
+        "The pool owns two worker threads; submit returns a Future representing each task.",
+        "future.result waits for that task and re-raises its exception in the caller.",
+        "The with block waits for workers and releases the pool. Results are printed in input order."
+      ],
+      "meaning": "The rejected pencil is excluded, and the two valid amounts sum to 50. This small arithmetic example teaches orchestration, not a speedup: threads are usually useful for I/O waits, not GIL-bound CPU work.",
+      "variation": "Add another valid item and predict the new total before running.",
+      "output": "Rejected pencil: quantity cannot be negative\nnotebook: 30\nfolder: 20\nTotal: 50",
+      "language": "python",
+      "id": "concurrency",
+      "lines": 28,
+      "verified": true
+    },
+    {
+      "lab": "python-motion-lab",
+      "section": "Memory & objects",
+      "title": "Copy a nested shopping basket safely",
+      "goal": "Compare shared references, shallow copies, and independent deep copies.",
+      "code": "from copy import deepcopy\n\ndef total(basket):\n    return sum(item[\"price\"] * item[\"quantity\"] for item in basket)\n\ndef show(label, basket):\n    quantities = [item[\"quantity\"] for item in basket]\n    print(f\"{label}: quantities={quantities}, total={total(basket)}\")\n\noriginal = [\n    {\"name\": \"book\", \"price\": 10, \"quantity\": 1},\n    {\"name\": \"pen\", \"price\": 2, \"quantity\": 2},\n]\nalias = original\nshallow = original.copy()\nindependent = deepcopy(original)\n\nshallow[0][\"quantity\"] = 3\nshow(\"original\", original)\nshow(\"alias\", alias)\nshow(\"shallow\", shallow)\nshow(\"deep copy\", independent)\nprint(\"Same outer list:\", shallow is original)\nprint(\"Same first dictionary:\", shallow[0] is original[0])\nassert total(original) == 34\nassert total(independent) == 14\nassert alias is original",
+      "steps": [
+        "The basket is a list containing dictionaries; there are two levels of objects.",
+        "Assignment creates another name for the same outer list.",
+        "copy makes a new list but shares each dictionary, so a nested edit is visible through both lists.",
+        "deepcopy recursively copies these ordinary containers, preserving the earlier independent quantities."
+      ],
+      "meaning": "The outer lists can differ while their nested items are identical objects. A copy strategy must match which level your program will change.",
+      "variation": "Append a third item only to shallow; explain why that append does not change original.",
+      "output": "original: quantities=[3, 2], total=34\nalias: quantities=[3, 2], total=34\nshallow: quantities=[3, 2], total=34\ndeep copy: quantities=[1, 2], total=14\nSame outer list: False\nSame first dictionary: True",
+      "language": "python",
+      "id": "memory-objects",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "python-motion-lab",
+      "section": "Iteration",
+      "title": "Read, validate and summarize rows lazily",
+      "goal": "Build a generator pipeline that cleans input before calculating totals.",
+      "code": "def parsed_rows(lines):\n    for number, line in enumerate(lines, start=1):\n        fields = line.strip().split(\",\")\n        if len(fields) != 2:\n            print(f\"Skip line {number}: expected two fields\")\n            continue\n        name, text = fields\n        try:\n            quantity = int(text)\n        except ValueError:\n            print(f\"Skip line {number}: not an integer\")\n            continue\n        if quantity < 0:\n            print(f\"Skip line {number}: negative quantity\")\n            continue\n        yield name, quantity\n\nlines = [\"apple,3\", \"pear,2\", \"apple,4\", \"bad,row\", \"missing\"]\ntotals = {}\nfor name, quantity in parsed_rows(lines):\n    totals[name] = totals.get(name, 0) + quantity\nfor name in sorted(totals):\n    print(f\"{name}: {totals[name]}\")\nassert totals == {\"apple\": 7, \"pear\": 2}\niterator = parsed_rows([\"plum,1\"])\nassert list(iterator) == [(\"plum\", 1)]\nassert list(iterator) == []  # A generator is exhausted after consumption.",
+      "steps": [
+        "enumerate adds human-readable line numbers starting at one.",
+        "Each malformed line is skipped with a specific explanation; valid rows are yielded one at a time.",
+        "The consumer accumulates quantities with a dictionary rather than storing all parsed rows.",
+        "A generator remembers where it paused and is exhausted once it finishes."
+      ],
+      "meaning": "Only valid quantities contribute. This deliberately simple comma format does not support quoted commas; use csv.reader for actual CSV.",
+      "variation": "Add a blank line, a zero quantity and another apple row; predict which affect the total.",
+      "output": "Skip line 4: not an integer\nSkip line 5: expected two fields\napple: 7\npear: 2",
+      "language": "python",
+      "id": "iteration",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "python-motion-lab",
+      "section": "Functions",
+      "title": "Calculate invoices with small reusable functions",
+      "goal": "Separate validation, per-line calculations and reporting so each operation can be tested.",
+      "code": "def line_total(price_cents, quantity):\n    if price_cents < 0 or quantity < 0:\n        raise ValueError(\"price and quantity must be nonnegative\")\n    return price_cents * quantity\n\ndef invoice(items, discount_cents=0):\n    subtotal = sum(line_total(price, quantity) for _, price, quantity in items)\n    if not 0 <= discount_cents <= subtotal:\n        raise ValueError(\"discount must be between zero and subtotal\")\n    return {\"subtotal\": subtotal, \"discount\": discount_cents,\n            \"due\": subtotal - discount_cents}\n\ndef money(cents):\n    return f\"{cents // 100}.{cents % 100:02d}\"\n\nitems = [(\"notebook\", 250, 3), (\"pen\", 125, 2)]\nbill = invoice(items, discount_cents=100)\nfor label, amount in bill.items():\n    print(f\"{label}: {money(amount)}\")\nassert line_total(250, 3) == 750\nassert bill[\"due\"] == 900\nassert invoice([])[\"due\"] == 0\ntry:\n    invoice(items, discount_cents=2000)\nexcept ValueError as error:\n    print(\"Rejected:\", error)",
+      "steps": [
+        "line_total validates one item; invoice combines those results.",
+        "The default discount is zero, but callers can supply a named argument.",
+        "Integer cents avoid fractional binary floating-point rounding for these amounts.",
+        "money formats the integer amount without changing it; returned data remains suitable for checks."
+      ],
+      "meaning": "The subtotal is 10.00, discount is 1.00 and amount due is 9.00. This is a teaching invoice, without tax or currency-conversion rules.",
+      "variation": "Add a shipping_cents parameter, validate it and include it in the amount due.",
+      "output": "subtotal: 10.00\ndiscount: 1.00\ndue: 9.00\nRejected: discount must be between zero and subtotal",
+      "language": "python",
+      "id": "functions",
+      "lines": 26,
+      "verified": true
+    },
+    {
+      "lab": "python-motion-lab",
+      "section": "Classes & design",
+      "title": "Model a small lending library",
+      "goal": "Keep state and the rules for changing that state together in a class.",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    available: int\n\n    def borrow(self):\n        if self.available <= 0:\n            raise ValueError(\"no copies available\")\n        self.available -= 1\n\n    def return_copy(self):\n        self.available += 1\n\ncatalog = {\"B1\": Book(\"Learning Python\", 2),\n           \"B2\": Book(\"Algorithms\", 1)}\nrequests = [\"B1\", \"B1\", \"B1\", \"B2\"]\nfor identifier in requests:\n    book = catalog[identifier]\n    try:\n        book.borrow()\n        print(f\"Borrowed: {book.title}\")\n    except ValueError as error:\n        print(f\"Unavailable: {book.title} ({error})\")\ncatalog[\"B1\"].return_copy()\nfor identifier, book in catalog.items():\n    print(f\"{identifier}: {book.available} remaining\")\nassert catalog[\"B1\"].available == 1\nassert catalog[\"B2\"].available == 0",
+      "steps": [
+        "dataclass creates initialization and readable representations from declared fields.",
+        "Each instance keeps its own title and available count.",
+        "borrow checks the rule before mutating state, so a rejected loan leaves the count unchanged.",
+        "The catalog maps identifiers to objects; reporting reads their final state."
+      ],
+      "meaning": "This shows encapsulation but not a complete lending system: real returns need loan records to prevent returning unborrowed copies.",
+      "variation": "Track borrower IDs and reject a return unless that borrower has an outstanding loan.",
+      "output": "Borrowed: Learning Python\nBorrowed: Learning Python\nUnavailable: Learning Python (no copies available)\nBorrowed: Algorithms\nB1: 1 remaining\nB2: 0 remaining",
+      "language": "python",
+      "id": "classes-design",
+      "lines": 30,
+      "verified": true
+    },
+    {
+      "lab": "python-motion-lab",
+      "section": "Python toolkit",
+      "title": "Turn CSV input into a checked JSON report",
+      "goal": "Use standard-library parsers and decimal arithmetic for a small data-processing task.",
+      "code": "import csv\nimport io\nimport json\nfrom decimal import Decimal\n\nsource = \"item,price,quantity\\nbook,12.50,2\\npen,1.25,4\\n\"\nrows = csv.DictReader(io.StringIO(source))\nreport = []\ngrand_total = Decimal(\"0\")\nfor row in rows:\n    price = Decimal(row[\"price\"])\n    quantity = int(row[\"quantity\"])\n    if price < 0 or quantity < 0:\n        raise ValueError(\"negative amount\")\n    amount = price * quantity\n    grand_total += amount\n    report.append({\"item\": row[\"item\"], \"amount\": f\"{amount:.2f}\"})\n\ndocument = {\"lines\": report, \"total\": f\"{grand_total:.2f}\"}\nencoded = json.dumps(document, indent=2)\nprint(encoded)\ndecoded = json.loads(encoded)\nassert decoded[\"total\"] == \"30.00\"\nassert len(decoded[\"lines\"]) == 2\nassert Decimal(decoded[\"lines\"][0][\"amount\"]) == Decimal(\"25.00\")",
+      "steps": [
+        "StringIO provides an in-memory file interface, so no existing files are touched.",
+        "DictReader maps each row to the column names from the first line.",
+        "Decimal reads prices from strings and avoids binary rounding for these decimal amounts.",
+        "JSON stores the formatted decimal amounts as strings; loads reconstructs the document for checks."
+      ],
+      "meaning": "The two line amounts are 25.00 and 5.00, giving 30.00. Unexpected columns and malformed numbers would need an explicit error-reporting policy in a larger importer.",
+      "variation": "Add a third CSV row, then verify the report total and the number of lines.",
+      "output": "{\n  \"lines\": [\n    {\n      \"item\": \"book\",\n      \"amount\": \"25.00\"\n    },\n    {\n      \"item\": \"pen\",\n      \"amount\": \"5.00\"\n    }\n  ],\n  \"total\": \"30.00\"\n}",
+      "language": "python",
+      "id": "python-toolkit",
+      "lines": 25,
+      "verified": true
+    }
+  ],
+  "statistics-lab": [
+    {
+      "lab": "statistics-lab",
+      "section": "01 · Understanding data",
+      "title": "Audit a small survey before summarizing it",
+      "goal": "Check missing responses, duplicate identifiers and invalid measurements.",
+      "code": "rows = [\n    {\"id\": \"A\", \"minutes\": 12},\n    {\"id\": \"B\", \"minutes\": None},\n    {\"id\": \"A\", \"minutes\": 14},\n    {\"id\": \"C\", \"minutes\": -2},\n    {\"id\": \"D\", \"minutes\": 18},\n]\nseen, accepted, rejected = set(), [], []\nfor row in rows:\n    identifier, value = row[\"id\"], row[\"minutes\"]\n    if identifier in seen:\n        rejected.append((identifier, \"duplicate identifier\"))\n        continue\n    seen.add(identifier)\n    if value is None:\n        rejected.append((identifier, \"missing measurement\"))\n    elif value < 0:\n        rejected.append((identifier, \"negative travel time\"))\n    else:\n        accepted.append(row)\nfor identifier, reason in rejected:\n    print(f\"Rejected {identifier}: {reason}\")\nmean = sum(row[\"minutes\"] for row in accepted) / len(accepted)\nprint(\"Accepted:\", len(accepted), \"of\", len(rows))\nprint(f\"Observed mean: {mean:.1f} minutes\")\nassert [row[\"id\"] for row in accepted] == [\"A\", \"D\"]\nassert mean == 15",
+      "steps": [
+        "State a measurement rule first: one nonnegative travel time per identifier.",
+        "The first occurrence of an identifier is kept under this explicit policy.",
+        "Missing and negative measurements are reported, not silently changed to zero.",
+        "The mean is calculated only from accepted observations, with the count reported beside it."
+      ],
+      "meaning": "Two accepted responses do not describe the whole population automatically. Missingness and exclusions may introduce bias; the audit is a data-quality step, not a proof of representativeness.",
+      "variation": "Change the duplicate policy to reject every duplicated ID and compare the resulting sample.",
+      "output": "Rejected B: missing measurement\nRejected A: duplicate identifier\nRejected C: negative travel time\nAccepted: 2 of 5\nObserved mean: 15.0 minutes",
+      "language": "python",
+      "id": "01-understanding-data",
+      "lines": 27,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "02 · Summarizing values",
+      "title": "Produce a descriptive summary with an outlier comparison",
+      "goal": "Calculate central values and spread, then show how an extreme observation changes them.",
+      "code": "from statistics import mean, median, variance, stdev\n\ndef summarize(values):\n    if len(values) < 2:\n        raise ValueError(\"need at least two values for sample variance\")\n    return {\"n\": len(values), \"mean\": mean(values), \"median\": median(values),\n            \"minimum\": min(values), \"maximum\": max(values),\n            \"sample variance\": variance(values), \"sample SD\": stdev(values)}\n\ndef print_summary(label, values):\n    print(label)\n    result = summarize(values)\n    for name, value in result.items():\n        print(f\"  {name}: {value:.3f}\")\n    return result\n\nordinary = [2, 4, 6, 8, 10]\nwith_outlier = [2, 4, 6, 8, 100]\nfirst = print_summary(\"Original\", ordinary)\nsecond = print_summary(\"One value changed\", with_outlier)\nassert first[\"mean\"] == 6\nassert first[\"sample variance\"] == 10\nassert second[\"median\"] == first[\"median\"]\nassert second[\"mean\"] > first[\"mean\"]",
+      "steps": [
+        "The summary checks its minimum sample size before using n-1 variance.",
+        "Mean and median describe location; minimum, maximum and SD describe different aspects of spread.",
+        "The second dataset changes just the largest observation.",
+        "Printing the same statistics side by side makes the sensitivity of each statistic visible."
+      ],
+      "meaning": "The median remains 6 while the mean and SD increase. This does not make one statistic universally better; choose summaries according to the question and distribution.",
+      "variation": "Replace 100 with -100 and compare which statistics change direction.",
+      "output": "Original\n  n: 5.000\n  mean: 6.000\n  median: 6.000\n  minimum: 2.000\n  maximum: 10.000\n  sample variance: 10.000\n  sample SD: 3.162\nOne value changed\n  n: 5.000\n  mean: 24.000\n  median: 6.000\n  minimum: 2.000\n  maximum: 100.000\n  sample variance: 1810.000\n  sample SD: 42.544",
+      "language": "python",
+      "id": "02-summarizing-values",
+      "lines": 24,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "03 · Seeing patterns",
+      "title": "Build a text histogram and check its bins",
+      "goal": "Show a distribution with explicit bin boundaries and no plotting dependencies.",
+      "code": "values = [1, 2, 2, 3, 5, 5, 6, 7, 8, 9, 9, 10]\nedges = [0, 3, 6, 9, 12]\n\ndef histogram(values, edges):\n    if any(b <= a for a, b in zip(edges, edges[1:])):\n        raise ValueError(\"bin edges must increase\")\n    counts = [0] * (len(edges) - 1)\n    outside = 0\n    for value in values:\n        for index, (low, high) in enumerate(zip(edges, edges[1:])):\n            if low <= value < high:\n                counts[index] += 1\n                break\n        else:\n            outside += 1\n    return counts, outside\n\ncounts, outside = histogram(values, edges)\nfor low, high, count in zip(edges, edges[1:], counts):\n    print(f\"[{low:2d}, {high:2d}): {'#' * count} ({count})\")\nprint(\"Outside bins:\", outside)\nassert counts == [3, 3, 3, 3]\nassert sum(counts) + outside == len(values)",
+      "steps": [
+        "Each bin includes its lower endpoint and excludes its upper endpoint.",
+        "Every value is assigned to the first matching interval.",
+        "The for-else clause records values outside all bins.",
+        "Hash marks encode frequencies; the total-count assertion checks that no observation was lost."
+      ],
+      "meaning": "Equal counts here do not imply a uniform population. Bin width and boundaries affect the visible shape, especially with only 12 observations.",
+      "variation": "Use edges [0,6,12], then explain what detail disappears when bins become wider.",
+      "output": "[ 0,  3): ### (3)\n[ 3,  6): ### (3)\n[ 6,  9): ### (3)\n[ 9, 12): ### (3)\nOutside bins: 0",
+      "language": "python",
+      "id": "03-seeing-patterns",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "04 · Probability foundations",
+      "title": "Enumerate two dice and calculate conditional probabilities",
+      "goal": "Use a complete finite sample space to distinguish counts, probabilities and conditioning.",
+      "code": "from itertools import product\nfrom fractions import Fraction\n\noutcomes = list(product(range(1, 7), repeat=2))\n\ndef probability(predicate, space):\n    if not space:\n        raise ValueError(\"empty conditioning set\")\n    count = sum(predicate(pair) for pair in space)\n    return Fraction(count, len(space))\n\nsum_seven = lambda pair: sum(pair) == 7\nfirst_even = lambda pair: pair[0] % 2 == 0\nconditioned = [pair for pair in outcomes if first_even(pair)]\nprint(\"Total equally likely outcomes:\", len(outcomes))\nprint(\"P(sum is 7):\", probability(sum_seven, outcomes))\nprint(\"P(first is even):\", probability(first_even, outcomes))\nprint(\"P(sum is 7 | first is even):\", probability(sum_seven, conditioned))\nprint(\"Outcomes giving 7:\", [pair for pair in outcomes if sum_seven(pair)])\nassert probability(sum_seven, outcomes) == Fraction(1, 6)\nassert len(conditioned) == 18\nassert probability(sum_seven, conditioned) == Fraction(1, 6)",
+      "steps": [
+        "product enumerates 36 ordered pairs for two independent fair dice.",
+        "Probability is the favorable count divided by the size of the equally likely sample space.",
+        "Conditioning filters the space before applying the probability calculation.",
+        "Fraction preserves exact rational results rather than rounding decimals."
+      ],
+      "meaning": "The equality of these two probabilities holds for this event and condition. Do not assume every pair of events is independent.",
+      "variation": "Replace the target sum with 8 and compare the unconditional and conditional probabilities.",
+      "output": "Total equally likely outcomes: 36\nP(sum is 7): 1/6\nP(first is even): 1/2\nP(sum is 7 | first is even): 1/6\nOutcomes giving 7: [(1, 6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1)]",
+      "language": "python",
+      "id": "04-probability-foundations",
+      "lines": 22,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "05 · Probability distributions",
+      "title": "Construct and check a binomial probability table",
+      "goal": "Calculate each possible count, the total probability and the expected count.",
+      "code": "from math import comb, isclose\n\ndef binomial_probability(n, k, p):\n    if not 0 <= p <= 1 or not 0 <= k <= n:\n        raise ValueError(\"invalid binomial parameters\")\n    return comb(n, k) * p ** k * (1 - p) ** (n - k)\n\nn, p = 5, 0.4\ntable = [(k, binomial_probability(n, k, p)) for k in range(n + 1)]\nprint(\"successes probability\")\nfor k, probability in table:\n    print(f\"{k:9d} {probability:.5f}\")\ntotal = sum(probability for _, probability in table)\nexpected = sum(k * probability for k, probability in table)\nvariance = sum((k - expected) ** 2 * probability for k, probability in table)\ntail = sum(probability for k, probability in table if k >= 3)\nprint(f\"Total probability: {total:.5f}\")\nprint(f\"Expected count: {expected:.3f}\")\nprint(f\"Variance: {variance:.3f}\")\nprint(f\"P(at least 3): {tail:.5f}\")\nassert isclose(total, 1)\nassert isclose(expected, n * p)\nassert isclose(variance, n * p * (1 - p))",
+      "steps": [
+        "comb counts how many placements of k successes exist among n trials.",
+        "The remaining factors give the probability of any one such placement.",
+        "Summing every row checks that the distribution accounts for all possible counts.",
+        "Weighted sums calculate the expectation, variance and upper-tail probability."
+      ],
+      "meaning": "This model assumes independent trials with the same success probability. Varying probabilities or dependence require a different model.",
+      "variation": "Use p=0.5 and verify the symmetry between k successes and n-k successes.",
+      "output": "successes probability\n        0 0.07776\n        1 0.25920\n        2 0.34560\n        3 0.23040\n        4 0.07680\n        5 0.01024\nTotal probability: 1.00000\nExpected count: 2.000\nVariance: 1.200\nP(at least 3): 0.31744",
+      "language": "python",
+      "id": "05-probability-distributions",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "06 · Sampling and resampling",
+      "title": "Enumerate an exact bootstrap distribution for a tiny sample",
+      "goal": "Resample with replacement and inspect the variation of the sample mean.",
+      "code": "from itertools import product\nfrom statistics import mean\n\ndata = [2, 4, 6]\nresamples = list(product(data, repeat=len(data)))\nbootstrap_means = sorted(mean(row) for row in resamples)\n\ndef percentile(sorted_values, fraction):\n    # Linear interpolation between adjacent ordered values.\n    position = (len(sorted_values) - 1) * fraction\n    low = int(position)\n    high = min(low + 1, len(sorted_values) - 1)\n    weight = position - low\n    return sorted_values[low] * (1 - weight) + sorted_values[high] * weight\n\nlow = percentile(bootstrap_means, 0.025)\nhigh = percentile(bootstrap_means, 0.975)\nprint(\"Observed mean:\", mean(data))\nprint(\"Ordered resamples:\", len(resamples))\nprint(f\"Mean of bootstrap means: {mean(bootstrap_means):.3f}\")\nprint(f\"Percentile interval: [{low:.3f}, {high:.3f}]\")\nprint(\"First five means:\", [round(x, 3) for x in bootstrap_means[:5]])\nassert len(resamples) == 27\nassert mean(bootstrap_means) == mean(data)",
+      "steps": [
+        "With three values and three draws, replacement gives 3³ ordered resamples.",
+        "The statistic is recalculated for every resample.",
+        "The percentile helper states its interpolation convention explicitly.",
+        "The entire tiny distribution is enumerated, so no random seed or simulation error is involved."
+      ],
+      "meaning": "This is a mechanics demonstration, not a reliable uncertainty estimate from three observations. Bootstrap inference still depends on sampling assumptions and sufficient data.",
+      "variation": "Use four observations and count how many ordered resamples would be needed before running.",
+      "output": "Observed mean: 4\nOrdered resamples: 27\nMean of bootstrap means: 4.000\nPercentile interval: [2.433, 5.567]\nFirst five means: [2, 2.667, 2.667, 2.667, 3.333]",
+      "language": "python",
+      "id": "06-sampling-and-resampling",
+      "lines": 24,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "07 · Estimating unknown quantities",
+      "title": "Calculate a Wilson interval for a proportion",
+      "goal": "Report an estimate and interval without treating zero observed events as zero uncertainty.",
+      "code": "from math import sqrt\n\ndef wilson(successes, trials, z=1.96):\n    if trials <= 0 or not 0 <= successes <= trials:\n        raise ValueError(\"invalid counts\")\n    estimate = successes / trials\n    denominator = 1 + z * z / trials\n    center = (estimate + z * z / (2 * trials)) / denominator\n    half = z * sqrt(estimate * (1 - estimate) / trials\n                    + z * z / (4 * trials * trials)) / denominator\n    return estimate, center - half, center + half\n\ncases = [(0, 20), (5, 20), (50, 200)]\nfor successes, trials in cases:\n    estimate, low, high = wilson(successes, trials)\n    print(f\"{successes}/{trials}: estimate={estimate:.3f}, interval=[{low:.3f}, {high:.3f}]\")\n    assert -1e-12 <= low <= high <= 1 + 1e-12\nassert wilson(0, 20)[2] > 0\nsmall = wilson(5, 20)\nlarge = wilson(50, 200)\nassert large[2] - large[1] < small[2] - small[1]",
+      "steps": [
+        "The point estimate is successes divided by trials.",
+        "The Wilson center and width include a correction that behaves better near zero and one than a simple Wald interval.",
+        "z=1.96 gives an approximate 95% interval under the binomial sampling model.",
+        "Equal proportions with more trials generally produce narrower intervals."
+      ],
+      "meaning": "The confidence level describes the procedure across repeated samples, not a 95% posterior probability about this fixed proportion. Independence and representative sampling remain important.",
+      "variation": "Compare 1/10 with 10/100 and explain why identical estimates need not have identical uncertainty.",
+      "output": "0/20: estimate=0.000, interval=[-0.000, 0.161]\n5/20: estimate=0.250, interval=[0.112, 0.469]\n50/200: estimate=0.250, interval=[0.195, 0.314]",
+      "language": "python",
+      "id": "07-estimating-unknown-quantities",
+      "lines": 21,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "08 · Testing claims",
+      "title": "Perform an exact sign-flip test on paired changes",
+      "goal": "Use all possible signs of four paired differences to illustrate a two-sided randomization calculation.",
+      "code": "from itertools import product\nfrom statistics import mean\n\nbefore = [10, 12, 9, 11]\nafter = [12, 15, 10, 13]\ndifferences = [new - old for old, new in zip(before, after)]\nobserved = abs(mean(differences))\nnull_statistics = []\nfor signs in product([-1, 1], repeat=len(differences)):\n    reassigned = [sign * value for sign, value in zip(signs, differences)]\n    null_statistics.append(abs(mean(reassigned)))\n\nextreme = sum(value >= observed - 1e-12 for value in null_statistics)\np_value = extreme / len(null_statistics)\nprint(\"Paired changes:\", differences)\nprint(f\"Observed mean change: {mean(differences):.3f}\")\nprint(\"Sign assignments:\", len(null_statistics))\nprint(\"At least as extreme:\", extreme)\nprint(f\"Two-sided p-value: {p_value:.3f}\")\nassert len(null_statistics) == 16\nassert extreme == 2\nassert p_value == 0.125",
+      "steps": [
+        "Subtract within each pair rather than treating before and after as unrelated samples.",
+        "The test statistic is the absolute mean change, allowing either direction.",
+        "The null calculation flips each difference sign and enumerates all 16 combinations.",
+        "The p-value counts statistics at least as large as the observed value, including ties."
+      ],
+      "meaning": "Sign flips need justification, such as an appropriate paired randomization design or independent symmetric differences under the null. This p-value is not the probability of no effect.",
+      "variation": "Change one positive difference to negative and compare the observed mean and p-value.",
+      "output": "Paired changes: [2, 3, 1, 2]\nObserved mean change: 2.000\nSign assignments: 16\nAt least as extreme: 2\nTwo-sided p-value: 0.125",
+      "language": "python",
+      "id": "08-testing-claims",
+      "lines": 22,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "09 · Comparing groups responsibly",
+      "title": "Calculate a contingency-table chi-square statistic",
+      "goal": "Compare observed and expected counts while checking the expected-cell sizes.",
+      "code": "observed = [[30, 20], [20, 30]]\nrow_totals = [sum(row) for row in observed]\ncolumn_totals = [sum(row[j] for row in observed) for j in range(2)]\ntotal = sum(row_totals)\nexpected = [[row_total * column_total / total for column_total in column_totals]\n            for row_total in row_totals]\n\nstatistic = 0.0\nfor i in range(2):\n    for j in range(2):\n        count, model = observed[i][j], expected[i][j]\n        if model == 0:\n            raise ValueError(\"zero expected count\")\n        contribution = (count - model) ** 2 / model\n        statistic += contribution\n        print(f\"cell({i},{j}): observed={count}, expected={model:.1f}, contribution={contribution:.2f}\")\ndegrees_of_freedom = (len(observed) - 1) * (len(observed[0]) - 1)\nprint(f\"Chi-square statistic: {statistic:.3f}\")\nprint(\"Degrees of freedom:\", degrees_of_freedom)\nprint(\"All expected counts >= 5:\", all(x >= 5 for row in expected for x in row))\nassert statistic == 4\nassert sum(map(sum, expected)) == total",
+      "steps": [
+        "Row and column totals define the independence model for this contingency table.",
+        "Each expected count is row total times column total divided by the grand total.",
+        "Each squared discrepancy is scaled by its expected count before summation.",
+        "Degrees of freedom count independent cell constraints for this standard table."
+      ],
+      "meaning": "This program reports the uncorrected statistic, not a p-value. The usual approximation needs independent observations and adequate expected counts; paired counts require a different analysis.",
+      "variation": "Make one expected cell sparse and explain why an exact method may be preferable.",
+      "output": "cell(0,0): observed=30, expected=25.0, contribution=1.00\ncell(0,1): observed=20, expected=25.0, contribution=1.00\ncell(1,0): observed=20, expected=25.0, contribution=1.00\ncell(1,1): observed=30, expected=25.0, contribution=1.00\nChi-square statistic: 4.000\nDegrees of freedom: 1\nAll expected counts >= 5: True",
+      "language": "python",
+      "id": "09-comparing-groups-responsibly",
+      "lines": 22,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "10 · Statistical models",
+      "title": "Fit a straight line and inspect residuals",
+      "goal": "Calculate least-squares coefficients, fitted values and prediction errors by hand in code.",
+      "code": "from statistics import mean\n\ndef fit_line(xs, ys):\n    if len(xs) != len(ys) or len(xs) < 2:\n        raise ValueError(\"need matching data with at least two rows\")\n    x_mean, y_mean = mean(xs), mean(ys)\n    denominator = sum((x - x_mean) ** 2 for x in xs)\n    if denominator == 0:\n        raise ValueError(\"x must vary\")\n    slope = sum((x - x_mean) * (y - y_mean) for x, y in zip(xs, ys)) / denominator\n    return slope, y_mean - slope * x_mean\n\nxs, ys = [1, 2, 3, 4], [3, 5, 7, 10]\nslope, intercept = fit_line(xs, ys)\nresiduals = []\nprint(f\"Fitted line: y = {slope:.3f} x + {intercept:.3f}\")\nfor x, y in zip(xs, ys):\n    fitted = slope * x + intercept\n    residuals.append(y - fitted)\n    print(f\"x={x}: observed={y}, fitted={fitted:.3f}, residual={y-fitted:.3f}\")\nprint(f\"Residual sum of squares: {sum(r*r for r in residuals):.3f}\")\nassert abs(slope - 2.3) < 1e-12\nassert abs(sum(residuals)) < 1e-12",
+      "steps": [
+        "Centering x and y separates the slope calculation from the intercept.",
+        "The denominator measures variation in x and must be nonzero.",
+        "Each residual is observed minus fitted, unlike the prediction-minus-target convention used in some ML examples.",
+        "With an intercept, least-squares residuals sum to approximately zero."
+      ],
+      "meaning": "A fitted association is not proof of causation. These four observations are too few to establish a reliable model or justify extrapolation.",
+      "variation": "Add a far-away x value with an unusual y and inspect its influence on the fitted slope.",
+      "output": "Fitted line: y = 2.300 x + 0.500\nx=1: observed=3, fitted=2.800, residual=0.200\nx=2: observed=5, fitted=5.100, residual=-0.100\nx=3: observed=7, fitted=7.400, residual=-0.400\nx=4: observed=10, fitted=9.700, residual=0.300\nResidual sum of squares: 0.300",
+      "language": "python",
+      "id": "10-statistical-models",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "11 · Study design and evidence",
+      "title": "Compare two groups with an exact permutation calculation",
+      "goal": "Enumerate equally sized assignments under an exchangeable-label null model.",
+      "code": "from itertools import combinations\nfrom statistics import mean\n\ngroup_a = [2, 3, 4]\ngroup_b = [5, 6, 7]\npooled = group_a + group_b\nsize_a = len(group_a)\nobserved = mean(group_b) - mean(group_a)\npermuted = []\nfor chosen in combinations(range(len(pooled)), size_a):\n    chosen = set(chosen)\n    a = [value for i, value in enumerate(pooled) if i in chosen]\n    b = [value for i, value in enumerate(pooled) if i not in chosen]\n    permuted.append(mean(b) - mean(a))\nextreme = sum(abs(value) >= abs(observed) - 1e-12 for value in permuted)\np_value = extreme / len(permuted)\nprint(f\"Observed difference B-A: {observed:.3f}\")\nprint(\"Possible assignments:\", len(permuted))\nprint(\"Two-sided extreme assignments:\", extreme)\nprint(f\"Exact p-value: {p_value:.3f}\")\nassert observed == 3\nassert len(permuted) == 20\nassert p_value == 0.1",
+      "steps": [
+        "The effect estimate is mean B minus mean A in the original assignment.",
+        "All size-three allocations of the six observed values are enumerated.",
+        "Both positive and negative differences count in a two-sided comparison.",
+        "Exhaustive enumeration needs no simulation correction because every assignment is counted."
+      ],
+      "meaning": "A permutation test needs exchangeability under the null, often supported by random assignment. It does not repair confounding in an observational comparison.",
+      "variation": "Enumerate assignments with four observations per group and compare how many possibilities there are.",
+      "output": "Observed difference B-A: 3.000\nPossible assignments: 20\nTwo-sided extreme assignments: 2\nExact p-value: 0.100",
+      "language": "python",
+      "id": "11-study-design-and-evidence",
+      "lines": 23,
+      "verified": true
+    },
+    {
+      "lab": "statistics-lab",
+      "section": "12 · Time, dependence and advanced methods",
+      "title": "Evaluate forecasts without looking into the future",
+      "goal": "Compare a last-value baseline with a trailing mean using time-ordered evaluation.",
+      "code": "from statistics import mean\n\nseries = [10, 12, 11, 13, 12, 14, 13, 15]\nwindow = 3\nerrors = {\"last value\": [], \"trailing mean\": []}\nfor index in range(window, len(series)):\n    past = series[:index]  # Never include the target or a later observation.\n    forecasts = {\"last value\": past[-1],\n                 \"trailing mean\": mean(past[-window:])}\n    actual = series[index]\n    print(f\"time={index}, actual={actual}, last={forecasts['last value']:.2f}, mean={forecasts['trailing mean']:.2f}\")\n    for name, forecast in forecasts.items():\n        errors[name].append(abs(actual - forecast))\n\nprint(\"Mean absolute errors\")\nfor name, values in errors.items():\n    print(f\"{name}: {mean(values):.3f}\")\nassert len(errors[\"last value\"]) == len(series) - window\nassert abs(mean(errors[\"last value\"]) - 1.6) < 1e-12\nassert all(value >= 0 for values in errors.values() for value in values)",
+      "steps": [
+        "The loop starts only after enough past observations exist for a three-point mean.",
+        "Each forecast sees values strictly before its target time.",
+        "Both methods predict the same target observations, making the comparison fair.",
+        "Mean absolute error averages errors in the original measurement units."
+      ],
+      "meaning": "This is a tiny rolling-origin demonstration. Choosing window length after inspecting all evaluation results would require a separate final holdout period.",
+      "variation": "Try windows of two and four, comparing forecasts only on a common evaluation period.",
+      "output": "time=3, actual=13, last=11.00, mean=11.00\ntime=4, actual=12, last=13.00, mean=12.00\ntime=5, actual=14, last=12.00, mean=12.00\ntime=6, actual=13, last=14.00, mean=13.00\ntime=7, actual=15, last=13.00, mean=13.00\nMean absolute errors\nlast value: 1.600\ntrailing mean: 1.200",
+      "language": "python",
+      "id": "12-time-dependence-and-advanced-methods",
+      "lines": 20,
+      "verified": true
+    }
+  ],
+  "unix-motion-lab": [
+    {
+      "lab": "unix-motion-lab",
+      "section": "Start here",
+      "title": "Create and inspect a practice workspace",
+      "goal": "Follow paths, files, line counts and text output in one small workflow.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nmkdir -p notes/archive\nprintf '%s\\n' 'First lesson' 'Practice every day' > notes/today.txt\ncp notes/today.txt notes/archive/copy.txt\nprintf 'Files created:\\n'\nfind notes -type f | sort\nprintf '\\nContents:\\n'\ncat notes/today.txt\nprintf '\\nLine count: '\nwc -l < notes/today.txt\nif cmp -s notes/today.txt notes/archive/copy.txt; then\n    printf 'Copy matches original\\n'\nelse\n    printf 'Copy differs\\n'\n    exit 1\nfi",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "mkdir -p creates both nested directories, including missing parents.",
+        "printf %s prints each string; \\n ends its line. > creates or replaces the fixture file.",
+        "find -type f selects regular files, and sort orders the paths.",
+        "wc -l counts newlines; input redirection avoids printing a filename. cmp -s compares quietly and communicates through its exit status."
+      ],
+      "meaning": "Two files contain the same two lines. No existing user directory is modified; all paths are relative to the new temporary directory.",
+      "variation": "Append a third line to the original and explain why the copy comparison then fails.",
+      "output": "Files created:\nnotes/archive/copy.txt\nnotes/today.txt\n\nContents:\nFirst lesson\nPractice every day\n\nLine count: 2\nCopy matches original",
+      "language": "bash",
+      "id": "start-here",
+      "lines": 23,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Files & paths",
+      "title": "Organize incoming files without overwriting a source",
+      "goal": "Copy a set of safely quoted paths into an archive and verify the result.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nmkdir -p incoming archive\nprintf '%s\\n' 'alpha' > 'incoming/first note.txt'\nprintf '%s\\n' 'beta' > 'incoming/second note.txt'\ncount=0\nfor source in incoming/*.txt; do\n    [ -f \"$source\" ] || continue\n    name=$(basename \"$source\")\n    destination=\"archive/$name\"\n    if [ -e \"$destination\" ]; then\n        printf 'Refusing to overwrite: %s\\n' \"$name\" >&2\n        exit 1\n    fi\n    cp -- \"$source\" \"$destination\"\n    cmp -s -- \"$source\" \"$destination\"\n    count=$((count + 1))\n    printf 'Copied: %s\\n' \"$name\"\ndone\nprintf 'Verified copies: %s\\n' \"$count\"",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "The glob selects txt paths; the -f test handles a glob with no matching regular file.",
+        "Quoted expansions keep spaces inside a single argument.",
+        "basename strips the directory component; -e checks whether the destination already exists.",
+        "-- ends option parsing; cmp -s checks copied content; arithmetic expansion increments the count."
+      ],
+      "meaning": "The script handles spaces and refuses known existing destinations. This check-then-copy pattern is a teaching example, not an atomic concurrent file-transfer protocol.",
+      "variation": "Add a filename with two spaces and confirm that it remains a single file.",
+      "output": "Copied: first note.txt\nCopied: second note.txt\nVerified copies: 2",
+      "language": "bash",
+      "id": "files-paths",
+      "lines": 26,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Read & inspect",
+      "title": "Produce a compact text-file inspection report",
+      "goal": "Compare beginning, ending and numbered views of the same input.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nprintf '%s\\n' 'alpha' 'beta' '' 'gamma' 'delta' > notes.txt\nprintf 'First two lines:\\n'\nhead -n 2 notes.txt\nprintf '\\nLast two lines:\\n'\ntail -n 2 notes.txt\nprintf '\\nNumber every line:\\n'\nawk '{ printf \"%d: %s\\n\", NR, $0 }' notes.txt\nprintf '\\nTotal lines: '\nwc -l < notes.txt\nprintf 'Nonempty lines: '\ngrep -c . notes.txt\nprintf 'Blank lines: '\ngrep -c '^$' notes.txt",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "head -n 2 and tail -n 2 request two lines from the beginning and end.",
+        "awk NR is the input record number and $0 is the entire line.",
+        "wc -l counts newline characters, including the newline on a blank line.",
+        "grep -c prints a matching-line count. Dot matches a character; ^$ matches an empty line."
+      ],
+      "meaning": "A blank line is still a line. grep -c returns status 1 when its match count is zero, which matters in scripts using set -e.",
+      "variation": "Remove the blank line and handle grep’s no-match status explicitly without hiding genuine errors.",
+      "output": "First two lines:\nalpha\nbeta\n\nLast two lines:\ngamma\ndelta\n\nNumber every line:\n1: alpha\n2: beta\n3: \n4: gamma\n5: delta\n\nTotal lines: 5\nNonempty lines: 4\nBlank lines: 1",
+      "language": "bash",
+      "id": "read-inspect",
+      "lines": 21,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Search & transform",
+      "title": "Summarize a fictional request log",
+      "goal": "Filter failed requests and count service/status pairs.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\ncat > requests.txt <<'DATA'\ncatalog 200 15\ncatalog 500 90\ncheckout 200 25\ncatalog 500 70\ncheckout 503 100\nDATA\nprintf 'Failed requests (service status latency_ms):\\n'\nawk '$2 >= 500 {print $0}' requests.txt\nprintf '\\nCounts by service and status:\\n'\nawk '{print $1, $2}' requests.txt | sort | uniq -c |\n    awk '{printf \"%s %s: %d\\n\", $2, $3, $1}'\nprintf '\\nAverage latency: '\nawk '{total += $3; n++} END {if (n) printf \"%.1f ms\\n\", total/n}' requests.txt",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "The here-document supplies five fictional rows with three whitespace-separated fields.",
+        "awk $2 >= 500 keeps status values at least 500; $0 prints the whole selected row.",
+        "sort places identical service/status pairs together; uniq -c counts adjacent equal lines.",
+        "The final awk accumulates the third field and divides by its record count only when nonzero."
+      ],
+      "meaning": "This teaching format is deliberately simple; it is not a parser for arbitrary web-server logs. Fields have no embedded whitespace.",
+      "variation": "Add another checkout 503 row and calculate its effect on the count and average latency.",
+      "output": "Failed requests (service status latency_ms):\ncatalog 500 90\ncatalog 500 70\ncheckout 503 100\n\nCounts by service and status:\ncatalog 200: 1\ncatalog 500: 2\ncheckout 200: 1\ncheckout 503: 1\n\nAverage latency: 60.0 ms",
+      "language": "bash",
+      "id": "search-transform",
+      "lines": 22,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Shell building blocks",
+      "title": "Separate normal output, errors and exit status",
+      "goal": "Use redirection and conditionals to report a command failure without confusing it with ordinary output.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nvalidate_number() {\n    case \"$1\" in\n        ''|*[!0-9]*)\n            printf 'Not a nonnegative integer: %s\\n' \"$1\" >&2\n            return 2\n            ;;\n        *) printf 'Accepted: %s\\n' \"$1\" ;;\n    esac\n}\nvalidate_number 12 > accepted.txt\nif validate_number bad > rejected.txt 2> errors.txt; then\n    status=0\nelse\n    status=$?\nfi\ncat accepted.txt\nprintf 'Failure status: %s\\n' \"$status\"\nprintf 'Captured error: '\ncat errors.txt\nprintf 'Rejected stdout bytes: '\nwc -c < rejected.txt",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "A case pattern rejects an empty argument or any character outside 0–9.",
+        ">&2 sends the error to standard error; return 2 reports failure to the caller.",
+        "> captures standard output while 2> captures standard error separately.",
+        "The if statement handles the failure intentionally, so set -e does not stop this expected branch."
+      ],
+      "meaning": "The invalid input produces an error message and status 2 but no standard output. Exit status is separate from printed text.",
+      "variation": "Try 0, -3 and 3.5 and explain which inputs the stated nonnegative-integer rule accepts.",
+      "output": "Accepted: 12\nFailure status: 2\nCaptured error: Not a nonnegative integer: bad\nRejected stdout bytes: 0",
+      "language": "bash",
+      "id": "shell-building-blocks",
+      "lines": 29,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Permissions & identity",
+      "title": "Inspect explicit permissions on private practice files",
+      "goal": "Set file and directory permissions and verify the numeric modes.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nmkdir private\nprintf '%s\\n' 'fictional practice note' > private/note.txt\nchmod 700 private\nchmod 600 private/note.txt\nprintf 'Initial directory mode: '\nstat -c '%a' private\nprintf 'Initial file mode: '\nstat -c '%a' private/note.txt\nchmod u+x private/note.txt\nprintf 'After adding owner execute: '\nstat -c '%a' private/note.txt\nchmod u-x private/note.txt\nif [ -r private/note.txt ]; then\n    printf 'The current process can read the practice file\\n'\nfi\nprintf 'Restored file mode: '\nstat -c '%a' private/note.txt",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "700 gives directory access only to the owner; directory execute means traversal.",
+        "600 gives owner read/write and no group or other permissions.",
+        "chmod u+x adds owner execute and u-x removes it. This does not make ordinary text a useful executable.",
+        "GNU stat -c supplies an output format; %a prints the octal permission mode. -r tests access for the current process."
+      ],
+      "meaning": "Numeric modes illustrate basic Unix permissions. ACLs, privileged users and mounted filesystem behavior can affect actual access; the example uses no administrative command.",
+      "variation": "Change the file mode to 640 and explain what group permission was added.",
+      "output": "Initial directory mode: 700\nInitial file mode: 600\nAfter adding owner execute: 700\nThe current process can read the practice file\nRestored file mode: 600",
+      "language": "bash",
+      "id": "permissions-identity",
+      "lines": 25,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Processes & system",
+      "title": "Start background work and wait for its result",
+      "goal": "Understand process IDs, completion and exit status using your own child processes.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\n(\n    printf '%s\\n' 'background result' > result.txt\n) &\nworker=$!\nif wait \"$worker\"; then\n    printf 'Worker completed successfully\\n'\nelse\n    printf 'Worker failed\\n' >&2\n    exit 1\nfi\ncat result.txt\n(exit 7) &\nfailed_worker=$!\nif wait \"$failed_worker\"; then\n    status=0\nelse\n    status=$?\nfi\nprintf 'Second worker exit status: %s\\n' \"$status\"",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "Parentheses run a command group in a subshell; & starts it asynchronously.",
+        "$! captures the most recently started background process ID.",
+        "wait waits for the specified child and returns its status.",
+        "The failing worker exits with 7; the conditional captures this expected failure without ending the script."
+      ],
+      "meaning": "The first result is read only after its producer finishes. Actual process IDs differ between runs and are intentionally not printed.",
+      "variation": "Launch two workers writing different files and wait for both before reading either file.",
+      "output": "Worker completed successfully\nbackground result\nSecond worker exit status: 7",
+      "language": "bash",
+      "id": "processes-system",
+      "lines": 27,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Archives & transfer",
+      "title": "Build, inspect and verify a compressed archive",
+      "goal": "Create an archive from known files and extract it into a separate empty directory.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nmkdir source restored\nprintf '%s\\n' 'alpha' > source/a.txt\nprintf '%s\\n' 'beta' > source/b.txt\ntar -czf bundle.tar.gz -C source a.txt b.txt\nprintf 'Archive members:\\n'\ntar -tzf bundle.tar.gz\ntar -xzf bundle.tar.gz -C restored\nfor name in a.txt b.txt; do\n    if cmp -s \"source/$name\" \"restored/$name\"; then\n        printf 'Verified: %s\\n' \"$name\"\n    else\n        printf 'Mismatch: %s\\n' \"$name\" >&2\n        exit 1\n    fi\ndone\nprintf 'All restored contents match\\n'",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "tar -c creates, -t lists, and -x extracts; choose one of these operations per invocation.",
+        "-z uses gzip compression; -f takes the archive filename as its next argument.",
+        "-C changes the base directory used for the following file operands or extraction.",
+        "cmp -s verifies file contents without depending on timestamps or archive bytes."
+      ],
+      "meaning": "The restored contents match the source. Only this known archive is extracted; unfamiliar archives require inspection and isolation before extraction.",
+      "variation": "Add a third file to the creation command and verification loop, then inspect the listed members.",
+      "output": "Archive members:\na.txt\nb.txt\nVerified: a.txt\nVerified: b.txt\nAll restored contents match",
+      "language": "bash",
+      "id": "archives-transfer",
+      "lines": 24,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Shell scripting",
+      "title": "Write a reusable total-calculation function",
+      "goal": "Validate arguments, loop through them and return a meaningful failure status.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nsum_numbers() {\n    total=0\n    for value in \"$@\"; do\n        case \"$value\" in\n            ''|*[!0-9]*) printf 'Invalid integer: %s\\n' \"$value\" >&2; return 2 ;;\n        esac\n        # 10# makes leading-zero inputs decimal in Bash arithmetic.\n        total=$((total + 10#$value))\n    done\n    printf '%s\\n' \"$total\"\n}\nprintf 'First total: '\nsum_numbers 10 20 03\nprintf 'Empty total: '\nsum_numbers\nif sum_numbers 4 bad > ignored.txt 2> error.txt; then\n    printf 'Unexpected acceptance\\n'\n    exit 1\nelse\n    printf 'Validation status: %s\\n' \"$?\"\n    cat error.txt\nfi",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "\"$@\" expands to separate quoted arguments, preserving spaces inside each argument.",
+        "The case pattern restricts values to nonnegative digit strings.",
+        "Bash 10# interprets the following digits in base ten, avoiding accidental octal interpretation.",
+        "The function returns 2 when validation fails; the caller handles that result explicitly."
+      ],
+      "meaning": "The accepted numbers total 33, including 03 interpreted as three. Bash arithmetic uses fixed-size integers; this is not an arbitrary-precision calculator.",
+      "variation": "Add a maximum accepted value and reject inputs outside it before arithmetic.",
+      "output": "First total: 33\nEmpty total: 0\nValidation status: 2\nInvalid integer: bad",
+      "language": "bash",
+      "id": "shell-scripting",
+      "lines": 30,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Paths & text utilities",
+      "title": "Join two sorted lookup tables",
+      "goal": "Combine fictional identifiers with labels while preserving unmatched rows.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nprintf '%s\\n' 'A Alice' 'B Ben' 'C Casey' > names.txt\nprintf '%s\\n' 'A 8' 'C 10' 'D 7' > scores.txt\nsort -k1,1 names.txt > names.sorted\nsort -k1,1 scores.txt > scores.sorted\nprintf 'Matched records:\\n'\njoin names.sorted scores.sorted\nprintf '\\nNames without a score:\\n'\njoin -v 1 names.sorted scores.sorted\nprintf '\\nScores without a name:\\n'\njoin -v 2 names.sorted scores.sorted\nprintf '\\nUnique identifiers:\\n'\ncut -d ' ' -f1 names.txt scores.txt | sort -u",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "sort -k1,1 sorts by the first field, matching join’s default key.",
+        "join combines records whose first fields match; inputs must be sorted consistently.",
+        "-v 1 and -v 2 print only unmatched rows from the first and second file respectively.",
+        "cut -d sets the delimiter and -f1 selects the first field; sort -u sorts and deduplicates."
+      ],
+      "meaning": "A and C match, B has no score and D has no name. This simple space-delimited fixture assumes names contain no spaces.",
+      "variation": "Add a duplicate key to one table and inspect how many joined rows it creates.",
+      "output": "Matched records:\nA Alice 8\nC Casey 10\n\nNames without a score:\nB Ben\n\nScores without a name:\nD 7\n\nUnique identifiers:\nA\nB\nC\nD",
+      "language": "bash",
+      "id": "paths-text-utilities",
+      "lines": 20,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Process monitoring",
+      "title": "Analyze a fictional process snapshot",
+      "goal": "Filter a stable sample of process data and rank it numerically.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\ncat > processes.txt <<'DATA'\nPID CPU MEMORY_MB COMMAND\n101 5 40 reader\n102 70 300 worker\n103 20 120 report\n104 85 200 indexer\nDATA\nprintf 'Processes at or above 50%% CPU:\\n'\nawk 'NR > 1 && $2 >= 50 {print $1, $2, $4}' processes.txt\nprintf '\\nTop two by memory (MB):\\n'\ntail -n +2 processes.txt | sort -k3,3nr | head -n 2 |\n    awk '{printf \"%s: %s MB\\n\", $4, $3}'\nprintf '\\nTotal listed memory: '\nawk 'NR > 1 {total += $3} END {printf \"%d MB\\n\", total}' processes.txt",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "The snapshot is fictional and is not a live ps output; this keeps the example reproducible.",
+        "awk NR > 1 skips the header before comparing numeric CPU values.",
+        "tail -n +2 starts at line two; sort -k3,3nr sorts only the third field, numerically in reverse order.",
+        "head -n 2 selects two rows, and the last awk totals the supplied memory values."
+      ],
+      "meaning": "CPU and memory definitions differ between monitoring tools. Summing these fictional memory values is an arithmetic exercise, not a reliable accounting of physical RAM across real processes.",
+      "variation": "Add another process with equal memory usage and decide how ties should be ordered.",
+      "output": "Processes at or above 50% CPU:\n102 70 worker\n104 85 indexer\n\nTop two by memory (MB):\nworker: 300 MB\nindexer: 200 MB\n\nTotal listed memory: 660 MB",
+      "language": "bash",
+      "id": "process-monitoring",
+      "lines": 22,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Shell productivity",
+      "title": "Make a reusable file-summary command",
+      "goal": "Combine a function, arguments, quoting and command discovery into a repeatable workflow.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nsummarize() {\n    for file in \"$@\"; do\n        if [ ! -f \"$file\" ]; then\n            printf 'Missing: %s\\n' \"$file\"\n            continue\n        fi\n        lines=$(wc -l < \"$file\")\n        bytes=$(wc -c < \"$file\")\n        printf '%s: %s lines, %s bytes\\n' \"$file\" \"$lines\" \"$bytes\"\n    done\n}\nif ! command -v wc >/dev/null 2>&1; then\n    printf 'wc is required\\n' >&2\n    exit 1\nfi\nprintf 'one\\ntwo\\n' > 'first note.txt'\nprintf 'abc\\n' > second.txt\nsummarize 'first note.txt' second.txt missing.txt",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "A function packages commands so they can be reused with different arguments.",
+        "command -v checks whether wc can be found; >/dev/null 2>&1 discards both output streams for this existence check.",
+        "! reverses a status in the condition; -f tests for a regular file.",
+        "Command substitution captures counts while quoted expansions preserve path names with spaces."
+      ],
+      "meaning": "Counts are based on newline characters and bytes. Multibyte text can have more bytes than visible characters.",
+      "variation": "Create a file whose last line has no newline and compare wc -l with the number of visible text lines.",
+      "output": "first note.txt: 2 lines, 8 bytes\nsecond.txt: 1 lines, 4 bytes\nMissing: missing.txt",
+      "language": "bash",
+      "id": "shell-productivity",
+      "lines": 26,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Network & services",
+      "title": "Inspect a fictional HTTP response locally",
+      "goal": "Read a status line and response headers without contacting a network service.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nprintf 'HTTP/1.1 200 OK\\r\\nContent-Type: text/plain\\r\\nContent-Length: 5\\r\\n\\r\\nhello' > response.txt\nprintf 'Normalized response headers:\\n'\ntr -d '\\r' < response.txt | sed -n '1,/^$/p'\nprintf 'Status code: '\nawk 'NR == 1 {print $2}' response.txt\nprintf 'Declared content length: '\ntr -d '\\r' < response.txt |\n    awk 'tolower($1) == \"content-length:\" {print $2}'\nprintf 'Body:\\n'\ntr -d '\\r' < response.txt | sed '1,/^$/d'\nprintf '\\n'",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "The fixture uses CRLF line endings, represented by \\r\\n; it is not fetched from an external server.",
+        "tr -d removes carriage returns for this text demonstration.",
+        "sed -n suppresses default printing and 1,/^$/p prints through the first blank line.",
+        "The status code is the second field of the first line; the final sed deletes the header block."
+      ],
+      "meaning": "This teaches a simple HTTP/1.1 text response only. It does not implement chunking, binary-body handling, redirects, TLS or HTTP/2. Use an HTTP client for real requests.",
+      "variation": "Change the status line to 404 and the body to a different five-byte string.",
+      "output": "Normalized response headers:\nHTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 5\n\nStatus code: 200\nDeclared content length: 5\nBody:\nhello",
+      "language": "bash",
+      "id": "network-services",
+      "lines": 19,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Industry Practice",
+      "title": "Build a daily job-result report from fictional records",
+      "goal": "Validate structured rows before counting successes, failures and durations.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\ncat > jobs.txt <<'DATA'\nload OK 10\nreport FAIL 4\nload OK 15\nexport OK 6\nbroken UNKNOWN -2\nDATA\nawk '\nNF != 3 || ($2 != \"OK\" && $2 != \"FAIL\") || $3 !~ /^[0-9]+$/ {\n    printf \"Rejected row %d\\n\", NR\n    rejected++\n    next\n}\n{\n    count[$2]++\n    seconds += $3\n    accepted++\n}\nEND {\n    printf \"Accepted: %d; rejected: %d\\n\", accepted, rejected\n    printf \"OK: %d; FAIL: %d\\n\", count[\"OK\"], count[\"FAIL\"]\n    printf \"Total recorded seconds: %d\\n\", seconds\n    if (accepted) printf \"Mean recorded seconds: %.2f\\n\", seconds/accepted\n}' jobs.txt",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "NF is the number of fields; invalid status names and nondigit durations are rejected.",
+        "The anchored regular expression requires an entire nonnegative digit string.",
+        "next skips aggregation for a rejected record.",
+        "END runs once after input and prints counts plus an average guarded against an empty accepted set."
+      ],
+      "meaning": "The four accepted durations total 35 seconds. This is entirely fictional teaching data; elapsed overlap and parallel execution mean summed durations are not necessarily wall-clock time.",
+      "variation": "Make every row invalid and verify that the script does not divide by zero.",
+      "output": "Rejected row 5\nAccepted: 4; rejected: 1\nOK: 3; FAIL: 1\nTotal recorded seconds: 35\nMean recorded seconds: 8.75",
+      "language": "bash",
+      "id": "industry-practice",
+      "lines": 32,
+      "verified": false
+    },
+    {
+      "lab": "unix-motion-lab",
+      "section": "Unix Architecture",
+      "title": "Trace shell variables, child processes and streams",
+      "goal": "Observe what a child shell inherits and where each output stream goes.",
+      "code": "#!/usr/bin/env bash\nset -eu\nexport LC_ALL=C\n# Only this new temporary directory is removed by the exit trap.\nwork=$(mktemp -d)\ntrap 'rm -rf -- \"$work\"' EXIT\ncd \"$work\"\n\nparent_only='visible in the parent'\nexport SHARED_VALUE='passed to child'\nbash -c '\n    printf \"Environment: %s\\n\" \"$SHARED_VALUE\"\n    printf \"Unexported: %s\\n\" \"${parent_only-unset}\"\n    printf \"Child diagnostic\\n\" >&2\n' > child-output.txt 2> child-error.txt\nprintf 'Child standard output:\\n'\ncat child-output.txt\nprintf 'Child standard error:\\n'\ncat child-error.txt\nprintf 'Pipeline transformation:\\n'\nprintf '%s\\n' alpha beta | tr '[:lower:]' '[:upper:]'",
+      "steps": [
+        "Run this complete script in Bash with GNU utilities. set -e stops on many unhandled failures; -u rejects unset variables. LC_ALL=C makes sorting predictable. mktemp -d creates a disposable directory; cd enters it; the EXIT trap removes only that directory.",
+        "An ordinary assignment stays in the shell unless exported or otherwise passed.",
+        "export places SHARED_VALUE in the environment inherited by the new bash process.",
+        "bash -c executes a command string. Single quotes defer variable expansion until the child runs; ${name-unset} supplies a fallback only when unset.",
+        "The parent redirects descriptors 1 and 2 to different files; a pipe connects the first program’s standard output to the next program’s standard input."
+      ],
+      "meaning": "The child receives the exported value but not the unexported variable. The shell sets up processes and file descriptors; the kernel provides the underlying process, pipe and file operations.",
+      "variation": "Export parent_only and predict the one output line that changes.",
+      "output": "Child standard output:\nEnvironment: passed to child\nUnexported: unset\nChild standard error:\nChild diagnostic\nPipeline transformation:\nALPHA\nBETA",
+      "language": "bash",
+      "id": "unix-architecture",
+      "lines": 21,
+      "verified": false
+    }
+  ]
+};
